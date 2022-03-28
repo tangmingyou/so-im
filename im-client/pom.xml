@@ -11,5 +11,20 @@
 
     <artifactId>im-client</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-core</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

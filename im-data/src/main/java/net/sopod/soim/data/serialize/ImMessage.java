@@ -15,7 +15,7 @@ public class ImMessage {
 
     public static final short MAGIC = 0x7a20;
 
-    public static final int MESSAGE_HEAD_LEN = 17;
+    private static final int MESSAGE_HEAD_LEN = 17;
 
     public static final ImMessage PROTOCOL_ERROR;
 

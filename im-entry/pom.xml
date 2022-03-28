@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>net.sopod</groupId>
-            <artifactId>im-common</artifactId>
+            <artifactId>im-core</artifactId>
             <version>${soim.version}</version>
         </dependency>
         <dependency>

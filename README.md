@@ -30,13 +30,22 @@
 子网1和2不相通
 
 
+dubbo native image
+https://dubbo.apache.org/zh/docs/references/graalvm/support-graalvm/
+
+
 entry <--> client 通信
-entry <--> logic dubbo service 
+- serviceId --> paramClass --> serviceHandler
+
+
+entry <--> logic dubbo service
 client jconsle cmd
+
 
 router <--> cache
 das <--> db
 router <--> das
+
 
 das shardingjdbc
 table struct, sharding roles

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>im-data</artifactId>
+    <artifactId>im-core</artifactId>
 
     <dependencies>
         <dependency>
@@ -18,12 +18,13 @@
             <version>${soim.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-buffer</artifactId>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-data</artifactId>
+            <version>${soim.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
         </dependency>
     </dependencies>
 

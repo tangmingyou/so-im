@@ -16,6 +16,7 @@
         <module>im-client</module>
         <module>im-logic-api</module>
         <module>im-logic-api/im-user-api</module>
+        <module>im-core</module>
     </modules>
 
     <properties>

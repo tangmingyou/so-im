@@ -1,5 +1,8 @@
 package net.sopod.soim.data.constant;
 
+import net.sopod.soim.data.serialize.ByteSerializer;
+import net.sopod.soim.data.serialize.JacksonByteSerializer;
+
 /**
  * SerializeType
  *
@@ -8,21 +11,22 @@ package net.sopod.soim.data.constant;
  */
 public enum SerializeType {
 
-    json,
+    json(new JacksonByteSerializer()),
 
-    protobuf;
+    protobuf(null);
 
+    private final ByteSerializer serializer;
 
-    public static interface Converter {
-
-        <T> T deserialize(byte[] data, Class<T> clazz) throws Exception;
-
-        byte[] serialize(Object pojo);
-
+    SerializeType(ByteSerializer serializer) {
+        this.serializer = serializer;
     }
 
-    public static void main(String[] args) {
+    public ByteSerializer getSerializer() {
+        return serializer;
+    }
 
+    public static SerializeType getSerializeByOrdinal(int ordinal) {
+        return values()[ordinal];
     }
 
 }

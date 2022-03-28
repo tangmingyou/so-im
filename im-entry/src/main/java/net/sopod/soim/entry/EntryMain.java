@@ -1,6 +1,6 @@
 package net.sopod.soim.entry;
 
-import net.sopod.soim.entry.model.A;
+import net.sopod.soim.entry.server.EntryServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,13 +15,12 @@ public class EntryMain {
     private static final Logger logger = LoggerFactory.getLogger(EntryMain.class);
 
     public static void main(String[] args) {
-        logger.info("info");
-        logger.warn("warn");
-        logger.error("error...");
+        EntryServer entryServer = new EntryServer("entry server", 8088);
+        entryServer.startServer(err -> {
+            logger.error("EntryServer 启动失败:", err);
+        });
 
-        A a = new A();
-        a.setName("太极拳");
-        System.out.println(a);
+        Runtime.getRuntime().addShutdownHook(new Thread(entryServer::shutdown));
     }
 
 }
