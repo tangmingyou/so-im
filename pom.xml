@@ -31,6 +31,8 @@
         <log4j.version>2.17.2</log4j.version>
         <soim.version>1.0.0</soim.version>
         <netty.version>4.1.72.Final</netty.version>
+        <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
+        <dubbo.version>3.0.5</dubbo.version>
     </properties>
 
     <dependencyManagement>
@@ -113,6 +115,19 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.22</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

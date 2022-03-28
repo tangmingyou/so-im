@@ -1,0 +1,4 @@
+dubbo:
+  enabled: false
+  application:
+    name: im-entry
