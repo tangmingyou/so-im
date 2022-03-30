@@ -38,11 +38,15 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-registry-zookeeper</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- maven 打包集成插件 -->
+            <!-- maven 打包集成插件
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -53,7 +57,7 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 

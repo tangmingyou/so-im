@@ -33,6 +33,7 @@
         <netty.version>4.1.72.Final</netty.version>
         <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
         <dubbo.version>3.0.5</dubbo.version>
+        <curator5_version>4.2.0</curator5_version>
     </properties>
 
     <dependencyManagement>
@@ -121,14 +122,37 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring-boot.version}</version>
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
                 <version>${dubbo.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>4.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>4.2.0</version>
+            </dependency>
+<!--            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-etcd3</artifactId>
+                <version>2.7.15</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-remoting-etcd3</artifactId>
+                <version>2.7.15</version>
+            </dependency> -->
         </dependencies>
     </dependencyManagement>
 
@@ -158,7 +182,7 @@
 
     <build>
         <plugins>
-            <!-- maven 打包集成插件 -->
+            <!-- maven 打包集成插件
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -182,7 +206,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 
