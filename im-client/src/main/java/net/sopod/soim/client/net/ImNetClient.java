@@ -39,6 +39,7 @@ public class ImNetClient {
         Map<String, Object> body = new HashMap<>();
         body.put("name", "二狗子");
         body.put("age", 16);
+        body.put("birthday", "2002-04-19");
         ImMessage imMessage = new ImMessage()
                 .setServiceNo(1)
                 .setSerializeType(SerializeType.json.ordinal())

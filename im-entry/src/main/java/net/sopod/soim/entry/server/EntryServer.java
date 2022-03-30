@@ -38,9 +38,9 @@ public class EntryServer {
         this.name = name;
         this.port = port;
         this.boss =
-                new NioEventLoopGroup(1, new DefaultThreadFactory("entry-boss", Thread.MAX_PRIORITY));
+                new NioEventLoopGroup(1, new DefaultThreadFactory("entry-b", Thread.MAX_PRIORITY));
         this.worker =
-                new NioEventLoopGroup(new DefaultThreadFactory("entry-worker", Thread.MAX_PRIORITY));
+                new NioEventLoopGroup(new DefaultThreadFactory("entry-w", Thread.MAX_PRIORITY));
         this.bootstrap();
     }
 
