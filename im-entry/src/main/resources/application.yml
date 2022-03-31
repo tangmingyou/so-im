@@ -1,4 +1,10 @@
-dubbo:
-  enabled: false
+spring:
   application:
     name: im-entry
+dubbo:
+  application:
+    name: ${spring.application.name}
+  #enabled: true
+  registry:
+    address: zookeeper://124.222.131.236:3181?timeout=10000
+    client: zkclient
