@@ -1,0 +1,7 @@
+dubbo:
+  application:
+    name: das-user
+  registry:
+    address: nacos://124.222.131.236:3848
+  protocol:
+    port: 8081

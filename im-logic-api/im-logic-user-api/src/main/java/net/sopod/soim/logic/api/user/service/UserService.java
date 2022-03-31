@@ -8,6 +8,9 @@ package net.sopod.soim.logic.api.user.service;
  */
 public interface UserService {
 
-
+    /**
+     * 
+     */
+    void a();
 
 }
