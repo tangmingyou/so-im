@@ -10,6 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>im-das-api</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>im-das-user-api</module>
+    </modules>
 
 
 </project>
