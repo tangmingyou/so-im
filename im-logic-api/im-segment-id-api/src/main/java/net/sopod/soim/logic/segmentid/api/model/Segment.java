@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.segmentid.model;
+package net.sopod.soim.logic.segmentid.api.model;
 
 /**
  * Segment

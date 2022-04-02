@@ -23,6 +23,9 @@ public class SegmentConfig {
 
     private long initStep = 1000L;
 
-    private int dbSegmentVersionRetryTimes = 3;
+    //private int dbSegmentVersionRetryTimes = 10;
+
+    /** 从数据库查询区段号超时时间，并发时进行轮询 */
+    private long getSegmentPollDBTimeout = 2000L;
 
 }
