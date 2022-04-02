@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: segment-id
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://cd-cdb-mrz9fw80.sql.tencentcdb.com:61843/soim_db?serverTimezone=GMT%2B8
+    username: root
+    password: sopod@2347#
+  redis:
+    host: 124.222.131.236:3379
+    password: sopod@redis#
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://124.222.131.236:3848
+  protocol:
+    port: 3001
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml

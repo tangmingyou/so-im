@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-3-7 15:11:08",
-  "updatedTime": "2022-4-1 17:26:44",
+  "updatedTime": "2022-4-2 15:02:54",
   "profile": {
     "default": {
       "db": "8FE7C65E-40EB-41B6-B60E-79063AFF6273",
@@ -153,7 +153,7 @@
         "type": "appCode",
         "applyFor": "1E385761-67B3-4B80-A194-E302E590E54E",
         "isDefault": true,
-        "content": "\n$blankline\nimport com.baomidou.mybatisplus.annotation.IdType;\nimport com.baomidou.mybatisplus.annotation.TableField;\nimport com.baomidou.mybatisplus.annotation.TableId;\nimport com.baomidou.mybatisplus.annotation.TableName;\nimport com.baomidou.mybatisplus.extension.activerecord.Model;\nimport io.swagger.annotations.ApiModel;\nimport io.swagger.annotations.ApiModelProperty;\nimport java.util.Date;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.experimental.Accessors;\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    var hours=today.getHours();\n    var minutes=today.getMinutes();\n}}\n /**\n * @author : CHINER\n * @date : {{=fullYear}}-{{=month}}-{{=days}} {{=hours}}:{{=minutes}}\n * @desc : {{=it.entity.defName}}{{? it.entity.comment}},{{=it.entity.comment}}{{?}}\n */\n@Data\n@EqualsAndHashCode(callSuper = true)\n@Accessors(chain = true)\n@ApiModel(value = \"{{=it.entity.defName}}\"{{? it.entity.comment}}, description = \"{{=it.entity.comment}}\"{{?}})\n@TableName(\"{{=it.entity.defKey}}\")\npublic class {{=it.func.camel(it.entity.defKey,true) }} extends Model<{{=it.func.camel(it.entity.defKey,true) }}> {\n{{~it.entity.fields:field:index}}\n    $blankline\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    @ApiModelProperty(\"{{=field.defName}}\")\n    {{? field.primaryKey }}\n    @TableId(value = \"{{=field.defKey}}\"{{? field.autoIncrement}}, type=IdType.AUTO{{?}})\n    {{??}}\n    @TableField(value = \"{{=field.defKey}}\")\n    {{?}}\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}};\n{{~}}\n$blankline\n}\n$blankline"
+        "content": "\n$blankline\nimport com.baomidou.mybatisplus.annotation.IdType;\nimport com.baomidou.mybatisplus.annotation.TableField;\nimport com.baomidou.mybatisplus.annotation.TableId;\nimport com.baomidou.mybatisplus.annotation.TableName;\nimport com.baomidou.mybatisplus.extension.activerecord.Model;\nimport io.swagger.annotations.ApiModel;\nimport io.swagger.annotations.ApiModelProperty;\nimport java.util.Date;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.experimental.Accessors;\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    var hours=today.getHours();\n    var minutes=today.getMinutes();\n}}\n /**\n * @author : CHINER\n * @date : {{=fullYear}}-{{=month}}-{{=days}} {{=hours}}:{{=minutes}}\n * @desc : {{=it.entity.defName}}{{? it.entity.comment}},{{=it.entity.comment}}{{?}}\n */\n@Data\n@EqualsAndHashCode(callSuper = true)\n@Accessors(chain = true)\n@ApiModel(value = \"{{=it.entity.defName}}\"{{? it.entity.comment}}, description = \"{{=it.entity.comment}}\"{{?}})\n@TableName(\"{{=it.entity.defKey}}\")\npublic class {{=it.func.camel(it.entity.defKey,true) }} extends Model<{{=it.func.camel(it.entity.defKey,true) }}> {\n{{~it.entity.fields:field:index}}\n    $blankline\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    {{? field.primaryKey }}\n    @TableId(value = \"{{=field.defKey}}\"{{? field.autoIncrement}}, type=IdType.AUTO{{?}})\n    {{??}}\n    @TableField(value = \"{{=field.defKey}}\")\n    {{?}}\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}};\n{{~}}\n$blankline\n}\n$blankline"
       },
       {
         "type": "dbDDL",
@@ -223,7 +223,7 @@
         "id": "9965DCFB-54BE-4C5A-9518-DF09D4E58140"
       }
     ],
-    "menuWidth": "280px"
+    "menuWidth": "244px"
   },
   "entities": [
     {
@@ -991,6 +991,408 @@
           "refDict": "",
           "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
           "id": "AE4C5769-E1BE-4DE8-951E-D045A30187F9"
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "id": "E79C9C4C-FFC3-44BB-BD98-4F44F528B4B8",
+      "defKey": "im_segment_id",
+      "defName": "分段id",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "freeze": false,
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "freeze": true,
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": true,
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "biz_tag",
+          "defName": "业务标签",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "BB0241B4-A9DB-46CB-AB7D-EA6DDA6A02D6",
+          "id": "F6D445F1-ADD3-4A28-AFDA-2606A912C007"
+        },
+        {
+          "defKey": "current_id",
+          "defName": "当前id值",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "3E9E2CBB-B458-49D5-B6DC-454A11FB9633"
+        },
+        {
+          "defKey": "init_step",
+          "defName": "业务标签初始步长",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "38C65486-2A4E-4862-9875-EFE113FFD627"
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
+          "id": "87279682-D6B5-4BA0-9BE5-03FC436313C9"
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
+          "id": "1F373AF6-4C60-4AC4-B75F-604B91AEC0C6"
+        },
+        {
+          "defKey": "version",
+          "defName": "版本号",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "D376659D-0FFA-4D1A-AA3C-0C5CBA66B41B"
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "id": "A843E8FC-C8E8-4F0A-8EB0-C5C104BE241F",
+      "defKey": "im_segment_fragment",
+      "defName": "分段id碎片id段(id端回收)",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "freeze": false,
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "freeze": true,
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": true,
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "id",
+          "defName": "主键id",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "32D9CFBB-3E32-4614-B576-E0E062E8FBF6"
+        },
+        {
+          "defKey": "biz_tag",
+          "defName": "业务标签",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "BB0241B4-A9DB-46CB-AB7D-EA6DDA6A02D6",
+          "id": "031DE904-D768-4F8B-958C-B97213421A46"
+        },
+        {
+          "defKey": "min_id",
+          "defName": "id段最小值",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "BF29BB31-2AA3-4CF3-BD29-304DA6F60F97"
+        },
+        {
+          "defKey": "end_id",
+          "defName": "id段最大值",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "27254611-5E86-4EAA-BADA-AE78CAD14528"
+        },
+        {
+          "defKey": "begin_id",
+          "defName": "id段当前值",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "BEBCA2FF-01B5-4834-8218-7F7051250C3D"
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "72DD10F8-60AE-4F2A-89E1-D69C51B30849",
+          "id": "4989C582-86B0-4011-A3D7-A2C43FFC3F76"
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "72DD10F8-60AE-4F2A-89E1-D69C51B30849",
+          "id": "9DC77CD9-4006-42B2-9F63-13B309BC7BA1"
+        },
+        {
+          "defKey": "version",
+          "defName": "版本号",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "C83AAC89-59CB-49E9-8C8F-2F5796BF65FE"
         }
       ],
       "correlations": [],

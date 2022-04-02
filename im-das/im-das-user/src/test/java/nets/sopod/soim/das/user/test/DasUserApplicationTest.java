@@ -26,8 +26,8 @@ public class DasUserApplicationTest {
     @Test
     public void test() {
         ImUser user1 = new ImUser()
-                .setId(4L)
-                .setUsername("野孩子2")
+                .setId(5L)
+                .setUsername("野孩子5")
                 .setPassword("123456")
                 .setPhone("17882451908")
                 .setCreateTime(ImClock.date());
