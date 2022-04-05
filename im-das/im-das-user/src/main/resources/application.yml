@@ -9,3 +9,5 @@ dubbo:
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
 
+im-segment-id:
+  enabled: true

@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "im-segment-id.enabled",
+      "type": "java.lang.Boolean",
+      "description": "启动装配分段id生成器:true是;false否",
+      "defaultValue": true
+    }
+  ]
+}
