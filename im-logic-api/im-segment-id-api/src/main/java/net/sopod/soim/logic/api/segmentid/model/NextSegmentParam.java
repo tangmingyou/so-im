@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.segmentid.api.model.dto;
+package net.sopod.soim.logic.api.segmentid.model;
 
 import lombok.Data;
 

@@ -40,8 +40,10 @@ public class ImClock {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
-    public static void setClock(Clock newClock) {
+    @Deprecated
+    private static void setClock(Clock newClock) {
         Preconditions.checkNotNull(newClock);
+        // 有循环超时判断依赖，回调导致一直循环
         Preconditions.checkArgument(
                 clock.millis() <= newClock.millis(),
                 "不允许回调时间: current=%s, new=%s",

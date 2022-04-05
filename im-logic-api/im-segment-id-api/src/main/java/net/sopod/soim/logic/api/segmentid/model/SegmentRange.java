@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.segmentid.api.model.dto;
+package net.sopod.soim.logic.api.segmentid.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-public class SegmentDTO implements Serializable {
+public class SegmentRange implements Serializable {
 
     private static final long serialVersionUID = 4767453140231279111L;
 

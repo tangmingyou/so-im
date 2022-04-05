@@ -1,6 +1,6 @@
-package net.sopod.soim.logic.api.auth.service;
+package net.sopod.soim.logic.user.auth.service;
 
-import net.sopod.soim.logic.api.auth.model.ReqLogin;
+import net.sopod.soim.logic.user.auth.model.ReqLogin;
 
 /**
  * AuthService

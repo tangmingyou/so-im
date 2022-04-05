@@ -6,8 +6,8 @@ import com.google.common.base.Preconditions;
 import lombok.AllArgsConstructor;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.ObjectUtil;
-import net.sopod.soim.logic.segmentid.api.model.dto.SegmentDTO;
-import net.sopod.soim.logic.segmentid.api.service.SegmentIdService;
+import net.sopod.soim.logic.api.segmentid.model.SegmentRange;
+import net.sopod.soim.logic.api.segmentid.service.SegmentIdService;
 import net.sopod.soim.logic.segmentid.config.SegmentConfig;
 import net.sopod.soim.logic.segmentid.mapper.SegmentIdMapper;
 import net.sopod.soim.logic.segmentid.model.entity.SegmentId;
@@ -38,12 +38,12 @@ public class SegmentIdServiceImpl implements SegmentIdService {
     private final SegmentConfig segmentConfig;
 
     @Override
-    public SegmentDTO nextSegmentId(String bizTag) {
+    public SegmentRange nextSegmentId(String bizTag) {
         return nextSegmentId(bizTag, null);
     }
 
     @Override
-    public SegmentDTO nextSegmentId(String bizTag, Long step) {
+    public SegmentRange nextSegmentId(String bizTag, Long step) {
         SegmentId segmentId = segmentIdMapper.selectById(bizTag);
         if (segmentId == null) {
             String key = SegmentConfig.KEY_PREFIX_SEGMENT_ID_INSERT + bizTag;
@@ -79,12 +79,13 @@ public class SegmentIdServiceImpl implements SegmentIdService {
                 throw new RuntimeException(String.format("%s分段数据不存在,新增失败", bizTag));
             }
         }
+        // 在超时时间内根据表版本号字段(并发时重复更新)尝试获取新分段
         long begin = ImClock.millis();
         for (int i = 0; ; i++) {
             if (i > 0) {
                 segmentId = segmentIdMapper.selectById(bizTag);
             }
-            SegmentDTO segment = getSegment(segmentId, step);
+            SegmentRange segment = this.getSegment(segmentId, step);
             if (segment != null) {
                 if (i > 0)
                     logger.info("{} get segment try {} times", bizTag, i);
@@ -115,7 +116,7 @@ public class SegmentIdServiceImpl implements SegmentIdService {
                 return false;
             }
             try {
-                Thread.sleep(100);
+                Thread.sleep(ThreadLocalRandom.current().nextInt(50) + 50L);
             } catch (InterruptedException e) {
                 logger.error("wait release redis lock interrupted!", e);
             }
@@ -128,7 +129,7 @@ public class SegmentIdServiceImpl implements SegmentIdService {
      * @param dbSegmentId 当前DB segmentId
      * @param step        步长
      */
-    private SegmentDTO getSegment(SegmentId dbSegmentId, Long step) {
+    private SegmentRange getSegment(SegmentId dbSegmentId, Long step) {
         step = ObjectUtil.defaultValue(step, dbSegmentId.getInitStep(), dbSegmentId.getInitStep());
         Preconditions.checkState(step > 0, "步长需大于0");
         // 开始id, 结束id
@@ -150,7 +151,7 @@ public class SegmentIdServiceImpl implements SegmentIdService {
             return null;
         }
         // 更新成功
-        return new SegmentDTO()
+        return new SegmentRange()
                 .setBeginId(currentId)
                 .setEndId(endId);
     }

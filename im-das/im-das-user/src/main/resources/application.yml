@@ -4,7 +4,7 @@ dubbo:
   registry:
     address: nacos://124.222.131.236:3848
   protocol:
-    port: 8081
+    port: 3011
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

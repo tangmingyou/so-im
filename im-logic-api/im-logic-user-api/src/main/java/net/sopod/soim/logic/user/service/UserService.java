@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.api.user.service;
+package net.sopod.soim.logic.user.service;
 
 /**
  * UserService

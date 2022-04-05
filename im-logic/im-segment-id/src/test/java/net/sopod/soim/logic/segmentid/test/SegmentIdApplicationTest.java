@@ -2,8 +2,8 @@ package net.sopod.soim.logic.segmentid.test;
 
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.logic.segmentid.SegmentIdApplication;
-import net.sopod.soim.logic.segmentid.api.model.dto.SegmentDTO;
-import net.sopod.soim.logic.segmentid.api.service.SegmentIdService;
+import net.sopod.soim.logic.api.segmentid.model.SegmentRange;
+import net.sopod.soim.logic.api.segmentid.service.SegmentIdService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ public class SegmentIdApplicationTest {
             new Thread(() -> {
                 try {
                     long begin = ImClock.millis();
-                    SegmentDTO segment = segmentIdService.nextSegmentId("im-user");
+                    SegmentRange segment = segmentIdService.nextSegmentId("im-user");
                     System.out.println(idx + segment.toString() + (ImClock.millis() - begin));
                 }catch (Exception e){
                     System.out.println(idx + "fail:" + e.getMessage());

@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.api.auth.model;
+package net.sopod.soim.logic.user.auth.model;
 
 /**
  * LoginParam

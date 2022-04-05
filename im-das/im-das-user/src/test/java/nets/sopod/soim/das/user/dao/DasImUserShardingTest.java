@@ -1,4 +1,4 @@
-package nets.sopod.soim.das.user.test;
+package nets.sopod.soim.das.user.dao;
 
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.das.user.DasUserApplication;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = DasUserApplication.class)
-public class DasUserApplicationTest {
+public class DasImUserShardingTest {
 
     @Autowired
     private UserMapper userMapper;
