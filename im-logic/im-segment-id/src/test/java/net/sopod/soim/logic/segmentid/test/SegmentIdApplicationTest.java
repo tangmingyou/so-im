@@ -35,7 +35,7 @@ public class SegmentIdApplicationTest {
                     long begin = ImClock.millis();
                     SegmentRange segment = segmentIdService.nextSegmentId("im-user");
                     System.out.println(idx + segment.toString() + (ImClock.millis() - begin));
-                }catch (Exception e){
+                }catch (Exception e) {
                     System.out.println(idx + "fail:" + e.getMessage());
                 } finally {
                     countDown.countDown();
