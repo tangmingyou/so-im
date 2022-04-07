@@ -3,6 +3,7 @@ package nets.sopod.soim.das.user.service;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.das.user.DasUserApplication;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
