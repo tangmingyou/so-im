@@ -1,0 +1,18 @@
+syntax="proto3";
+package proto;
+
+option java_multiple_files = false;
+option java_outer_classname = "HelloPB";
+option java_package = "net.sopod.soim.data.msg.hello";
+// option objc_class_prefix = "DEMOSRV";
+
+message Hello {
+  int32 id = 1;
+  string str = 2;
+  World world = 4;
+}
+
+message World {
+  string name = 1;
+  string year = 2;
+}

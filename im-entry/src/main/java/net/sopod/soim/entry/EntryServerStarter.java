@@ -1,5 +1,6 @@
-package net.sopod.soim.entry.server;
+package net.sopod.soim.entry;
 
+import net.sopod.soim.entry.server.EntryServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;

@@ -74,7 +74,7 @@ public class EntryServer {
                         }
                         return;
                     }
-                    System.out.println(String.format("%s %s listen...", name, port));
+                    logger.info("{} listening at {}...", name, port);
                 });
     }
 

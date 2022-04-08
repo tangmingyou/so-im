@@ -6,6 +6,8 @@ import io.netty.channel.CombinedChannelDuplexHandler;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.MessageToByteEncoder;
 import net.sopod.soim.data.serialize.ImMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
  */
 public class ImEntryCodec extends CombinedChannelDuplexHandler<ImEntryCodec.ImDecoder, ImEntryCodec.ImEncoder> {
 
+    private static final Logger logger = LoggerFactory.getLogger(ImEntryCodec.class);
+
     public ImEntryCodec() {
         super(new ImDecoder(), new ImEncoder());
     }
@@ -25,8 +29,12 @@ public class ImEntryCodec extends CombinedChannelDuplexHandler<ImEntryCodec.ImDe
         @Override
         protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
             ImMessage message = ImMessage.read(byteBuf);
-            if (message == ImMessage.MAGIC_ERROR
+            boolean isMagicError;
+            if ((isMagicError = (message == ImMessage.MAGIC_ERROR))
                 || message == ImMessage.PROTOCOL_ERROR) {
+                logger.warn("decode im message error: {}, remote={}, closing channel.",
+                        isMagicError ? "MagicError" : "ProtocolError",
+                        ctx.channel().remoteAddress());
                 ctx.channel().close();
                 return;
             }

@@ -15,7 +15,9 @@
 - 分布式缓存：redis
 - 注册中心：etcd、直连
 - 处理队列：disruptor
-- 持久化：mysql
+- 持久化：
+    - mysql 存储全量历史消息
+    - mongodb 存储直接拉取的未读消息
 - 日志：log4j2
 - 监控：prometheus、grafana
 

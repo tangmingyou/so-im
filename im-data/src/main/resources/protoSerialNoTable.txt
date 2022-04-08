@@ -1,0 +1,2 @@
+net.sopod.soim.data.msg.hello.HelloPB$World=10000
+net.sopod.soim.data.msg.hello.HelloPB$Hello=10001

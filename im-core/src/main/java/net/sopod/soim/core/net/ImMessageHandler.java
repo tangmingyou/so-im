@@ -18,6 +18,8 @@ public class ImMessageHandler extends SimpleChannelInboundHandler<ImMessage> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ImMessage imMessage) throws Exception {
         byte[] body = imMessage.getBody();
+        int serviceNo = imMessage.getServiceNo();
+
         SerializeType serialize = SerializeType.getSerializeByOrdinal(imMessage.getSerializeType());
         Map data = serialize.getSerializer().deserialize(body, Map.class);
         System.out.println(data);
