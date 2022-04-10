@@ -6,12 +6,9 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import net.sopod.soim.common.util.Jackson;
-import net.sopod.soim.core.net.ImEntryCodec;
-import net.sopod.soim.data.constant.SerializeType;
-import net.sopod.soim.data.serialize.ImMessage;
+import net.sopod.soim.core.net.ImMessageCodec;
+import net.sopod.soim.data.msg.hello.HelloPB;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +29,8 @@ public class ImNetClient {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
-                                .addLast(new ImEntryCodec());
+                                .addLast(new ImMessageCodec());
+                                // .addLast(new ProtoMessageCodec());
                     }
                 });
         Channel channel = b.connect(host, port).await().channel();
@@ -40,11 +38,16 @@ public class ImNetClient {
         body.put("name", "二狗子");
         body.put("age", 16);
         body.put("birthday", "2002-04-19");
-        ImMessage imMessage = new ImMessage()
-                .setServiceNo(1)
-                .setSerializeType(SerializeType.json.ordinal())
-                .setBody(Jackson.json().serialize(body).getBytes(StandardCharsets.UTF_8));
-        channel.writeAndFlush(imMessage);
+        HelloPB.Hello hello = HelloPB.Hello.newBuilder()
+                .setId(1)
+                .setStr("手")
+                .build();
+//        ImMessage imMessage = new ImMessage()
+//                .setServiceNo(ProtoMessageManager.getSerialNo(hello.getClass()))
+//                .setSerializeType(SerializeType.json.ordinal())
+//                //.setBody(Jackson.json().serialize(body).getBytes(StandardCharsets.UTF_8));
+//                .setBody(hello.toByteArray());
+        channel.writeAndFlush(hello);
         channel.close();
         work.shutdownGracefully();
     }

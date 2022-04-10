@@ -4,15 +4,19 @@ import com.google.protobuf.GeneratedMessageV3;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Set;
+
 import net.sopod.soim.common.util.ExecUtil;
-import net.sopod.soim.data.proto.ProtoMessageHolder;
+import net.sopod.soim.data.proto.ProtoMessageManager;
 import org.reflections.Reflections;
-import org.reflections.scanners.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * TODO DB存储，消息版本号唯一
+ * client 连接时从服务端获取
+ * TODO 消息类型分组 (user, group, ...) 避免大数据量传输
+ */
 public class GenProtobuf {
 
     private static final Logger logger = LoggerFactory.getLogger(GenProtobuf.class);
@@ -26,7 +30,7 @@ public class GenProtobuf {
     /** !!生成新class删除.java文件目录 */
     private static final String javaClassDir = "im-data/src/main/java/net/sopod/soim/data/msg";
 
-    private static final String msgSerialNoTableFilePath = "./im-data/src/main/resources/" + ProtoMessageHolder.protoSerialNoTableName;
+    private static final String msgSerialNoTableFilePath = "./im-data/src/main/resources/" + ProtoMessageManager.protoSerialNoTableName;
 
     private static void genProtobufMsgClasses() {
         removeOldClass(new File(javaClassDir));
@@ -40,9 +44,12 @@ public class GenProtobuf {
         String pack = "net.sopod.soim.data.msg";
         Reflections collect = new Reflections(pack);
         Set<Class<? extends GeneratedMessageV3>> types = collect.getSubTypesOf(GeneratedMessageV3.class);
+        // TreeSet<String> classNames = new TreeSet<>();
         StringBuilder msgTableBuilder = new StringBuilder();
+        // 已存在不修改, TODO classDict id生成
         int idx = 10000;
         for (Class<? extends GeneratedMessageV3> type : types) {
+            // classNames.add(type.getName());
             msgTableBuilder.append(type.getName()).append('=').append(idx++).append("\n");
         }
         return msgTableBuilder;
@@ -66,7 +73,7 @@ public class GenProtobuf {
         }
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException {
         // 从.proto生成.java
         genProtobufMsgClasses();
         // 将 protobuf java class 编码 id

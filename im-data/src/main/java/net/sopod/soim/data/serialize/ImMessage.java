@@ -15,7 +15,12 @@ public class ImMessage {
 
     public static final short MAGIC = 0x7a20;
 
-    private static final int MESSAGE_HEAD_LEN = 17;
+    /**
+     * {@link ImMessage#write(ByteBuf)}
+     * (short)magic + (int)serialNo + (int)serviceNo + (byte)serializeType + (byte)zipType + (byte)platformNo + (int)body.length
+     * = 17 byte
+     */
+    private static final int MESSAGE_HEAD_LEN = 2 + 4 + 4 + 1 + 1 + 1 + 4;
 
     public static final ImMessage PROTOCOL_ERROR;
 
@@ -48,9 +53,6 @@ public class ImMessage {
     /** 平台号 */
     private int platformNo;
 
-    /** 请求体长度 */
-    private int bodyLength;
-
     private byte[] body;
 
     /**
@@ -71,11 +73,11 @@ public class ImMessage {
                 .setSerializeType(buf.readByte())
                 .setZipType(buf.readByte())
                 .setPlatformNo(buf.readByte());
-        msg.bodyLength = buf.readInt();
-        if (bufLen != MESSAGE_HEAD_LEN + msg.getBodyLength()) {
+        int bodyLength = buf.readInt();
+        if (bufLen != MESSAGE_HEAD_LEN + bodyLength) {
             return PROTOCOL_ERROR;
         }
-        byte[] body = new byte[msg.getBodyLength()];
+        byte[] body = new byte[bodyLength];
         buf.readBytes(body);
         msg.setBody(body);
         return msg;
@@ -144,10 +146,6 @@ public class ImMessage {
         return this;
     }
 
-    public int getBodyLength() {
-        return bodyLength;
-    }
-
     public byte[] getBody() {
         return body;
     }
@@ -156,4 +154,9 @@ public class ImMessage {
         this.body = body;
         return this;
     }
+
+    public int byteLength() {
+        return MESSAGE_HEAD_LEN + body.length;
+    }
+
 }

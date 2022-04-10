@@ -1,6 +1,5 @@
-package net.sopod.soim.entry;
+package net.sopod.soim.entry.server;
 
-import net.sopod.soim.entry.server.EntryServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -14,9 +13,9 @@ import org.springframework.stereotype.Component;
  * @date 2022-03-29 00:22
  */
 @Component
-public class EntryServerStarter implements ApplicationRunner {
+public class EntryServerRunner implements ApplicationRunner {
 
-    private static final Logger logger = LoggerFactory.getLogger(EntryServerStarter.class);
+    private static final Logger logger = LoggerFactory.getLogger(EntryServerRunner.class);
 
     @Override
     public void run(ApplicationArguments args) {
