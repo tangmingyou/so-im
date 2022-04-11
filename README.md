@@ -53,3 +53,4 @@ das shardingjdbc
 table struct, sharding roles
 logic biz
  
+请求响应消息队列异步处理，减少线程 cpu 占用, dubbo async

@@ -1,5 +1,8 @@
 package net.sopod.soim.logic.user.service;
 
+
+import java.util.concurrent.CompletableFuture;
+
 /**
  * UserService
  *
@@ -9,8 +12,10 @@ package net.sopod.soim.logic.user.service;
 public interface UserService {
 
     /**
-     * 
+     * 异步接口测试
      */
-    void a();
+    CompletableFuture<String> sayHi(String name);
+
+    String sayHello(String name);
 
 }

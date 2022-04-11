@@ -4,6 +4,9 @@ import net.sopod.soim.client.net.ImNetClient;
 
 /**
  * Main
+ * jcommander:
+ *   https://www.codenong.com/b-jcommander-parsing-command-line-parameters/
+ *   https://www.mianshigee.com/project/jcommander
  *
  * @author tmy
  * @date 2022-03-27 22:32

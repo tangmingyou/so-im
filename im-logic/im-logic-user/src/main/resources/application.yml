@@ -1,8 +1,11 @@
 spring:
   application:
-    name: im-entry
+    name: im-logic-user
+
 dubbo:
   application:
     name: ${spring.application.name}
   registry:
     address: nacos://124.222.131.236:3848
+  protocol:
+    port: 3002

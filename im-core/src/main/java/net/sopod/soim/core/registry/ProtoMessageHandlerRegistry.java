@@ -47,6 +47,7 @@ public class ProtoMessageHandlerRegistry {
             try {
                 Class<?> type = genericTypes.size() == 0 ? Object.class : Class.forName(genericTypes.get(0));
                 MessageHandler<?> existHandler = TYPE_HANDLER_MAP.putIfAbsent(type, handler);
+                logger.debug("registe msg type {} for handler {}", type, handler);
                 if (existHandler != null) {
                     // 消息类型有重复的 handler!
                     throw new IllegalStateException("msg type " + type + " handler duplicate; " +
