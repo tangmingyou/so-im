@@ -25,6 +25,7 @@ dubbo:
     name: ${spring.application.name}
   registry:
     address: nacos://124.222.131.236:3848
+    group: so-im
   protocol:
     port: 3001
 

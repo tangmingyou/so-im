@@ -1,9 +1,6 @@
 package net.sopod.soim.entry.worker;
 
-import com.lmax.disruptor.EventFactory;
-import com.lmax.disruptor.EventHandler;
-import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.YieldingWaitStrategy;
+import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 import net.sopod.soim.common.util.ImClock;
@@ -34,10 +31,10 @@ public class Worker implements EventHandler<TaskEvent>, EventFactory<TaskEvent> 
         );
         this.disruptor = new Disruptor<>(
                 this,
-                16 * 1024,
+                8 * 1024,
                 executor,
                 ProducerType.SINGLE,
-                new YieldingWaitStrategy());
+                new BlockingWaitStrategy());
         this.disruptor.handleEventsWith(this);
         this.disruptor.start();
         this.ringBuffer = disruptor.getRingBuffer();
@@ -63,6 +60,8 @@ public class Worker implements EventHandler<TaskEvent>, EventFactory<TaskEvent> 
         if (time > 100) {
             System.out.println("任务执行时间过长:" + time);
         }
+        // 事件对象不会释放，将数据置空
+        taskEvent.setTask(null);
     }
 
     @Override

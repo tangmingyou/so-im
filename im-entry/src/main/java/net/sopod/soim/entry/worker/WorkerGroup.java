@@ -3,6 +3,8 @@ package net.sopod.soim.entry.worker;
 import com.google.protobuf.GeneratedMessageV3;
 import net.sopod.soim.core.session.Account;
 import net.sopod.soim.core.session.NetUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,6 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * dispatch -> worker * core_num -> disruptor 队列执行
  */
 public class WorkerGroup {
+
+    private static final Logger logger = LoggerFactory.getLogger(WorkerGroup.class);
 
     public static final int MAX_WORKER_SIZE = 16;
 
@@ -19,6 +23,7 @@ public class WorkerGroup {
 
     public static void init(int codeSize) {
         if (WORKERS != null) {
+            logger.warn("worker group duplicate init, current worker size {}, param size {}", WORKERS.length, codeSize);
             return;
         }
         WORKERS = new Worker[codeSize];
@@ -26,6 +31,7 @@ public class WorkerGroup {
             WORKERS[i] = new Worker("group-worker-" + i);
         }
         counter = new AtomicInteger(-1);
+        logger.info("worker group initialed, worker size {}", codeSize);
     }
 
     public static Worker next() {

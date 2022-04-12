@@ -76,6 +76,10 @@
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

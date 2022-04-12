@@ -1,2 +1,5 @@
-net.sopod.soim.data.msg.hello.HelloPB$Hello=10000
-net.sopod.soim.data.msg.hello.HelloPB$World=10001
+net.sopod.soim.data.msg.hello.HelloPB$World=10000
+net.sopod.soim.data.msg.net.HeartBeat$Ping=10001
+net.sopod.soim.data.msg.net.HeartBeat$Pong=10002
+net.sopod.soim.data.msg.auth.Auth$Login=10003
+net.sopod.soim.data.msg.hello.HelloPB$Hello=10004

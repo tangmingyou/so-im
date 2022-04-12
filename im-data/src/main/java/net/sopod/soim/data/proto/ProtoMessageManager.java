@@ -1,8 +1,6 @@
 package net.sopod.soim.data.proto;
 
-import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.data.msg.hello.HelloPB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

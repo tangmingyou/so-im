@@ -9,6 +9,8 @@ import net.sopod.soim.core.handler.MessageHandler;
 import net.sopod.soim.core.net.AttributeKeys;
 import net.sopod.soim.core.registry.ProtoMessageHandlerRegistry;
 import net.sopod.soim.core.session.NetUser;
+import net.sopod.soim.entry.worker.Worker;
+import net.sopod.soim.entry.worker.WorkerGroup;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -47,7 +49,9 @@ public class InboundImMessageHandler extends SimpleChannelInboundHandler<Message
         // TODO dispatcher
         MessageHandler<MessageLite> typeHandler = (MessageHandler<MessageLite>) ProtoMessageHandlerRegistry
                 .getTypeHandler(messageLite.getClass());
-        typeHandler.exec(netUser, messageLite);
+
+        Worker worker = WorkerGroup.next();
+        worker.execute(() -> { typeHandler.exec(netUser, messageLite); });
     }
 
 }
