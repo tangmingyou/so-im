@@ -21,17 +21,17 @@ public class WorkerGroup {
 
     private static AtomicInteger counter;
 
-    public static void init(int codeSize) {
+    public static void init(int coreSize) {
         if (WORKERS != null) {
-            logger.warn("worker group duplicate init, current worker size {}, param size {}", WORKERS.length, codeSize);
+            logger.warn("worker group duplicate init, current worker size {}, param size {}", WORKERS.length, coreSize);
             return;
         }
-        WORKERS = new Worker[codeSize];
-        for (int i = 0; i < codeSize; i++) {
+        WORKERS = new Worker[coreSize];
+        for (int i = 0; i < coreSize; i++) {
             WORKERS[i] = new Worker("group-worker-" + i);
         }
         counter = new AtomicInteger(-1);
-        logger.info("worker group initialed, worker size {}", codeSize);
+        logger.info("worker group initialed, worker size {}", coreSize);
     }
 
     public static Worker next() {
