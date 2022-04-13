@@ -4,6 +4,7 @@ import com.google.protobuf.MessageLite;
 import net.sopod.soim.core.handler.NetUserMessageHandler;
 import net.sopod.soim.core.session.NetUser;
 import net.sopod.soim.data.msg.hello.HelloPB;
+import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
 import net.sopod.soim.logic.user.service.UserService;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * HelloHandler
@@ -46,6 +48,7 @@ public class HelloHandler extends NetUserMessageHandler<HelloPB.Hello> {
         RpcContext.getServiceContext().getCompletableFuture().whenComplete((res, err) -> {
             logger.info("async sayHello, {}", res);
         });
+        NetUserDelayTaskManager.addTask(netUser, msg, 5, TimeUnit.SECONDS);
         return null;
     }
 

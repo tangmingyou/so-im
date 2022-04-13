@@ -10,11 +10,11 @@ spring:
       minimum-idle: 1
       maximum-pool-size: 8
       connection-timeout: 2000
-      idle-timeout: 600000 # 10分钟空闲关闭
-      max-lifetime: 1200000 # 20分钟最大存活时间
+      idle-timeout: 300000 # 5分钟空闲关闭
+      max-lifetime: 600000 # 10分钟最大存活时间
       validation-timeout: 2000
       connection-init-sql: select 1
-      keepalive-time: 60000 # 连接存活时间，小于maxLifetime, 最小30秒, 空闲30秒后移除连接测试通过再添加回池
+      keepalive-time: 30000 # 连接存活时间，小于maxLifetime, 最小30秒, 空闲30秒后移除连接测试通过再添加回池
   redis:
     host: 124.222.131.236
     port: 3379

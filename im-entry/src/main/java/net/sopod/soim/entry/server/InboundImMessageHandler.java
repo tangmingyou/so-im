@@ -38,6 +38,8 @@ public class InboundImMessageHandler extends SimpleChannelInboundHandler<Message
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        Attribute<NetUser> netUser = ctx.channel().attr(NetUser.NET_USER_KEY);
+        netUser.get().inactive();
 
         ctx.fireChannelInactive();
     }
@@ -47,11 +49,7 @@ public class InboundImMessageHandler extends SimpleChannelInboundHandler<Message
         Attribute<NetUser> netUserAttr = ctx.channel().attr(NetUser.NET_USER_KEY);
         NetUser netUser = netUserAttr.get();
         // TODO dispatcher
-        MessageHandler<MessageLite> typeHandler = (MessageHandler<MessageLite>) ProtoMessageHandlerRegistry
-                .getTypeHandler(messageLite.getClass());
-
-        Worker worker = WorkerGroup.next();
-        worker.execute(() -> { typeHandler.exec(netUser, messageLite); });
+        ProtoMessageDispatcher.dispatch(netUser, messageLite);
     }
 
 }

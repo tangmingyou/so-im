@@ -25,7 +25,7 @@ public class EntryServerConfig {
     private Integer port = 8088;
 
     /** 消息消费者线程数 */
-    private Integer workerSize = 2;
+    private Integer workerSize;
 
     public Integer getWorkerSize() {
         if (workerSize == null || workerSize < 1) {

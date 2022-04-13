@@ -1,5 +1,6 @@
 package net.sopod.soim.core.registry;
 
+import com.google.protobuf.MessageLite;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.Reflects;
 import net.sopod.soim.core.handler.MessageHandler;
@@ -62,7 +63,7 @@ public class ProtoMessageHandlerRegistry {
     }
 
     @Nullable
-    public static <T> MessageHandler<T> getTypeHandler(Class<T> type) {
+    public static <T> MessageHandler<T> getTypeHandler(Class<? extends MessageLite> type) {
         if (CONTEXT_AWARE_AWAIT.getCount() > 0) {
             try {
                 CONTEXT_AWARE_AWAIT.await();

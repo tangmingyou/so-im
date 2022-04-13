@@ -39,16 +39,6 @@ public class WorkerGroup {
         return WORKERS[counter.incrementAndGet() % WORKERS.length];
     }
 
-    public static void publish(NetUser netUser, GeneratedMessageV3 message) {
-        next().execute(() -> {
-
-        });
-    }
-
-    public static void publish(Account netUser, GeneratedMessageV3 message) {
-
-    }
-
     public static void shutdown() {
         for (Worker worker : WORKERS) {
             worker.shutdown();

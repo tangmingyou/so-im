@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NetUser {
 
@@ -12,12 +13,27 @@ public class NetUser {
 
     private final WeakReference<Channel> channel;
 
+    private final AtomicBoolean isActive = new AtomicBoolean(true);
+
     public NetUser(Channel channel) {
         this.channel = new WeakReference<>(channel);
     }
 
     public boolean isAccount() {
         return false;
+    }
+
+    public boolean isActiveChannel() {
+        Channel chan = this.channel.get();
+        return chan != null && chan.isActive();
+    }
+
+    public boolean isActive() {
+        return this.isActive.get();
+    }
+
+    public void inactive() {
+        this.isActive.set(false);
     }
 
     public void write(Object message) {

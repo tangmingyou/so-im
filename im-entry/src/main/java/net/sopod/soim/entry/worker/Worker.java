@@ -31,7 +31,7 @@ public class Worker implements EventHandler<TaskEvent>, EventFactory<TaskEvent> 
         );
         this.disruptor = new Disruptor<>(
                 this,
-                8 * 1024,
+                16 * 1024,
                 executor,
                 ProducerType.SINGLE,
                 new BlockingWaitStrategy());
