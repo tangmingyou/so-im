@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import net.sopod.soim.core.net.ImMessageCodec;
+import net.sopod.soim.data.msg.auth.Auth;
 import net.sopod.soim.data.msg.hello.HelloPB;
 
 import java.util.HashMap;
@@ -42,15 +43,21 @@ public class ImNetClient {
                 .setId(1)
                 .setStr("手")
                 .build();
+        Auth.Login login = Auth.Login.newBuilder()
+                .setAccount("prometheus")
+                .setPassword("123456")
+                .build();
+
 //        ImMessage imMessage = new ImMessage()
 //                .setServiceNo(ProtoMessageManager.getSerialNo(hello.getClass()))
 //                .setSerializeType(SerializeType.json.ordinal())
 //                //.setBody(Jackson.json().serialize(body).getBytes(StandardCharsets.UTF_8));
 //                .setBody(hello.toByteArray());
         channel.writeAndFlush(hello);
+        Thread.sleep(4000);
+        channel.writeAndFlush(login);
         channel.close();
         work.shutdownGracefully();
     }
-
 
 }

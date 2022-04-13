@@ -1,6 +1,6 @@
 spring:
   application:
-    name: im-entry
+    name: im-entry-http
 dubbo:
   application:
     name: ${spring.application.name}

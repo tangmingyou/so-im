@@ -39,7 +39,6 @@ public class InboundImMessageHandler extends SimpleChannelInboundHandler<Message
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         Attribute<NetUser> netUser = ctx.channel().attr(NetUser.NET_USER_KEY);
-        netUser.get().inactive();
 
         ctx.fireChannelInactive();
     }

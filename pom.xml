@@ -21,6 +21,7 @@
         <module>im-das-api</module>
         <module>im-logic-api/im-segment-id-api</module>
         <module>im-logic/im-segment-id</module>
+        <module>im-entry-http</module>
     </modules>
 
     <properties>
@@ -122,6 +123,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
             <dependency>

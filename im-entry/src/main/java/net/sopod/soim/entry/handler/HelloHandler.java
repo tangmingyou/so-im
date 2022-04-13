@@ -1,7 +1,9 @@
 package net.sopod.soim.entry.handler;
 
 import com.google.protobuf.MessageLite;
+import net.sopod.soim.core.handler.AccountMessageHandler;
 import net.sopod.soim.core.handler.NetUserMessageHandler;
+import net.sopod.soim.core.session.Account;
 import net.sopod.soim.core.session.NetUser;
 import net.sopod.soim.data.msg.hello.HelloPB;
 import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
@@ -25,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2022-04-10 19:19
  */
 @Service
-public class HelloHandler extends NetUserMessageHandler<HelloPB.Hello> {
+public class HelloHandler extends AccountMessageHandler<HelloPB.Hello> {
 
     private static final Logger logger = LoggerFactory.getLogger(HelloHandler.class);
 
@@ -36,7 +38,7 @@ public class HelloHandler extends NetUserMessageHandler<HelloPB.Hello> {
     private SegmentIdGenerator segmentIdGenerator;
 
     @Override
-    public MessageLite handle(NetUser netUser, HelloPB.Hello msg) {
+    public MessageLite handle(Account account, HelloPB.Hello msg) {
         logger.info("get hello message: {}", segmentIdGenerator.nextId("im-entry-hello"));
         logger.info("msg={}, {}", msg.getId(), msg.getStr());
         CompletableFuture<String> hi = userService.sayHi("黄绿");
@@ -48,7 +50,7 @@ public class HelloHandler extends NetUserMessageHandler<HelloPB.Hello> {
         RpcContext.getServiceContext().getCompletableFuture().whenComplete((res, err) -> {
             logger.info("async sayHello, {}", res);
         });
-        NetUserDelayTaskManager.addTask(netUser, msg, 5, TimeUnit.SECONDS);
+        NetUserDelayTaskManager.addTask(account, msg, 5, TimeUnit.SECONDS);
         return null;
     }
 

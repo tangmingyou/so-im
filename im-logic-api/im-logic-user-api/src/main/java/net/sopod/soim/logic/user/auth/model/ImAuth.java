@@ -1,15 +1,18 @@
 package net.sopod.soim.logic.user.auth.model;
 
+import lombok.Data;
+
 /**
  * LoginParam
  *
  * @author tmy
  * @date 2022-03-31 21:06
  */
-public class ReqLogin {
+@Data
+public class ImAuth {
 
-    private String username;
+    private String accessToken;
 
-    private String password;
+    private long expireMs;
 
 }

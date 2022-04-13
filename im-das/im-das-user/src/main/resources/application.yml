@@ -1,8 +1,12 @@
+spring:
+  application:
+    name: im-das-user
 dubbo:
   application:
-    name: das-user
+    name: ${spring.application.name}
   registry:
     address: nacos://124.222.131.236:3848
+    group: im-user
   protocol:
     port: 3011
 

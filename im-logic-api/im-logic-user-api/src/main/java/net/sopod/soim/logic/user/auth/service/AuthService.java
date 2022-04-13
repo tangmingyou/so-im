@@ -1,6 +1,6 @@
 package net.sopod.soim.logic.user.auth.service;
 
-import net.sopod.soim.logic.user.auth.model.ReqLogin;
+import net.sopod.soim.logic.user.auth.model.ImAuth;
 
 /**
  * AuthService
@@ -13,6 +13,6 @@ public interface AuthService {
     /**
      * 登录请求
      */
-    void login(ReqLogin reqLogin);
+    void login(ImAuth imAuth);
 
 }

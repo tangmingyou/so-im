@@ -4,16 +4,13 @@ import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 
 import java.lang.ref.WeakReference;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NetUser {
 
     /** channel 绑定 netUser 对象 */
     public static final AttributeKey<NetUser> NET_USER_KEY = AttributeKey.valueOf(NetUser.class, "NET_USER");
 
-    private final WeakReference<Channel> channel;
-
-    private final AtomicBoolean isActive = new AtomicBoolean(true);
+    protected final WeakReference<Channel> channel;
 
     public NetUser(Channel channel) {
         this.channel = new WeakReference<>(channel);
@@ -23,17 +20,19 @@ public class NetUser {
         return false;
     }
 
-    public boolean isActiveChannel() {
+    public boolean isActive() {
         Channel chan = this.channel.get();
         return chan != null && chan.isActive();
     }
 
-    public boolean isActive() {
-        return this.isActive.get();
-    }
-
-    public void inactive() {
-        this.isActive.set(false);
+    /**
+     * 登录后设置为账号
+     */
+    public void upgradeAccount(Account account) {
+        Channel chan = this.channel.get();
+        if (chan != null) {
+            chan.attr(NET_USER_KEY).set(account);
+        }
     }
 
     public void write(Object message) {
