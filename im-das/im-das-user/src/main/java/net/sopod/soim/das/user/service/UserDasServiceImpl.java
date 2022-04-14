@@ -28,7 +28,7 @@ public class UserDasServiceImpl implements UserDasService {
     @Override
     public ImUser getUserByAccount(String account) {
         LambdaQueryWrapper<ImUser> accountQuery = new QueryWrapper<ImUser>().lambda()
-                .eq(ImUser::getUsername, account);
+                .eq(ImUser::getAccount, account);
         return userMapper.selectOne(accountQuery);
     }
 

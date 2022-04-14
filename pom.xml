@@ -12,15 +12,12 @@
         <module>im-common</module>
         <module>im-data</module>
         <module>im-entry</module>
-        <module>im-logic</module>
         <module>im-client</module>
-        <module>im-logic-api</module>
-        <module>im-logic-api/im-logic-user-api</module>
         <module>im-core</module>
         <module>im-das</module>
         <module>im-das-api</module>
-        <module>im-logic-api/im-segment-id-api</module>
-        <module>im-logic/im-segment-id</module>
+        <module>im-service</module>
+        <module>im-service-api</module>
         <module>im-entry-http</module>
     </modules>
 
@@ -145,6 +142,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>2.11.1</version>
             </dependency>
             <dependency>
                 <groupId>io.lettuce</groupId>

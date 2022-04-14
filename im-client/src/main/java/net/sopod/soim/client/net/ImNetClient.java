@@ -43,7 +43,7 @@ public class ImNetClient {
                 .setId(1)
                 .setStr("手")
                 .build();
-        Auth.Login login = Auth.Login.newBuilder()
+        Auth.ReqLogin login = Auth.ReqLogin.newBuilder()
                 .setAccount("prometheus")
                 .setPassword("123456")
                 .build();

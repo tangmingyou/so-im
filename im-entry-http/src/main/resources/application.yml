@@ -12,3 +12,6 @@ dubbo:
     protocol: injvm # 服务提供只供jvm内部使用, 不暴露在外面 (不启动dubbo provider服务)
   consumer:
     check: false
+
+server:
+  port: 3021

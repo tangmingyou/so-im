@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
  * @date 2022-04-13 22:20
  */
 @Service
-public class LoginHandler extends NetUserMessageHandler<Auth.Login> {
+public class LoginHandler extends NetUserMessageHandler<Auth.ReqLogin> {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginHandler.class);
 
     @Override
-    public MessageLite handle(NetUser netUser, Auth.Login msg) {
+    public MessageLite handle(NetUser netUser, Auth.ReqLogin msg) {
         logger.info("auth login: {}, {}", msg.getAccount(), msg.getPassword());
         Account account = Account.AccountBuilder.newBuilder()
                 .setNetUser(netUser)

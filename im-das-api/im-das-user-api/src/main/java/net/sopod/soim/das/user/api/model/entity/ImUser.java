@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.sopod.soim.das.user.api.config.LogicTables;
 
 import java.util.Date;
 
@@ -17,16 +18,24 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@TableName("im_user")
+@TableName(LogicTables.IM_USER)
 public class ImUser {
 
     /** id */
     @TableId(value = "id", type= IdType.INPUT)
     private Long id;
 
-    /** 用户名 */
-    @TableField(value = "username")
-    private String username;
+    /** 状态:1.正常,2.禁用,3删除 */
+    @TableField(value = "status")
+    private Integer status;
+
+    /** 登录账号 */
+    @TableField(value = "account")
+    private String account;
+
+    /** 用户昵称 */
+    @TableField(value = "nickname")
+    private String nickname;
 
     /** 密码 */
     @TableField(value = "password")

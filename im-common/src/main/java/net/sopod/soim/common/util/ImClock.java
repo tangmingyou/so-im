@@ -35,8 +35,8 @@ public class ImClock {
         return new Date(clock.millis());
     }
 
-    public static LocalDateTime msec2time(long msec) {
-        Instant instant = Instant.ofEpochMilli(msec);
+    public static LocalDateTime millis2time(long millis) {
+        Instant instant = Instant.ofEpochMilli(millis);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
