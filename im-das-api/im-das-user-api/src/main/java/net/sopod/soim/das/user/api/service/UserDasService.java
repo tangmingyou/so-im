@@ -12,6 +12,6 @@ public interface UserDasService {
 
     ImUser getUserById(Long id);
 
-    ImUser getUserByAccount(String account);
+    ImUser getNormalUserByAccount(String account);
 
 }

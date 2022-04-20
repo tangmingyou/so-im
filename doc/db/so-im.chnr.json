@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-3-7 15:11:08",
-  "updatedTime": "2022-4-14 16:00:46",
+  "updatedTime": "2022-4-20 23:20:02",
   "profile": {
     "default": {
       "db": "8FE7C65E-40EB-41B6-B60E-79063AFF6273",
@@ -1026,7 +1026,27 @@
         }
       ],
       "correlations": [],
-      "indexes": []
+      "indexes": [
+        {
+          "defKey": "idx_account_status",
+          "defName": null,
+          "unique": false,
+          "comment": "",
+          "fields": [
+            {
+              "fieldDefKey": "BB5539DD-5A96-4729-AF84-205D99479F51",
+              "ascOrDesc": "A",
+              "id": "C8BEC04D-D87C-45DE-97C5-D03C3B7A2EB9"
+            },
+            {
+              "fieldDefKey": "ED141994-B3F8-42C8-96AE-91244E115A35",
+              "ascOrDesc": "A",
+              "id": "FF7AA195-A640-4E60-B12D-6DDDD562C758"
+            }
+          ],
+          "id": "359FE803-740A-4200-A215-525BED9E9761"
+        }
+      ]
     },
     {
       "id": "E79C9C4C-FFC3-44BB-BD98-4F44F528B4B8",

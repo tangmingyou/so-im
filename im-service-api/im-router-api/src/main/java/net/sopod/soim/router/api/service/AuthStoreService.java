@@ -10,6 +10,6 @@ import net.sopod.soim.router.api.model.CacheRes;
  */
 public interface AuthStoreService {
 
-    CacheRes cacheToken(Long userId, String token);
+    CacheRes storageToken(Long userId, String token, Long expireMs);
 
 }

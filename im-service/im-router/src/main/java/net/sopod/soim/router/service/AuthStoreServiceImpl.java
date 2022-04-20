@@ -23,7 +23,7 @@ public class AuthStoreServiceImpl implements AuthStoreService {
     }
 
     @Override
-    public CacheRes cacheToken(Long userId, String token) {
+    public CacheRes storageToken(Long userId, String token, Long expireMs) {
         // 从内存中获取
         tokenStore.put(userId, token);
 

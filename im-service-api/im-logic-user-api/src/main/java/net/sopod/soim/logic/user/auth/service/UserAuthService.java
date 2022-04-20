@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.user.service;
+package net.sopod.soim.logic.user.auth.service;
 
 import net.sopod.soim.logic.user.auth.model.ImAuth;
 

@@ -2,7 +2,7 @@ package net.sopod.soim.entry.http.controller;
 
 import net.sopod.soim.entry.http.model.ao.PwdAuthAO;
 import net.sopod.soim.logic.user.auth.model.ImAuth;
-import net.sopod.soim.logic.user.service.UserAuthService;
+import net.sopod.soim.logic.user.auth.service.UserAuthService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +24,7 @@ public class AuthController {
 
     @PostMapping("/pwdAuth")
     public ImAuth pwdAuth(@RequestBody PwdAuthAO authAO) {
-        ImAuth imAuth = userAuthService.pwdAuth(authAO.getAccount(), authAO.getPassword());
-        String accessToken = imAuth.getAccessToken();
-        return imAuth;
+        return userAuthService.pwdAuth(authAO.getAccount(), authAO.getPassword());
     }
 
 }

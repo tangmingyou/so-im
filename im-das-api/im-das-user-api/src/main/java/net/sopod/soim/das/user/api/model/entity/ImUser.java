@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import net.sopod.soim.das.user.api.config.LogicTables;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -19,7 +20,9 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @TableName(LogicTables.IM_USER)
-public class ImUser {
+public class ImUser implements Serializable {
+
+    private static final long serialVersionUID = -5647990265689699268L;
 
     /** id */
     @TableId(value = "id", type= IdType.INPUT)
