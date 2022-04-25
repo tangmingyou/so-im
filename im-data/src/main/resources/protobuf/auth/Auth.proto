@@ -15,3 +15,13 @@ message ResLogin {
   int32 code = 1;
   string message = 2;
 }
+
+message ReqTokenAuth {
+  int32 uid = 1;
+  string token = 2;
+}
+
+message ResTokenAuth {
+  bool success = 1;
+  string message = 2;
+}

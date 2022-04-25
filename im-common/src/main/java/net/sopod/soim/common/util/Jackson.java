@@ -1,13 +1,12 @@
 package net.sopod.soim.common.util;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.json.PackageVersion;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -18,6 +17,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -162,6 +162,16 @@ public class Jackson {
 	public static Jackson xml() {
 		getFactoryInstance("com.fasterxml.jackson.dataformat.xml.XmlMapper",
 			() -> XML_INSTANCE == null,
+			mapper -> {
+				// 设置返回 null 转为 空字符串""
+				mapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
+					@Override
+					public void serialize(Object paramT, JsonGenerator paramJsonGenerator,
+										  SerializerProvider paramSerializerProvider) throws IOException {
+						paramJsonGenerator.writeString("");
+					}
+				});
+			},
 			jackson -> XML_INSTANCE = jackson);
 		return XML_INSTANCE;
 	}

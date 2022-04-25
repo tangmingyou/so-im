@@ -1370,6 +1370,1283 @@ public final class Auth {
 
   }
 
+  public interface ReqTokenAuthOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:proto.ReqTokenAuth)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 uid = 1;</code>
+     * @return The uid.
+     */
+    int getUid();
+
+    /**
+     * <code>string token = 2;</code>
+     * @return The token.
+     */
+    java.lang.String getToken();
+    /**
+     * <code>string token = 2;</code>
+     * @return The bytes for token.
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+  }
+  /**
+   * Protobuf type {@code proto.ReqTokenAuth}
+   */
+  public static final class ReqTokenAuth extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:proto.ReqTokenAuth)
+      ReqTokenAuthOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ReqTokenAuth.newBuilder() to construct.
+    private ReqTokenAuth(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ReqTokenAuth() {
+      token_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReqTokenAuth();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ReqTokenAuth(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              uid_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              token_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ReqTokenAuth_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ReqTokenAuth_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.class, net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.Builder.class);
+    }
+
+    public static final int UID_FIELD_NUMBER = 1;
+    private int uid_;
+    /**
+     * <code>int32 uid = 1;</code>
+     * @return The uid.
+     */
+    @java.lang.Override
+    public int getUid() {
+      return uid_;
+    }
+
+    public static final int TOKEN_FIELD_NUMBER = 2;
+    private volatile java.lang.Object token_;
+    /**
+     * <code>string token = 2;</code>
+     * @return The token.
+     */
+    @java.lang.Override
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        token_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string token = 2;</code>
+     * @return The bytes for token.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (uid_ != 0) {
+        output.writeInt32(1, uid_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(token_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (uid_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, uid_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(token_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth)) {
+        return super.equals(obj);
+      }
+      net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth other = (net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth) obj;
+
+      if (getUid()
+          != other.getUid()) return false;
+      if (!getToken()
+          .equals(other.getToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + UID_FIELD_NUMBER;
+      hash = (53 * hash) + getUid();
+      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + getToken().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code proto.ReqTokenAuth}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:proto.ReqTokenAuth)
+        net.sopod.soim.data.msg.auth.Auth.ReqTokenAuthOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ReqTokenAuth_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ReqTokenAuth_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.class, net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.Builder.class);
+      }
+
+      // Construct using net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        uid_ = 0;
+
+        token_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ReqTokenAuth_descriptor;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth getDefaultInstanceForType() {
+        return net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth build() {
+        net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth buildPartial() {
+        net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth result = new net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth(this);
+        result.uid_ = uid_;
+        result.token_ = token_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth) {
+          return mergeFrom((net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth other) {
+        if (other == net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.getDefaultInstance()) return this;
+        if (other.getUid() != 0) {
+          setUid(other.getUid());
+        }
+        if (!other.getToken().isEmpty()) {
+          token_ = other.token_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int uid_ ;
+      /**
+       * <code>int32 uid = 1;</code>
+       * @return The uid.
+       */
+      @java.lang.Override
+      public int getUid() {
+        return uid_;
+      }
+      /**
+       * <code>int32 uid = 1;</code>
+       * @param value The uid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUid(int value) {
+        
+        uid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 uid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUid() {
+        
+        uid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object token_ = "";
+      /**
+       * <code>string token = 2;</code>
+       * @return The token.
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          token_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @return The bytes for token.
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @param value The token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToken(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToken() {
+        
+        token_ = getDefaultInstance().getToken();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 2;</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTokenBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:proto.ReqTokenAuth)
+    }
+
+    // @@protoc_insertion_point(class_scope:proto.ReqTokenAuth)
+    private static final net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth();
+    }
+
+    public static net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ReqTokenAuth>
+        PARSER = new com.google.protobuf.AbstractParser<ReqTokenAuth>() {
+      @java.lang.Override
+      public ReqTokenAuth parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ReqTokenAuth(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ReqTokenAuth> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ReqTokenAuth> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ResTokenAuthOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:proto.ResTokenAuth)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool success = 1;</code>
+     * @return The success.
+     */
+    boolean getSuccess();
+
+    /**
+     * <code>string message = 2;</code>
+     * @return The message.
+     */
+    java.lang.String getMessage();
+    /**
+     * <code>string message = 2;</code>
+     * @return The bytes for message.
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
+  }
+  /**
+   * Protobuf type {@code proto.ResTokenAuth}
+   */
+  public static final class ResTokenAuth extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:proto.ResTokenAuth)
+      ResTokenAuthOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ResTokenAuth.newBuilder() to construct.
+    private ResTokenAuth(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ResTokenAuth() {
+      message_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResTokenAuth();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResTokenAuth(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              success_ = input.readBool();
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              message_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ResTokenAuth_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ResTokenAuth_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.sopod.soim.data.msg.auth.Auth.ResTokenAuth.class, net.sopod.soim.data.msg.auth.Auth.ResTokenAuth.Builder.class);
+    }
+
+    public static final int SUCCESS_FIELD_NUMBER = 1;
+    private boolean success_;
+    /**
+     * <code>bool success = 1;</code>
+     * @return The success.
+     */
+    @java.lang.Override
+    public boolean getSuccess() {
+      return success_;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object message_;
+    /**
+     * <code>string message = 2;</code>
+     * @return The message.
+     */
+    @java.lang.Override
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string message = 2;</code>
+     * @return The bytes for message.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (success_ != false) {
+        output.writeBool(1, success_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (success_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, success_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.sopod.soim.data.msg.auth.Auth.ResTokenAuth)) {
+        return super.equals(obj);
+      }
+      net.sopod.soim.data.msg.auth.Auth.ResTokenAuth other = (net.sopod.soim.data.msg.auth.Auth.ResTokenAuth) obj;
+
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSuccess());
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.sopod.soim.data.msg.auth.Auth.ResTokenAuth prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code proto.ResTokenAuth}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:proto.ResTokenAuth)
+        net.sopod.soim.data.msg.auth.Auth.ResTokenAuthOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ResTokenAuth_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ResTokenAuth_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.sopod.soim.data.msg.auth.Auth.ResTokenAuth.class, net.sopod.soim.data.msg.auth.Auth.ResTokenAuth.Builder.class);
+      }
+
+      // Construct using net.sopod.soim.data.msg.auth.Auth.ResTokenAuth.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        success_ = false;
+
+        message_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.sopod.soim.data.msg.auth.Auth.internal_static_proto_ResTokenAuth_descriptor;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.auth.Auth.ResTokenAuth getDefaultInstanceForType() {
+        return net.sopod.soim.data.msg.auth.Auth.ResTokenAuth.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.auth.Auth.ResTokenAuth build() {
+        net.sopod.soim.data.msg.auth.Auth.ResTokenAuth result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.auth.Auth.ResTokenAuth buildPartial() {
+        net.sopod.soim.data.msg.auth.Auth.ResTokenAuth result = new net.sopod.soim.data.msg.auth.Auth.ResTokenAuth(this);
+        result.success_ = success_;
+        result.message_ = message_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.sopod.soim.data.msg.auth.Auth.ResTokenAuth) {
+          return mergeFrom((net.sopod.soim.data.msg.auth.Auth.ResTokenAuth)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.sopod.soim.data.msg.auth.Auth.ResTokenAuth other) {
+        if (other == net.sopod.soim.data.msg.auth.Auth.ResTokenAuth.getDefaultInstance()) return this;
+        if (other.getSuccess() != false) {
+          setSuccess(other.getSuccess());
+        }
+        if (!other.getMessage().isEmpty()) {
+          message_ = other.message_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.sopod.soim.data.msg.auth.Auth.ResTokenAuth parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.sopod.soim.data.msg.auth.Auth.ResTokenAuth) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private boolean success_ ;
+      /**
+       * <code>bool success = 1;</code>
+       * @return The success.
+       */
+      @java.lang.Override
+      public boolean getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSuccess(boolean value) {
+        
+        success_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool success = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSuccess() {
+        
+        success_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object message_ = "";
+      /**
+       * <code>string message = 2;</code>
+       * @return The message.
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @return The bytes for message.
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMessage() {
+        
+        message_ = getDefaultInstance().getMessage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:proto.ResTokenAuth)
+    }
+
+    // @@protoc_insertion_point(class_scope:proto.ResTokenAuth)
+    private static final net.sopod.soim.data.msg.auth.Auth.ResTokenAuth DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.sopod.soim.data.msg.auth.Auth.ResTokenAuth();
+    }
+
+    public static net.sopod.soim.data.msg.auth.Auth.ResTokenAuth getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ResTokenAuth>
+        PARSER = new com.google.protobuf.AbstractParser<ResTokenAuth>() {
+      @java.lang.Override
+      public ResTokenAuth parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResTokenAuth(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResTokenAuth> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResTokenAuth> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public net.sopod.soim.data.msg.auth.Auth.ResTokenAuth getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_proto_ReqLogin_descriptor;
   private static final 
@@ -1380,6 +2657,16 @@ public final class Auth {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_proto_ResLogin_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_proto_ReqTokenAuth_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_proto_ReqTokenAuth_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_proto_ResTokenAuth_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_proto_ResTokenAuth_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1392,8 +2679,11 @@ public final class Auth {
       "\n3im-data/src/main/resources/protobuf/au" +
       "th/Auth.proto\022\005proto\"-\n\010ReqLogin\022\017\n\007acco" +
       "unt\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\")\n\010ResLogin\022" +
-      "\014\n\004code\030\001 \001(\005\022\017\n\007message\030\002 \001(\tB&\n\034net.so" +
-      "pod.soim.data.msg.authB\004AuthP\000b\006proto3"
+      "\014\n\004code\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"*\n\014ReqTok" +
+      "enAuth\022\013\n\003uid\030\001 \001(\005\022\r\n\005token\030\002 \001(\t\"0\n\014Re" +
+      "sTokenAuth\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002" +
+      " \001(\tB&\n\034net.sopod.soim.data.msg.authB\004Au" +
+      "thP\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1411,6 +2701,18 @@ public final class Auth {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_ResLogin_descriptor,
         new java.lang.String[] { "Code", "Message", });
+    internal_static_proto_ReqTokenAuth_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_proto_ReqTokenAuth_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_proto_ReqTokenAuth_descriptor,
+        new java.lang.String[] { "Uid", "Token", });
+    internal_static_proto_ResTokenAuth_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_proto_ResTokenAuth_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_proto_ResTokenAuth_descriptor,
+        new java.lang.String[] { "Success", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

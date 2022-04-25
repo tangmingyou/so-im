@@ -3,10 +3,8 @@ package net.sopod.soim.client;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
-import net.sopod.soim.client.cmd.CmdDispatcher;
 import net.sopod.soim.client.cmd.CmdStarter;
 import net.sopod.soim.client.config.GuiceIoc;
-import net.sopod.soim.client.net.ImNetClient;
 
 /**
  * Main
@@ -19,15 +17,16 @@ import net.sopod.soim.client.net.ImNetClient;
  */
 public class ClientMain {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 //        ImNetClient client = new ImNetClient();
 //        client.connect("127.0.0.1", 8088);
+
+        // 创建 ioc 容器
         GuiceIoc guiceIoc = new GuiceIoc(ClientMain.class);
         Injector injector = Guice.createInjector(Stage.PRODUCTION, guiceIoc);
-        // dispatcher
-        CmdDispatcher cmdDispatcher = new CmdDispatcher(injector);
-        // starter
-        CmdStarter cmdStarter = new CmdStarter(cmdDispatcher);
+
+        // 启动 cmd scanner
+        CmdStarter cmdStarter = injector.getInstance(CmdStarter.class);
         cmdStarter.start();
     }
 

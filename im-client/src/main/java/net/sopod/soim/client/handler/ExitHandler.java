@@ -1,6 +1,7 @@
 package net.sopod.soim.client.handler;
 
 import com.google.inject.Singleton;
+import net.sopod.soim.client.cmd.handler.NonArgsHandler;
 
 /**
  * ExitHandler

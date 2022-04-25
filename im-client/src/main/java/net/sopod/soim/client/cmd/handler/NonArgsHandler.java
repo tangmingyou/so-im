@@ -1,4 +1,4 @@
-package net.sopod.soim.client.handler;
+package net.sopod.soim.client.cmd.handler;
 
 /**
  * NoArgsHandler
@@ -18,6 +18,6 @@ public abstract class NonArgsHandler implements CmdHandler<Object> {
         this.handle();
     }
 
-    abstract void handle();
+    public abstract void handle();
 
 }

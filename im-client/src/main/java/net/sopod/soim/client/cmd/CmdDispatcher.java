@@ -1,7 +1,11 @@
 package net.sopod.soim.client.cmd;
 
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
+import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.logger.Logger;
 
 /**
@@ -17,36 +21,48 @@ import net.sopod.soim.client.logger.Logger;
  * @author tmy
  * @date 2022-04-25 10:28
  */
+@Singleton
 public class CmdDispatcher {
 
     private final Injector injector;
 
+    @Inject
     public CmdDispatcher(Injector injector) {
         this.injector = injector;
     }
 
+    @SuppressWarnings("unchecked")
     public void dispatchCmd(String cmdStr) {
-        Logger.info("dispatch cmd: {}", cmdStr);
-        int idx = cmdStr.indexOf(" ");
-        String cmd = idx == -1 ? cmdStr : cmdStr.substring(0, idx);
-        String argsStr = idx == -1 ? "" : cmdStr.substring(idx + 1);
+        String[] cmdArgs = cmdStr.trim().split("[ \t]+");
+        String cmd = cmdArgs[0];
+        String[] args = new String[cmdArgs.length - 1];
+        if (args.length > 0) {
+            System.arraycopy(cmdArgs, 1, args, 0, args.length);
+        }
 
+        CmdEnum cmdEnum = CmdEnum.getValue(cmd);
+        if (cmdEnum == null) {
+            Logger.error("未知指令: {}", cmd);
+            return;
+        }
+        Class<? extends CmdHandler<?>> handlerClass = cmdEnum.getHandlerClass();
+        CmdHandler<?> cmdHandler = injector.getInstance(handlerClass);
+        Object argsInstance = cmdHandler.newArgsInstance();
+        try {
+            JCommander.newBuilder()
+                    .addObject(argsInstance)
+                    .build()
+                    .parse(args);
+        } catch (ParameterException e) {
+            String message = e.getMessage();
+            this.parseParameterExceptionMessage(message);
+            return;
+        }
+        ((CmdHandler<Object>)cmdHandler).handleArgs(argsInstance);
     }
 
-    public static void main(String[] args) {
-        String cmdStr = "auth -u prometheus -p 123456";
-        int idx = cmdStr.indexOf(" ");
-        String cmd = idx == -1 ? cmdStr : cmdStr.substring(0, idx);
-        String argsStr = idx == -1 ? "" : cmdStr.substring(idx + 1);
-
-
-        ArgsLogin argsLogin = new ArgsLogin();
-        String[] argv = {"-u", "zeus", "-p", "123456"};
-        JCommander.newBuilder()
-                .addObject(argsLogin)
-                .build()
-                .parse(argv);
-        System.out.println(argsLogin);
+    private void parseParameterExceptionMessage(String message) {
+        Logger.error(message);
     }
 
 }

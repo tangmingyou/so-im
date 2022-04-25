@@ -1,4 +1,4 @@
-package net.sopod.soim.client.handler;
+package net.sopod.soim.client.cmd.handler;
 
 /**
  * CmdHandler

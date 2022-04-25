@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -63,6 +60,7 @@ public class ProtoMessageHandlerRegistry {
     }
 
     @Nullable
+    @SuppressWarnings("unchecked")
     public static <T> MessageHandler<T> getTypeHandler(Class<? extends MessageLite> type) {
         if (CONTEXT_AWARE_AWAIT.getCount() > 0) {
             try {

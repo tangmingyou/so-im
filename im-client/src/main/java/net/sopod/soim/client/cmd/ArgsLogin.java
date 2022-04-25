@@ -3,6 +3,8 @@ package net.sopod.soim.client.cmd;
 import com.beust.jcommander.Parameter;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * ArgsLogin
  *
@@ -12,10 +14,13 @@ import lombok.Data;
 @Data
 public class ArgsLogin {
 
-    @Parameter(names = {"-u", "-account"}, description = "账号")
+    @Parameter
+    private List<String> parameters;
+
+    @Parameter(names = {"-u", "-account"}, required = true, description = "账号")
     private String account;
 
-    @Parameter(names = {"-p", "-password"}, description = "密码", password = true)
+    @Parameter(names = {"-p", "-password"}, required = true, description = "密码", password = true)
     private String password;
 
 }
