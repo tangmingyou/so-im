@@ -229,6 +229,12 @@
                 <version>${nacos.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.beust</groupId>
+                <artifactId>jcommander</artifactId>
+                <version>1.82</version>
+            </dependency>
+
             <!-- 消息队列 -->
             <!--1、amqp高级消息队列的依赖-->
             <dependency>

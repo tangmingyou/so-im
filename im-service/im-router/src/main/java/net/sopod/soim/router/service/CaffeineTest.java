@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.*;
 import com.google.common.collect.*;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**

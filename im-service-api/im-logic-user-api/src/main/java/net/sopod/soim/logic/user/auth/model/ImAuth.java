@@ -19,9 +19,11 @@ public class ImAuth implements Serializable {
 
     private boolean success;
 
+    private Long uid;
+
     private String authToken;
 
-    private long expireMs;
+    private Long expireMs;
 
     private String message;
 
