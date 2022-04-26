@@ -32,7 +32,7 @@ public class SoImSession {
 
     private AtomicBoolean auth = new AtomicBoolean(false);
 
-    public void connect(String host, Integer port, Auth.ReqTokenAuth tokenAuth) throws InterruptedException {
+    public void connect(String host, Integer port, Auth.ReqTokenAuth tokenAuth) {
         eventLoopGroup = new NioEventLoopGroup(2);
         Bootstrap b = new Bootstrap()
                 .group(eventLoopGroup)
@@ -45,11 +45,14 @@ public class SoImSession {
                         // .addLast(new ProtoMessageCodec());
                     }
                 });
-        clientChannel = b.connect(host, port).await().channel();
-
-        // 连接后立即发送认证消息
-        // TODO ResHandler
-        clientChannel.write(tokenAuth);
+        try {
+            clientChannel = b.connect(host, port).await().channel();
+            // 连接后立即发送认证消息
+            // TODO ResHandler
+            clientChannel.writeAndFlush(tokenAuth);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void send(MessageLite message) {

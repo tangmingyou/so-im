@@ -1375,10 +1375,10 @@ public final class Auth {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 uid = 1;</code>
+     * <code>int64 uid = 1;</code>
      * @return The uid.
      */
-    int getUid();
+    long getUid();
 
     /**
      * <code>string token = 2;</code>
@@ -1440,7 +1440,7 @@ public final class Auth {
               break;
             case 8: {
 
-              uid_ = input.readInt32();
+              uid_ = input.readInt64();
               break;
             }
             case 18: {
@@ -1482,13 +1482,13 @@ public final class Auth {
     }
 
     public static final int UID_FIELD_NUMBER = 1;
-    private int uid_;
+    private long uid_;
     /**
-     * <code>int32 uid = 1;</code>
+     * <code>int64 uid = 1;</code>
      * @return The uid.
      */
     @java.lang.Override
-    public int getUid() {
+    public long getUid() {
       return uid_;
     }
 
@@ -1544,8 +1544,8 @@ public final class Auth {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (uid_ != 0) {
-        output.writeInt32(1, uid_);
+      if (uid_ != 0L) {
+        output.writeInt64(1, uid_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(token_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
@@ -1559,9 +1559,9 @@ public final class Auth {
       if (size != -1) return size;
 
       size = 0;
-      if (uid_ != 0) {
+      if (uid_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, uid_);
+          .computeInt64Size(1, uid_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(token_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
@@ -1597,7 +1597,8 @@ public final class Auth {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + UID_FIELD_NUMBER;
-      hash = (53 * hash) + getUid();
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getUid());
       hash = (37 * hash) + TOKEN_FIELD_NUMBER;
       hash = (53 * hash) + getToken().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -1733,7 +1734,7 @@ public final class Auth {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        uid_ = 0;
+        uid_ = 0L;
 
         token_ = "";
 
@@ -1813,7 +1814,7 @@ public final class Auth {
 
       public Builder mergeFrom(net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth other) {
         if (other == net.sopod.soim.data.msg.auth.Auth.ReqTokenAuth.getDefaultInstance()) return this;
-        if (other.getUid() != 0) {
+        if (other.getUid() != 0L) {
           setUid(other.getUid());
         }
         if (!other.getToken().isEmpty()) {
@@ -1849,33 +1850,33 @@ public final class Auth {
         return this;
       }
 
-      private int uid_ ;
+      private long uid_ ;
       /**
-       * <code>int32 uid = 1;</code>
+       * <code>int64 uid = 1;</code>
        * @return The uid.
        */
       @java.lang.Override
-      public int getUid() {
+      public long getUid() {
         return uid_;
       }
       /**
-       * <code>int32 uid = 1;</code>
+       * <code>int64 uid = 1;</code>
        * @param value The uid to set.
        * @return This builder for chaining.
        */
-      public Builder setUid(int value) {
+      public Builder setUid(long value) {
         
         uid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 uid = 1;</code>
+       * <code>int64 uid = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearUid() {
         
-        uid_ = 0;
+        uid_ = 0L;
         onChanged();
         return this;
       }
@@ -2680,7 +2681,7 @@ public final class Auth {
       "th/Auth.proto\022\005proto\"-\n\010ReqLogin\022\017\n\007acco" +
       "unt\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\")\n\010ResLogin\022" +
       "\014\n\004code\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"*\n\014ReqTok" +
-      "enAuth\022\013\n\003uid\030\001 \001(\005\022\r\n\005token\030\002 \001(\t\"0\n\014Re" +
+      "enAuth\022\013\n\003uid\030\001 \001(\003\022\r\n\005token\030\002 \001(\t\"0\n\014Re" +
       "sTokenAuth\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002" +
       " \001(\tB&\n\034net.sopod.soim.data.msg.authB\004Au" +
       "thP\000b\006proto3"

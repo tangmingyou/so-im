@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2022-03-26 00:06
  */
 @SpringBootApplication
-@EnableDubbo //(scanBasePackages = {"net.sopod.soim.entry.service"})
+@EnableDubbo
 public class EntryApplication {
 
     public static void main(String[] args) {

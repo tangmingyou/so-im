@@ -2,7 +2,7 @@ package net.sopod.soim.client.cmd;
 
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.handler.ExitHandler;
-import net.sopod.soim.client.handler.LoginCmdHandler;
+import net.sopod.soim.client.handler.LoginHandler;
 
 /**
  * Commands
@@ -13,7 +13,7 @@ import net.sopod.soim.client.handler.LoginCmdHandler;
 public enum CmdEnum {
 
     /** 登录 */
-    login(LoginCmdHandler.class),
+    login(LoginHandler.class),
 
     /** 发送消息 */
     send,

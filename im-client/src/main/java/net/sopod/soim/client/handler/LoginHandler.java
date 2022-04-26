@@ -7,7 +7,9 @@ import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.config.ClientConfig;
 import net.sopod.soim.client.logger.Logger;
 import net.sopod.soim.client.model.dto.LoginResDTO;
+import net.sopod.soim.client.session.SoImSession;
 import net.sopod.soim.client.util.HttpClient;
+import net.sopod.soim.data.msg.auth.Auth;
 
 import java.util.HashMap;
 
@@ -18,10 +20,13 @@ import java.util.HashMap;
  * @date 2022-04-25 10:53
  */
 @Singleton
-public class LoginCmdHandler implements CmdHandler<ArgsLogin> {
+public class LoginHandler implements CmdHandler<ArgsLogin> {
 
     @Inject
     private ClientConfig clientConfig;
+
+    @Inject
+    private SoImSession soImSession;
 
     @Override
     public ArgsLogin newArgsInstance() {
@@ -41,6 +46,12 @@ public class LoginCmdHandler implements CmdHandler<ArgsLogin> {
         }
         String authToken = loginRes.getAuthToken();
         Logger.info("登录成功: {}", authToken);
+
+        Auth.ReqTokenAuth reqTokenAuth = Auth.ReqTokenAuth.newBuilder()
+                .setUid(loginRes.getUid())
+                .setToken(loginRes.getAuthToken())
+                .build();
+        soImSession.connect(clientConfig.getHost(), clientConfig.getPort(), reqTokenAuth);
     }
 
 }
