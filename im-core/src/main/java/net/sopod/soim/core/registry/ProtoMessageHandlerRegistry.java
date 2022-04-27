@@ -41,7 +41,7 @@ public class ProtoMessageHandlerRegistry {
         Collection<MessageHandler> handlers = beansOfType.values();
         for (MessageHandler<?> handler : handlers) {
             // 获取 handler 泛型
-            List<String> genericTypes = Reflects.getSuperclassGenericTypes(handler.getClass());
+            List<String> genericTypes = Reflects.getSuperClassGenericTypes(handler.getClass());
             try {
                 Class<?> type = genericTypes.size() == 0 ? Object.class : Class.forName(genericTypes.get(0));
                 MessageHandler<?> existHandler = TYPE_HANDLER_MAP.putIfAbsent(type, handler);

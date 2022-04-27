@@ -1,5 +1,7 @@
 package net.sopod.soim.client.logger;
 
+import net.sopod.soim.client.cmd.CmdStarter;
+
 /**
  * Logger
  *
@@ -21,7 +23,13 @@ public class Logger {
         for (int i = 0; i < args.length; i++) {
             args[i] = String.valueOf(args[i]);
         }
-        System.out.println(String.format(msg, args));
+        if ("main".equals(Thread.currentThread().getName())) {
+            System.out.println(String.format(msg, args));
+        } else {
+            // 其他线程异步打印
+            System.out.println(System.lineSeparator() + String.format(msg, args));
+            CmdStarter.printPre();
+        }
     }
 
     public static void pre(String pre) {

@@ -16,4 +16,8 @@ public class StringUtil {
         return (new UUID(random.nextLong(), random.nextLong())).toString().replace("-", "");
     }
 
+    public static boolean isEmpty(String content) {
+        return content == null || content.length() == 0;
+    }
+
 }

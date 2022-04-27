@@ -1,4 +1,4 @@
-package net.sopod.soim.client.handler;
+package net.sopod.soim.client.handler.cmd;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -35,17 +35,16 @@ public class LoginHandler implements CmdHandler<ArgsLogin> {
 
     @Override
     public void handleArgs(ArgsLogin args) {
-        Logger.info("login args: {}", args);
         HashMap<String, String> params = new HashMap<>();
         params.put("account", args.getAccount());
         params.put("password", args.getPassword());
+        Logger.info("登录中...");
         LoginResDTO loginRes = HttpClient.restPost(clientConfig.getLoginUrl(), params, LoginResDTO.class);
         if (!Boolean.TRUE.equals(loginRes.getSuccess())) {
             Logger.error("登录失败: {}", loginRes.getMessage());
             return;
         }
-        String authToken = loginRes.getAuthToken();
-        Logger.info("登录成功: {}", authToken);
+        Logger.info("登录成功: {}", loginRes.getUid());
 
         Auth.ReqTokenAuth reqTokenAuth = Auth.ReqTokenAuth.newBuilder()
                 .setUid(loginRes.getUid())

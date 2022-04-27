@@ -15,7 +15,7 @@ public abstract class NetUserMessageHandler<T> implements MessageHandler<T> {
     public final void exec(NetUser netUser, T msg) {
         MessageLite res = handle(netUser, msg);
         if (res != null) {
-            netUser.write(res);
+            netUser.writeNow(res);
         }
     }
 

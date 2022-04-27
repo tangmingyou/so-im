@@ -1,6 +1,7 @@
 package net.sopod.soim.entry.config;
 
 import lombok.Data;
+import net.sopod.soim.common.constant.AppConstant;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -17,12 +18,14 @@ import org.springframework.stereotype.Component;
 @Data
 public class EntryServerConfig {
 
-    private String name = "entry server";
+    private String name = AppConstant.APP_IM_ENTRY_NAME;
 
     /** entry 所在服务器 ip */
     private String ip = "127.0.0.1";
 
     private Integer port = 8088;
+
+    private String nacosAddr;
 
     /** 消息消费者线程数 */
     private Integer workerSize;

@@ -9,6 +9,6 @@ dubbo:
     address: nacos://124.222.131.236:3848
     group: so-im
   protocol:
-    port: 3002
+    port: 3004
   consumer:
     check: false

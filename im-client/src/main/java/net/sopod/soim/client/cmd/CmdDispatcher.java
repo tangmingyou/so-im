@@ -7,6 +7,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.logger.Logger;
+import net.sopod.soim.common.util.StringUtil;
 
 /**
  * CommandDispatcher
@@ -39,7 +40,9 @@ public class CmdDispatcher {
         if (args.length > 0) {
             System.arraycopy(cmdArgs, 1, args, 0, args.length);
         }
-
+        if (StringUtil.isEmpty(cmd)) {
+            return;
+        }
         CmdEnum cmdEnum = CmdEnum.getValue(cmd);
         if (cmdEnum == null) {
             Logger.error("未知指令: {}", cmd);

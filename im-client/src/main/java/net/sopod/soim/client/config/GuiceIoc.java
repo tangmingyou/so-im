@@ -2,6 +2,8 @@ package net.sopod.soim.client.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.google.inject.multibindings.Multibinder;
+import net.sopod.soim.client.session.MessageHandler;
 import org.reflections.Reflections;
 
 import java.util.Collections;
@@ -31,8 +33,15 @@ public class GuiceIoc extends AbstractModule {
      * guice 注册 bean
      */
     @Override
+    @SuppressWarnings("unchecked")
     protected void configure() {
         for (Class<?> beanType : this.beanTypes) {
+            if (MessageHandler.class.isAssignableFrom(beanType)) {
+                Multibinder.newSetBinder(binder(), MessageHandler.class)
+                        .addBinding()
+                        .to((Class<? extends MessageHandler>) beanType);
+                continue;
+            }
             bind(beanType);
         }
         // 注册后释放内存

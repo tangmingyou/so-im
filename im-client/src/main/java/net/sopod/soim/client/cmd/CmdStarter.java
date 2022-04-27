@@ -1,14 +1,14 @@
 package net.sopod.soim.client.cmd;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import net.sopod.soim.client.logger.Logger;
 
 import java.util.Scanner;
 
 /**
- * Args
+ * CmdStarter
+ * 命令启动器
  *
  * @author tmy
  * @date 2022-04-25 10:28
@@ -18,25 +18,38 @@ public class CmdStarter {
 
     private final CmdDispatcher cmdDispatcher;
 
+    private Scanner scanner;
+
     @Inject
     public CmdStarter(CmdDispatcher cmdDispatcher) {
         this.cmdDispatcher = cmdDispatcher;
     }
 
     public void start() {
-        Scanner scanner = new Scanner(System.in);
+        this.close();
+        this.scanner = new Scanner(System.in);
         Logger.pre("【client】: ");
-        while(scanner.hasNextLine()) {
-            String cmd = scanner.nextLine();
-            cmdDispatcher.dispatchCmd(cmd);
+        while(this.scanner.hasNextLine()) {
+            String cmd = this.scanner.nextLine();
+            this.cmdDispatcher.dispatchCmd(cmd);
+
+            // 退出
+            if (CmdEnum.exit.name().equals(cmd.split("[ \t]+")[0])) {
+                Logger.info("bye bye");
+                break;
+            }
             Logger.pre("【client】: ");
         }
-
-        scanner.close();
     }
 
-    public void exit() {
+    public void close() {
+        if (this.scanner != null) {
+            this.scanner.close();
+        }
+    }
 
+    public static void printPre() {
+        Logger.pre("【client】: ");
     }
 
 }

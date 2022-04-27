@@ -18,16 +18,12 @@ import net.sopod.soim.client.config.GuiceIoc;
 public class ClientMain {
 
     public static void main(String[] args) {
-//        ImNetClient client = new ImNetClient();
-//        client.connect("127.0.0.1", 8088);
-
         // 创建 ioc 容器
         GuiceIoc guiceIoc = new GuiceIoc(ClientMain.class);
         Injector injector = Guice.createInjector(Stage.PRODUCTION, guiceIoc);
 
         // 启动 cmd scanner
-        CmdStarter cmdStarter = injector.getInstance(CmdStarter.class);
-        cmdStarter.start();
+        injector.getInstance(CmdStarter.class).start();
     }
 
 }

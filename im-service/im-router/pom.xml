@@ -23,6 +23,11 @@
             <version>${soim.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-data</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions><!-- 去掉springboot默认logback日志配置 -->

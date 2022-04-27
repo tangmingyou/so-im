@@ -1,8 +1,8 @@
 package net.sopod.soim.client.cmd;
 
 import net.sopod.soim.client.cmd.handler.CmdHandler;
-import net.sopod.soim.client.handler.ExitHandler;
-import net.sopod.soim.client.handler.LoginHandler;
+import net.sopod.soim.client.handler.cmd.ExitHandler;
+import net.sopod.soim.client.handler.cmd.LoginHandler;
 
 /**
  * Commands

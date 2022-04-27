@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * ReqTokenAuthHandler
  * 连接用户携带 token 登录
  * 1.调用 token 校验解析服务获取用户信息
- *   1.1 存储用户信息、entry节点信息 到 router
+ *   1.1 存储用户信息、entry 节点信息 到 router
  * 2. entry channel attr(UserInfo) / return false, channel close
  *
  * return ResTokenAuth(success/false)
@@ -28,7 +28,10 @@ public class ReqTokenAuthHandler extends NetUserMessageHandler<Auth.ReqTokenAuth
     @Override
     public MessageLite handle(NetUser netUser, Auth.ReqTokenAuth msg) {
         logger.info("ReqTokenAuth: {}, {}", msg.getUid(), msg.getToken());
-        return null;
+        return Auth.ResTokenAuth.newBuilder()
+                .setSuccess(true)
+                .setMessage("OK")
+                .build();
     }
 
 }
