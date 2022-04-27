@@ -38,7 +38,9 @@ public class RegistryService {
         this.namingService = NacosFactory.createNamingService(properties);
 
         // 注册当前服务
-        this.namingService.registerInstance(AppConstant.APP_IM_ENTRY_REGISTRY_NAME,
+        this.namingService.registerInstance(
+                AppConstant.APP_IM_ENTRY_REGISTRY_NAME,
+                AppConstant.APP_REGISTRY_GROUP,
                 entryServerConfig.getIp(),
                 entryServerConfig.getPort()
         );
