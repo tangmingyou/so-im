@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * ReqTokenAuthHandler
- * 连接用户携带 token 登录
+ * 连接客户端携带 token 认证
  * 1.调用 token 校验解析服务获取用户信息
  *   1.1 存储用户信息、entry 节点信息 到 router
  * 2. entry channel attr(UserInfo) / return false, channel close
