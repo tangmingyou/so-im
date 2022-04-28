@@ -39,8 +39,10 @@ public class NetUserDelayTaskManager {
                         break;
                     }
                     NetUser netUser = delayTask.getNetUser();
-                    if (netUser != null && netUser.isActive()) {
-                        ProtoMessageDispatcher.dispatch(netUser, delayTask.getTaskMsg());
+                    if (netUser.isActive()) {
+                        // 延时任务执行时 NetUser 可能已升级为 Account
+                        NetUser curNetUser = netUser.channel().attr(NetUser.NET_USER_KEY).get();
+                        ProtoMessageDispatcher.dispatch(curNetUser, delayTask.getTaskMsg());
                     } else {
                         logger.info("delayTask netUser inactive, task cancel!");
                     }
@@ -68,11 +70,11 @@ public class NetUserDelayTaskManager {
 
     private static class DelayTask implements Delayed {
         // 如果 netUser 执行时不存在了，任务取消
-        private final WeakReference<NetUser> netUser;
+        private final NetUser netUser;
         private final MessageLite taskMsg;
         private final long time;
         public DelayTask(NetUser netUser, MessageLite taskMsg, long time) {
-            this.netUser = new WeakReference<>(netUser);
+            this.netUser = netUser;
             this.taskMsg = taskMsg;
             this.time = time;
         }
@@ -88,7 +90,7 @@ public class NetUserDelayTaskManager {
             return this.taskMsg;
         }
         public NetUser getNetUser() {
-            return netUser.get();
+            return netUser;
         }
     }
 

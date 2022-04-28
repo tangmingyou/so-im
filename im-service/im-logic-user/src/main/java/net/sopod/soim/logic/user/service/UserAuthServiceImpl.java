@@ -7,6 +7,8 @@ import net.sopod.soim.das.user.api.service.UserDasService;
 import net.sopod.soim.logic.user.auth.model.ImAuth;
 import net.sopod.soim.logic.user.auth.service.UserAuthService;
 import net.sopod.soim.logic.user.config.AuthConfig;
+import net.sopod.soim.router.api.model.CacheRes;
+import net.sopod.soim.router.api.service.UserEntryRegistryService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.util.StringUtils;
@@ -26,6 +28,9 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @DubboReference
     private UserDasService userDasService;
+
+    @DubboReference
+    private UserEntryRegistryService userEntryRegistryService;
 
     @Resource
     private AuthConfig authConfig;
@@ -51,6 +56,18 @@ public class UserAuthServiceImpl implements UserAuthService {
                 .setUid(imUser.getId())
                 .setExpireMs(ImClock.millis()
                         + TimeUnit.SECONDS.toMillis(authConfig.getAuthTokenExpire()));
+    }
+
+    @Override
+    public Boolean validateToken(String token, String imEntryAddr) {
+        TokenUtil.Payload payload = TokenUtil.validateAndParse(token);
+        if (payload == null) {
+            return Boolean.FALSE;
+        }
+        // 注册记录用户登录的 entry 节点
+        CacheRes cacheRes = userEntryRegistryService
+                .registryUserEntry(payload.getUserId(), imEntryAddr);
+        return cacheRes.getSuccess();
     }
 
 }

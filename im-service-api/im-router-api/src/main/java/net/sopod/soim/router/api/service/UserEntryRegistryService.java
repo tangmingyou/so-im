@@ -1,0 +1,29 @@
+package net.sopod.soim.router.api.service;
+
+import net.sopod.soim.logic.common.model.TextChat;
+import net.sopod.soim.router.api.model.CacheRes;
+import net.sopod.soim.logic.common.model.UserInfo;
+
+import java.util.List;
+
+/**
+ * AccountStoreService
+ * 缓存登录账号信息，entry 节点信息...
+ *
+ * @author tmy
+ * @date 2022-04-14 15:22
+ */
+public interface UserEntryRegistryService {
+
+    CacheRes registryUserEntry(Long uid, String imEntryAddr);
+
+    /**
+     * 查询在线用户列表
+     * @param keyword 查询关键字
+     * @return 用户列表
+     */
+    List<UserInfo> onlineUserList(String keyword);
+
+    Boolean routeTextChat(TextChat textChat);
+
+}

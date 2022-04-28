@@ -6,16 +6,6 @@ option java_outer_classname = "Auth";
 option java_package = "net.sopod.soim.data.msg.auth";
 // option objc_class_prefix = "DEMOSRV";
 
-message ReqLogin {
-  string account = 1;
-  string password = 2;
-}
-
-message ResLogin {
-  int32 code = 1;
-  string message = 2;
-}
-
 message ReqTokenAuth {
   int64 uid = 1;
   string token = 2;
@@ -24,4 +14,5 @@ message ReqTokenAuth {
 message ResTokenAuth {
   bool success = 1;
   string message = 2;
+  int64 uid = 3;
 }

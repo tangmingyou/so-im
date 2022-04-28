@@ -1,6 +1,9 @@
 package net.sopod.soim.logic.user.service;
 
 
+import net.sopod.soim.logic.common.model.UserInfo;
+
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -17,5 +20,9 @@ public interface UserService {
     CompletableFuture<String> sayHi(String name);
 
     String sayHello(String name);
+
+
+    List<UserInfo> onlineUserList(String keyword);
+
 
 }

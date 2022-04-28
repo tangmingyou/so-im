@@ -12,6 +12,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import net.sopod.soim.client.logger.Logger;
 import net.sopod.soim.core.net.ImMessageCodec;
 import net.sopod.soim.data.msg.auth.Auth;
+import net.sopod.soim.data.msg.chat.Chat;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,12 +36,17 @@ public class SoImSession {
 
     private final MessageDispatcher messageDispatcher;
 
+    private Long uid;
+
     @Inject
     public SoImSession(MessageDispatcher messageDispatcher) {
         this.messageDispatcher = messageDispatcher;
     }
 
     public void connect(String host, Integer port, Auth.ReqTokenAuth tokenAuth) {
+        // 关闭旧连接
+        this.close();
+
         eventLoopGroup = new NioEventLoopGroup(2);
         Bootstrap b = new Bootstrap()
                 .group(eventLoopGroup)
@@ -56,7 +62,7 @@ public class SoImSession {
         try {
             Logger.info("连接中...");
             clientChannel = b.connect(host, port).await().channel();
-            // 连接后立即发送认证消息
+            // 连接后立即发送认证消息，10s未认证连接关闭
             clientChannel.writeAndFlush(tokenAuth);
         } catch (Exception e) {
             Logger.error("连接服务器失败: {}", e.getMessage());
@@ -66,20 +72,15 @@ public class SoImSession {
     /**
      * 处理登录认证结果
      */
-    public void authResult(boolean success, String message) {
+    public void authResult(boolean success, String message, Long uid) {
         this.auth.set(success);
         if (this.auth.get()) {
             Logger.info("连接服务器成功");
+            this.uid = uid;
             return;
         }
         Logger.info("连接服务器失败: {}", message);
         this.close();
-    }
-
-    public void authSuccess() {
-        // token 认证成功，连接建立
-        this.auth.set(true);
-        Logger.info("连接服务器成功");
     }
 
     /**
@@ -95,7 +96,20 @@ public class SoImSession {
             Logger.error("连接已关闭");
             return;
         }
-        clientChannel.write(message);
+        clientChannel.writeAndFlush(message);
+    }
+
+    public void textChat(String receiverName, String message) {
+        Chat.TextChat textChat = Chat.TextChat.newBuilder()
+                .setMessage(message)
+                .setReceiverAccount(receiverName)
+                .setSender(uid)
+                .build();
+        send(textChat);
+    }
+
+    public void textChat(Chat.TextChat textChat) {
+        this.send(textChat);
     }
 
     /**
@@ -103,13 +117,11 @@ public class SoImSession {
      */
     public void close() {
         if (clientChannel != null) {
-            if (this.clientChannel.isActive()) {
-                try {
-                    clientChannel.close().await();
-                    Logger.info("连接已关闭");
-                } catch (InterruptedException e) {
-                    Logger.error("连接关闭失败: {}", e.getMessage());
-                }
+            try {
+                clientChannel.close().await();
+                Logger.info("连接已关闭");
+            } catch (InterruptedException e) {
+                Logger.error("连接关闭失败: {}", e.getMessage());
             }
             this.clientChannel = null;
         }

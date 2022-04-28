@@ -1,0 +1,20 @@
+syntax="proto3";
+package proto;
+
+option java_multiple_files = false;
+option java_outer_classname = "Chat";
+option java_package = "net.sopod.soim.data.msg.chat";
+
+// 文本聊天消息
+message TextChat {
+  // 发送者uid
+  int64 sender = 1;
+  // 接收者uid
+  int64 receiver = 2;
+  // 文本消息内容
+  string message = 3;
+  // 发送时间
+  int64 time = 4;
+  // 接收者账号
+  string receiverAccount = 5;
+}

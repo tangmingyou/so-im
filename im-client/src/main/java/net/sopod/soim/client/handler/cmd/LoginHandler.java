@@ -2,7 +2,7 @@ package net.sopod.soim.client.handler.cmd;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.sopod.soim.client.cmd.ArgsLogin;
+import net.sopod.soim.client.cmd.args.ArgsLogin;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.config.ClientConfig;
 import net.sopod.soim.client.logger.Logger;

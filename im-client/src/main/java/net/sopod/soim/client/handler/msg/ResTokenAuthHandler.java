@@ -20,7 +20,7 @@ public class ResTokenAuthHandler implements MessageHandler<Auth.ResTokenAuth> {
 
     @Override
     public void handleMsg(Auth.ResTokenAuth msg) {
-        soImSession.authResult(msg.getSuccess(), msg.getMessage());
+        soImSession.authResult(msg.getSuccess(), msg.getMessage(), msg.getUid());
     }
 
 }

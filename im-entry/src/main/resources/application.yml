@@ -7,9 +7,11 @@ dubbo:
   registry:
     address: nacos://124.222.131.236:3848
     group: so-im
-  provider:
-    # register: false # 不向注册中心注册服务
-    protocol: injvm # 服务提供只供jvm内部使用, 不暴露在外面 (不启动dubbo provider服务)
+  protocol:
+    name: dubbo
+  # provider:
+    # protocol: injvm # 服务提供只供jvm内部使用, 不暴露在外面 (不启动dubbo provider服务)
+    port: 3008
   consumer:
     check: false
 

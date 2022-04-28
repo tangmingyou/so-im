@@ -19,6 +19,8 @@
         <module>im-service</module>
         <module>im-service-api</module>
         <module>im-entry-http</module>
+        <module>im-service-api/im-logic-common</module>
+        <module>im-service-api/im-entry-api</module>
     </modules>
 
     <properties>

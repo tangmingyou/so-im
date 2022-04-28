@@ -3,6 +3,8 @@ package net.sopod.soim.client.cmd;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.handler.cmd.ExitHandler;
 import net.sopod.soim.client.handler.cmd.LoginHandler;
+import net.sopod.soim.client.handler.cmd.SendHandler;
+import net.sopod.soim.client.handler.cmd.UsersHandler;
 
 /**
  * Commands
@@ -16,10 +18,10 @@ public enum CmdEnum {
     login(LoginHandler.class),
 
     /** 发送消息 */
-    send,
+    send(SendHandler.class),
 
-    /** 用户列表 */
-    users,
+    /** 在线用户列表 */
+    users(UsersHandler.class),
 
     /** 用户分组列表 */
     groups,

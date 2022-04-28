@@ -19,12 +19,17 @@
         </dependency>
         <dependency>
             <groupId>net.sopod</groupId>
-            <artifactId>im-common</artifactId>
+            <artifactId>im-entry-api</artifactId>
             <version>${soim.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sopod</groupId>
             <artifactId>im-data</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-das-user-api</artifactId>
             <version>${soim.version}</version>
         </dependency>
         <dependency>

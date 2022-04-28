@@ -19,7 +19,7 @@ public abstract class AccountMessageHandler<T> implements MessageHandler<T> {
         }
         MessageLite res = handle((Account) netUser, msg);
         if (res != null) {
-            netUser.write(res);
+            netUser.writeNow(res);
         }
     }
 

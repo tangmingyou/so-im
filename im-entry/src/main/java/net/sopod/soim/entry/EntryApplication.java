@@ -14,15 +14,15 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @date 2022-03-26 00:06
  */
 @SpringBootApplication
-@EnableDubbo
+@EnableDubbo(scanBasePackages = {"net.sopod.soim.entry.service"})
 public class EntryApplication {
 
     public static void main(String[] args) throws NacosException {
-        ConfigurableApplicationContext context = SpringApplication.run(EntryApplication.class, args);
+        SpringApplication.run(EntryApplication.class, args);
 
         // 注册 im-entry 服务
-        RegistryService registryService = context.getBean(RegistryService.class);
-        registryService.registryImEntry();
+//        RegistryService registryService = context.getBean(RegistryService.class);
+//        registryService.registryImEntry();
     }
 
 }

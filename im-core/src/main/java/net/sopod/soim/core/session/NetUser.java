@@ -25,6 +25,10 @@ public class NetUser {
         return chan != null && chan.isActive();
     }
 
+    public Channel channel() {
+        return this.channel.get();
+    }
+
     /**
      * 登录后设置为账号
      */

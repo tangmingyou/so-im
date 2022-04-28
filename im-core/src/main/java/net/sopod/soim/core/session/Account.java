@@ -10,13 +10,13 @@ public class Account extends NetUser {
 
     // public static final AttributeKey<Account> ACCOUNT_KEY = AttributeKey.valueOf(Account.class, "ACCOUNT");
 
-    private final long accountId;
+    private final long uid;
 
     private final String name;
 
-    Account(NetUser netUser, long accountId, String name) {
+    Account(NetUser netUser, long uid, String name) {
         super(netUser.channel.get());
-        this.accountId = accountId;
+        this.uid = uid;
         this.name = name;
     }
 
@@ -30,8 +30,8 @@ public class Account extends NetUser {
         logger.warn("account can not upgrade as account again!");
     }
 
-    public long getAccountId() {
-        return accountId;
+    public long getUid() {
+        return uid;
     }
 
     public String getName() {
@@ -39,7 +39,7 @@ public class Account extends NetUser {
     }
 
     public static class AccountBuilder {
-        private long accountId;
+        private long uid;
         private String name;
         private NetUser netUser;
         public static AccountBuilder newBuilder() {
@@ -49,8 +49,8 @@ public class Account extends NetUser {
             this.netUser = netUser;
             return this;
         }
-        public AccountBuilder setAccountId(long accountId) {
-            this.accountId = accountId;
+        public AccountBuilder setUid(long uid) {
+            this.uid = uid;
             return this;
         }
         public AccountBuilder setName(String name) {
@@ -60,7 +60,7 @@ public class Account extends NetUser {
         public Account build() {
             Preconditions.checkNotNull(netUser);
             Preconditions.checkNotNull(name);
-            return new Account(netUser, accountId, name);
+            return new Account(netUser, uid, name);
         }
     }
 

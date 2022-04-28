@@ -1,0 +1,21 @@
+syntax="proto3";
+package proto;
+
+option java_multiple_files = false;
+option java_outer_classname = "UserGroup";
+option java_package = "net.sopod.soim.data.msg.user";
+
+// 请求在线用户列表
+message ReqOnlineUserList {
+  string keyword = 2; // 搜索关键字
+}
+
+// 响应在线用户列表
+message ResOnlineUserList {
+  repeated UserInfo users = 2; // 查询用户列表
+}
+
+message UserInfo {
+  int64 uid = 1;
+  string account = 2;
+}

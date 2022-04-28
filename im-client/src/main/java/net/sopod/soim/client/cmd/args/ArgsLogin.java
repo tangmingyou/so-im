@@ -1,4 +1,4 @@
-package net.sopod.soim.client.cmd;
+package net.sopod.soim.client.cmd.args;
 
 import com.beust.jcommander.Parameter;
 import lombok.Data;

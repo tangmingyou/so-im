@@ -2,6 +2,8 @@ package net.sopod.soim.router.api.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * CacheRes
  *
@@ -9,7 +11,9 @@ import lombok.Data;
  * @date 2022-04-14 15:13
  */
 @Data
-public class CacheRes {
+public class CacheRes implements Serializable {
+
+    private static final long serialVersionUID = 9177226473430528772L;
 
     /**
      * 是否缓存成功

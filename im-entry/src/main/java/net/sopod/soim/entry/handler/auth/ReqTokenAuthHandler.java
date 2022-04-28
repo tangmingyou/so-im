@@ -2,11 +2,18 @@ package net.sopod.soim.entry.handler.auth;
 
 import com.google.protobuf.MessageLite;
 import net.sopod.soim.core.handler.NetUserMessageHandler;
+import net.sopod.soim.core.session.Account;
 import net.sopod.soim.core.session.NetUser;
 import net.sopod.soim.data.msg.auth.Auth;
+import net.sopod.soim.entry.config.EntryServerConfig;
+import net.sopod.soim.entry.server.AccountRegistry;
+import net.sopod.soim.logic.user.auth.service.UserAuthService;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * ReqTokenAuthHandler
@@ -25,12 +32,43 @@ public class ReqTokenAuthHandler extends NetUserMessageHandler<Auth.ReqTokenAuth
 
     private static final Logger logger = LoggerFactory.getLogger(ReqTokenAuthHandler.class);
 
+    @DubboReference
+    private UserAuthService userAuthService;
+
+    @Resource
+    private EntryServerConfig entryServerConfig;
+
+    @Resource
+    private AccountRegistry accountRegistry;
+
     @Override
     public MessageLite handle(NetUser netUser, Auth.ReqTokenAuth msg) {
-        logger.info("ReqTokenAuth: {}, {}", msg.getUid(), msg.getToken());
+        logger.info("ReqTokenAuth: uid={}", msg.getUid());
+        // 校验 token
+        Boolean isValid = userAuthService.validateToken(msg.getToken(),
+                entryServerConfig.getIp() + ":" + entryServerConfig.getPort());
+
+        if (!Boolean.TRUE.equals(isValid)) {
+            return Auth.ResTokenAuth.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("token校验失败,请重新登录")
+                    .build();
+        }
+        // 将连接升级为账户
+        Account account = Account.AccountBuilder.newBuilder()
+                .setNetUser(netUser)
+                .setUid(msg.getUid())
+                .setName("") // TODO 账户名处理
+                .build();
+        netUser.upgradeAccount(account);
+
+        // 记录登录账户
+        accountRegistry.put(account);
+
         return Auth.ResTokenAuth.newBuilder()
                 .setSuccess(true)
                 .setMessage("OK")
+                .setUid(msg.getUid())
                 .build();
     }
 

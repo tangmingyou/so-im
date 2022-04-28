@@ -5,13 +5,17 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.Attribute;
+import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.core.handler.MessageHandler;
 import net.sopod.soim.core.net.AttributeKeys;
 import net.sopod.soim.core.registry.ProtoMessageHandlerRegistry;
 import net.sopod.soim.core.session.NetUser;
+import net.sopod.soim.data.msg.task.Tasks;
+import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
 import net.sopod.soim.entry.worker.Worker;
 import net.sopod.soim.entry.worker.WorkerGroup;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -29,9 +33,16 @@ public class InboundImMessageHandler extends SimpleChannelInboundHandler<Message
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        channel.attr(NetUser.NET_USER_KEY).set(new NetUser(channel));
+        NetUser netUser = new NetUser(channel);
+        channel.attr(NetUser.NET_USER_KEY).set(netUser);
         channel.attr(AttributeKeys.WRITE_FAIL_TIMES).set(new AtomicInteger());
         channel.attr(AttributeKeys.LOGIN_FAIL_TIMES).set(new AtomicInteger());
+
+        // 倒计时 10s 未登录断开连接, 登录失败次数
+        Tasks.NetUserDelayCloseTask taskMsg = Tasks.NetUserDelayCloseTask.newBuilder()
+                .setTime(ImClock.millis())
+                .build();
+        NetUserDelayTaskManager.addTask(netUser, taskMsg, 10, TimeUnit.SECONDS);
 
         ctx.fireChannelActive();
     }

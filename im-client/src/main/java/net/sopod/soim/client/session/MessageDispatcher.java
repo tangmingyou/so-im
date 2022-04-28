@@ -37,17 +37,17 @@ public class MessageDispatcher extends SimpleChannelInboundHandler<MessageLite> 
     }
 
     private void registryHandlers(Set<MessageHandler> handlers) {
+        Map<Class<?>, MessageHandler> msgHandlers = new HashMap<>();
         for (MessageHandler<?> handler : handlers) {
             List<String> msgTypes = Reflects.getSuperInterfaceGenericTypes(handler.getClass());
-            Map<Class<?>, MessageHandler> msgHandlers = new HashMap<>();
             try {
                 Class<?> msgType = msgTypes.size() == 0 ? Object.class : Class.forName(msgTypes.get(0));
                 msgHandlers.put(msgType, handler);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            this.msgHandlers = msgHandlers;
         }
+        this.msgHandlers = msgHandlers;
     }
 
 }

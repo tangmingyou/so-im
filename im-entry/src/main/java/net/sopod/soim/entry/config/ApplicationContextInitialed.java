@@ -17,6 +17,8 @@ public class ApplicationContextInitialed implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        ContextHolder.setContext(applicationContext);
+
         // 注册 protobuf 消息 handler
         ProtoMessageHandlerRegistry.registerHandlerWithApplicationContext(applicationContext);
     }
