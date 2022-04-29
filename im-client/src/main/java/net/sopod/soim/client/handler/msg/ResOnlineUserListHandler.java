@@ -5,6 +5,9 @@ import net.sopod.soim.client.logger.Logger;
 import net.sopod.soim.client.session.MessageHandler;
 import net.sopod.soim.data.msg.user.UserGroup;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * ResOnlineUserListHandler
  *
@@ -16,10 +19,10 @@ public class ResOnlineUserListHandler implements MessageHandler<UserGroup.ResOnl
 
     @Override
     public void handleMsg(UserGroup.ResOnlineUserList msg) {
-        Logger.info("-------在线用户--------");
-        for (UserGroup.UserInfo user : msg.getUsersList()) {
-            Logger.info("{} | {}", user.getUid(), user.getAccount());
-        }
+        List<String> userLines = msg.getUsersList().stream()
+                .map(user -> user.getUid() + " | " + user.getAccount())
+                .collect(Collectors.toList());
+        Logger.logList("在线用户", userLines);
     }
 
 }

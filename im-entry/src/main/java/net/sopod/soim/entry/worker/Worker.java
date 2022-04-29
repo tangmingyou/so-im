@@ -5,6 +5,8 @@ import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.entry.util.FastThreadLocalThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.*;
 
@@ -12,6 +14,8 @@ import java.util.concurrent.*;
  * dispatch -> worker * core_num -> disruptor 队列执行
  */
 public class Worker implements EventHandler<TaskEvent>, EventFactory<TaskEvent> {
+
+    private static final Logger logger = LoggerFactory.getLogger(Worker.class);
 
     private Disruptor<TaskEvent> disruptor;
 
@@ -54,11 +58,15 @@ public class Worker implements EventHandler<TaskEvent>, EventFactory<TaskEvent> 
 
     @Override
     public void onEvent(TaskEvent taskEvent, long sequence, boolean endOfBatch) throws Exception {
-        long start = ImClock.millis();
-        taskEvent.getTask().run();
-        long time = ImClock.millis() - start;
-        if (time > 100) {
-            System.out.println("任务执行时间过长:" + time);
+        try {
+            long start = ImClock.millis();
+            taskEvent.getTask().run();
+            long time = ImClock.millis() - start;
+            if (time > 100) {
+                logger.info("任务执行时间过长: {}", time);
+            }
+        } catch (Exception e) {
+            logger.error("任务执行失败:", e);
         }
         // 事件对象不会释放，将数据置空
         taskEvent.setTask(null);
