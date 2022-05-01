@@ -1,7 +1,7 @@
 package net.sopod.soim.entry.handler.task;
 
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.core.handler.NetUserMessageHandler;
+import net.sopod.soim.entry.handler.NetUserMessageHandler;
 import net.sopod.soim.core.session.NetUser;
 import net.sopod.soim.data.msg.task.Tasks;
 import org.springframework.stereotype.Service;

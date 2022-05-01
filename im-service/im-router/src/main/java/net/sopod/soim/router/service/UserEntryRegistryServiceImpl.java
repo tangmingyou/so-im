@@ -10,6 +10,7 @@ import net.sopod.soim.router.api.model.CacheRes;
 import net.sopod.soim.router.api.model.RouterUser;
 import net.sopod.soim.logic.common.model.UserInfo;
 import net.sopod.soim.router.api.service.UserEntryRegistryService;
+import net.sopod.soim.router.util.ServerContext;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
@@ -56,6 +57,8 @@ public class UserEntryRegistryServiceImpl implements UserEntryRegistryService {
 
 
     public List<UserInfo> onlineUserList(String keyword) {
+        logger.info("client context uid: {}", ServerContext.getContextUid());
+
         Stream<RouterUser> stream = uidImEntryStore.values().stream();
         if (!StringUtil.isEmpty(keyword)) {
             // 根据关键词过滤

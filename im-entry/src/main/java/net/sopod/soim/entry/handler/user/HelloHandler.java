@@ -1,12 +1,10 @@
-package net.sopod.soim.entry.handler;
+package net.sopod.soim.entry.handler.user;
 
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.core.handler.AccountMessageHandler;
-import net.sopod.soim.core.handler.NetUserMessageHandler;
 import net.sopod.soim.core.session.Account;
-import net.sopod.soim.core.session.NetUser;
 import net.sopod.soim.data.msg.hello.HelloPB;
 import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
+import net.sopod.soim.entry.handler.AccountMessageHandler;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
 import net.sopod.soim.logic.user.service.UserService;
 import org.apache.dubbo.config.annotation.DubboReference;

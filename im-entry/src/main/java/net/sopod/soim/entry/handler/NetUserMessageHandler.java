@@ -1,6 +1,7 @@
-package net.sopod.soim.core.handler;
+package net.sopod.soim.entry.handler;
 
 import com.google.protobuf.MessageLite;
+import net.sopod.soim.core.handler.MessageHandler;
 import net.sopod.soim.core.session.NetUser;
 
 /**

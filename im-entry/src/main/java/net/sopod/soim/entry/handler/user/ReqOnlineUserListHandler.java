@@ -1,12 +1,14 @@
 package net.sopod.soim.entry.handler.user;
 
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.core.handler.AccountMessageHandler;
 import net.sopod.soim.core.session.Account;
 import net.sopod.soim.data.msg.user.UserGroup;
-import net.sopod.soim.logic.user.service.UserService;
+import net.sopod.soim.entry.handler.AccountMessageHandler;
 import net.sopod.soim.logic.common.model.UserInfo;
+import net.sopod.soim.logic.user.service.UserService;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +23,15 @@ import java.util.stream.Collectors;
 @Service
 public class ReqOnlineUserListHandler extends AccountMessageHandler<UserGroup.ReqOnlineUserList> {
 
+    private static final Logger logger = LoggerFactory.getLogger(ReqOnlineUserListHandler.class);
+
     @DubboReference
     private UserService userService;
 
     @Override
     public MessageLite handle(Account account, UserGroup.ReqOnlineUserList msg) {
         List<UserInfo> userInfos = userService.onlineUserList(msg.getKeyword());
+
         List<UserGroup.UserInfo> resUserInfos = userInfos.stream().map(user -> UserGroup.UserInfo.newBuilder()
                 .setUid(user.getUid())
                 .setAccount(user.getAccount())

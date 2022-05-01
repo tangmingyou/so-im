@@ -1,7 +1,7 @@
 package net.sopod.soim.entry.handler.auth;
 
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.core.handler.NetUserMessageHandler;
+import net.sopod.soim.entry.handler.NetUserMessageHandler;
 import net.sopod.soim.core.session.Account;
 import net.sopod.soim.core.session.NetUser;
 import net.sopod.soim.data.msg.auth.Auth;
@@ -44,7 +44,8 @@ public class ReqTokenAuthHandler extends NetUserMessageHandler<Auth.ReqTokenAuth
     @Override
     public MessageLite handle(NetUser netUser, Auth.ReqTokenAuth msg) {
         logger.info("ReqTokenAuth: uid={}", msg.getUid());
-        // 校验 token
+        // 校验 token，
+        // TODO 更新 router 状态成功后再升级为 account，主动关闭时发送一个消息到客户端，校验错误/超时
         Boolean isValid = userAuthService.validateToken(msg.getToken(),
                 entryServerConfig.getIp() + ":" + entryServerConfig.getPort());
 

@@ -1,5 +1,6 @@
 package net.sopod.soim.logic.user.service;
 
+import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.TokenUtil;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
@@ -11,6 +12,7 @@ import net.sopod.soim.router.api.model.CacheRes;
 import net.sopod.soim.router.api.service.UserEntryRegistryService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -65,6 +67,8 @@ public class UserAuthServiceImpl implements UserAuthService {
             return Boolean.FALSE;
         }
         // 注册记录用户登录的 entry 节点
+        RpcContext.getServiceContext()
+                .setAttachment(DubboConstant.CTX_UID, String.valueOf(payload.getUserId()));
         CacheRes cacheRes = userEntryRegistryService
                 .registryUserEntry(payload.getUserId(), imEntryAddr);
         return cacheRes.getSuccess();

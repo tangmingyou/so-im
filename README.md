@@ -1,3 +1,18 @@
+TODO 
+- router -> entry 负载均衡
+- router 新增节点顺时针相邻节点数据一致性哈希迁移
+- router 冗余节点存储数据不提供服务
+- dubbo 服务异步处理吞吐量
+- das 消息队列异步写
+- 功能开发：
+    - 消息群发
+    - 好友列表(在线状态:批量uid一致性hash, router查询)
+    - 聊天记录查询
+- 集群部署, docker swarm, k8s, jenkens
+- 服务监控
+
+
+模块列表
 - 接入层 entry
 - 逻辑层 logic
 - 内存存储层 router

@@ -1,11 +1,14 @@
-package net.sopod.soim.core.handler;
+package net.sopod.soim.entry.handler;
 
 import com.google.protobuf.MessageLite;
+import net.sopod.soim.core.handler.MessageHandler;
 import net.sopod.soim.core.session.Account;
 import net.sopod.soim.core.session.NetUser;
+import org.apache.dubbo.rpc.RpcContext;
 
 /**
  * AccountMessageHandler
+ * 每次调用服务前
  *
  * @author tmy
  * @date 2022-04-10 23:41

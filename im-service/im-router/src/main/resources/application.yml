@@ -20,8 +20,8 @@ dubbo:
     group: so-im
   protocol:
     name: dubbo
-    port: 3032
+    port: 3033
   consumer:
     check: false
   provider:
-    loadbalance: consistenthash
+    loadbalance: im_route_consistent_hash

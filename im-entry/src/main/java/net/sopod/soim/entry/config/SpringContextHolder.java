@@ -8,12 +8,12 @@ import org.springframework.context.ApplicationContext;
  * @author tmy
  * @date 2022-04-28 15:06
  */
-public class ContextHolder {
+public class SpringContextHolder {
 
     private static ApplicationContext applicationContext;
 
     public static void setContext(ApplicationContext applicationContext) {
-        ContextHolder.applicationContext = applicationContext;
+        SpringContextHolder.applicationContext = applicationContext;
     }
 
     public static <T> T getBean(Class<T> beanType) {

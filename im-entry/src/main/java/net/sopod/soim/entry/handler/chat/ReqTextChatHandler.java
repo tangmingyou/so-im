@@ -1,7 +1,7 @@
 package net.sopod.soim.entry.handler.chat;
 
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.core.handler.AccountMessageHandler;
+import net.sopod.soim.entry.handler.AccountMessageHandler;
 import net.sopod.soim.core.session.Account;
 import net.sopod.soim.data.msg.chat.Chat;
 import net.sopod.soim.logic.common.model.TextChat;

@@ -1,0 +1,1 @@
+pre_invoke_filter=net.sopod.soim.entry.config.DubboPreInvokeFilter
