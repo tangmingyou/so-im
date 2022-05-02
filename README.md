@@ -5,11 +5,14 @@ TODO
 - dubbo 服务异步处理吞吐量
 - das 消息队列异步写
 - 功能开发：
-    - 消息群发
+    - 消息群发(im-router 群消息路由,批量uid一致性哈希路由)
     - 好友列表(在线状态:批量uid一致性hash, router查询)
     - 聊天记录查询
+    - 异/同设备，多地登录
 - 集群部署, docker swarm, k8s, jenkens
 - 服务监控
+- websocket 网关
+- 考虑 dubbo 使用 grpc service
 
 
 模块列表

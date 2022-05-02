@@ -22,4 +22,6 @@ public class RouterUser {
     /** 在线时间戳 */
     private long onlineTime;
 
+    private String imEntryAddr;
+
 }

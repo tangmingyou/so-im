@@ -12,3 +12,6 @@ dubbo:
     port: 3004
   consumer:
     check: false
+  provider:
+    retries: 0
+    timeout: 2000

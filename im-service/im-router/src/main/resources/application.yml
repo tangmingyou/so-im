@@ -20,8 +20,11 @@ dubbo:
     group: so-im
   protocol:
     name: dubbo
-    port: 3033
+    port: 3032
   consumer:
     check: false
+    # filter: invoke_im_entry_filter
   provider:
     loadbalance: im_route_consistent_hash
+    retries: 0 # 这里服务重试时会路由到非uid所在对应im-router
+    timeout: 2000

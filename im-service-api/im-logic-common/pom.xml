@@ -11,5 +11,18 @@
 
     <artifactId>im-logic-common</artifactId>
 
+    <dependencies>
+        <dependency>
+            <artifactId>im-common</artifactId>
+            <groupId>net.sopod</groupId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-cluster</artifactId>
+            <version>${dubbo.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

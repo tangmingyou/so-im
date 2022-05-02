@@ -13,4 +13,14 @@ public interface DubboConstant {
      */
     String CTX_UID = "uid";
 
+    /**
+     * 请求 im-entry 服务地址
+     */
+    String IM_ENTRY_ADDR = "entry_addr";
+
+    /**
+     * im-entry 服务接口前缀
+     */
+    String IM_ENTRY_SERVICE_API_PACK = "net.sopod.soim.entry.api.service";
+
 }

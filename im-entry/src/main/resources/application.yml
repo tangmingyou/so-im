@@ -9,12 +9,20 @@ dubbo:
     group: so-im
   protocol:
     name: dubbo
+    # 启动参数 -DDUBBO_IP_TO_REGISTRY=192.168.51.7 或环境变量指定服务注册ip
+    # host: 192.168.56.8 # 规则 NetUtil.isInvalidLocalHost,不能是127.x、localhost本机ip
   # provider:
     # protocol: injvm # 服务提供只供jvm内部使用, 不暴露在外面 (不启动dubbo provider服务)
-    port: 3008
+    port: 3009
   consumer:
     check: false
     filter: pre_invoke_filter
+  provider:
+    listener: im_entry_export_listener
+    loadbalance: im_entry_loadbalance
+    timeout: 2000
+    retries: 0
 
 entry-server:
   nacos-addr: 124.222.131.236:3848
+  port: 8089

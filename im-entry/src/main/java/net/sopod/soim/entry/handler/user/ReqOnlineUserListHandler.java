@@ -5,7 +5,7 @@ import net.sopod.soim.core.session.Account;
 import net.sopod.soim.data.msg.user.UserGroup;
 import net.sopod.soim.entry.handler.AccountMessageHandler;
 import net.sopod.soim.logic.common.model.UserInfo;
-import net.sopod.soim.logic.user.service.UserService;
+import net.sopod.soim.logic.user.service.UserBizService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +26,11 @@ public class ReqOnlineUserListHandler extends AccountMessageHandler<UserGroup.Re
     private static final Logger logger = LoggerFactory.getLogger(ReqOnlineUserListHandler.class);
 
     @DubboReference
-    private UserService userService;
+    private UserBizService userBizService;
 
     @Override
     public MessageLite handle(Account account, UserGroup.ReqOnlineUserList msg) {
-        List<UserInfo> userInfos = userService.onlineUserList(msg.getKeyword());
+        List<UserInfo> userInfos = userBizService.onlineUserList(msg.getKeyword());
 
         List<UserGroup.UserInfo> resUserInfos = userInfos.stream().map(user -> UserGroup.UserInfo.newBuilder()
                 .setUid(user.getUid())

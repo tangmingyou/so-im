@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022-04-10 22:20
  */
 @Configuration
-public class SpringContextInitialed implements ApplicationContextAware {
+public class SpringApplicationContextInitialed implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringContextHolder.setContext(applicationContext);
+        ApplicationContextHolder.setContext(applicationContext);
 
         // 注册 protobuf 消息 handler
         ProtoMessageHandlerRegistry.registerHandlerWithApplicationContext(applicationContext);

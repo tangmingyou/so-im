@@ -64,4 +64,13 @@ public class Account extends NetUser {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "uid=" + uid +
+                ", name='" + name + '\'' +
+                ", channel=" + channel +
+                '}';
+    }
+
 }

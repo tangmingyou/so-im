@@ -1,0 +1,1 @@
+im_entry_export_listener=net.sopod.soim.entry.config.DubboImEntryExporterListener

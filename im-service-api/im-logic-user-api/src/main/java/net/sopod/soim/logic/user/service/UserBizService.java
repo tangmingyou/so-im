@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
  * @author tmy
  * @date 2022-03-27 22:42
  */
-public interface UserService {
+public interface UserBizService {
 
     /**
      * 异步接口测试

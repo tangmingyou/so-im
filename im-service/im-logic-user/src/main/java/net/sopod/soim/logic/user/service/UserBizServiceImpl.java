@@ -18,9 +18,9 @@ import java.util.concurrent.CompletableFuture;
  * @date 2022-04-04 10:03
  */
 @DubboService
-public class UserServiceImpl implements UserService {
+public class UserBizServiceImpl implements UserBizService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserBizServiceImpl.class);
 
     @DubboReference
     private UserEntryRegistryService userEntryRegistryService;
@@ -37,8 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> onlineUserList(String keyword) {
-        logger.info("client context uid: {}", RpcContext.getClientAttachment().getAttachment("uid"));
-        logger.info("server context uid: {}", RpcContext.getServerAttachment().getAttachment("uid"));
+        logger.info("service context uid: {}", RpcContext.getServiceContext().getAttachment("uid"));
         return userEntryRegistryService.onlineUserList(keyword);
     }
 

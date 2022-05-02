@@ -1,11 +1,13 @@
 package net.sopod.soim.logic.user.service;
 
+import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.UserDasService;
 import net.sopod.soim.logic.common.model.TextChat;
 import net.sopod.soim.router.api.service.UserEntryRegistryService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.rpc.RpcContext;
 
 import java.util.Objects;
 
@@ -28,12 +30,13 @@ public class ChatServiceImpl implements ChatService {
     public Boolean textChat(TextChat textChat) {
         if (textChat.getReceiverUid() == null
                 || Objects.equals(textChat.getReceiverUid(), 0L)) {
-            ImUser imUser = userDasService.getNormalUserByAccount(textChat.getReceiverName());
-            if (imUser == null) {
+            ImUser receiverUser = userDasService.getNormalUserByAccount(textChat.getReceiverName());
+            if (receiverUser == null) {
                 return false;
             }
-            textChat.setReceiverUid(imUser.getId());
+            textChat.setReceiverUid(receiverUser.getId());
         }
+        RpcContext.getServiceContext().setAttachment(DubboConstant.CTX_UID, String.valueOf(textChat.getReceiverUid()));
         return userEntryRegistryService.routeTextChat(textChat);
     }
 

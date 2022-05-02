@@ -6,7 +6,7 @@ import net.sopod.soim.data.msg.hello.HelloPB;
 import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
 import net.sopod.soim.entry.handler.AccountMessageHandler;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
-import net.sopod.soim.logic.user.service.UserService;
+import net.sopod.soim.logic.user.service.UserBizService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.rpc.RpcContext;
@@ -30,7 +30,7 @@ public class HelloHandler extends AccountMessageHandler<HelloPB.Hello> {
     private static final Logger logger = LoggerFactory.getLogger(HelloHandler.class);
 
     @DubboReference(methods = {@Method(name = "sayHello", async = true)})
-    private UserService userService;
+    private UserBizService userBizService;
 
     @Autowired
     private SegmentIdGenerator segmentIdGenerator;
@@ -39,11 +39,11 @@ public class HelloHandler extends AccountMessageHandler<HelloPB.Hello> {
     public MessageLite handle(Account account, HelloPB.Hello msg) {
         logger.info("get hello message: {}", segmentIdGenerator.nextId("im-entry-hello"));
         logger.info("msg={}, {}", msg.getId(), msg.getStr());
-        CompletableFuture<String> hi = userService.sayHi("黄绿");
+        CompletableFuture<String> hi = userBizService.sayHi("黄绿");
         hi.whenComplete((res, err) -> {
            logger.info("async hi, {}", res);
         });
-        String hello = userService.sayHello("lastJet");
+        String hello = userBizService.sayHello("lastJet");
         logger.info("hello:{}", hello);
         RpcContext.getServiceContext().getCompletableFuture().whenComplete((res, err) -> {
             logger.info("async sayHello, {}", res);
