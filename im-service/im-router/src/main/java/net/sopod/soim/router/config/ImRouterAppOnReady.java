@@ -81,8 +81,9 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
      * 2.计算所有需要迁移数据的节点，当前虚拟节点的顺时针临近节点
      * 3.依次调用数据迁移节点，分页拉取router缓存用户数据（如有数据节点获取失败，探测是否可用，不可用从第1步重新开始；）
      *   如已拉取数据有更新需要双写？？[CGLib], 服务注册前需要被调用，开netty http服务与dubbo服务端口偏移量1000
+     * 4.数据迁移完成后，注册dubbo服务
+     * 5.定时n秒后或添加provider filter服务第一被调用后，依次调用所有迁移数据节点可清空用户数据（用户数据已移过来了失败不用管）
      *
-     * 4.数据迁移完成后，注册dubbo服务，依次调用所有迁移数据节点可清空用户数据（用户数据已移过来了失败不用管）
      */
     private void nameServerTestCode() {
         String serverAddr = "124.222.131.236:3848";
