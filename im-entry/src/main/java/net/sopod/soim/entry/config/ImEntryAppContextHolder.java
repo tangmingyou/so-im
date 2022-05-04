@@ -8,14 +8,14 @@ import org.springframework.context.ApplicationContext;
  * @author tmy
  * @date 2022-04-28 15:06
  */
-public class ApplicationContextHolder {
+public class ImEntryAppContextHolder {
 
     private static ApplicationContext applicationContext;
 
     private static String dubboAppServiceAddr;
 
     public static void setContext(ApplicationContext applicationContext) {
-        ApplicationContextHolder.applicationContext = applicationContext;
+        ImEntryAppContextHolder.applicationContext = applicationContext;
     }
 
     public static <T> T getBean(Class<T> beanType) {
@@ -23,7 +23,7 @@ public class ApplicationContextHolder {
     }
 
     public static void setDubboAppServiceAddr(String dubboAppServiceAddr) {
-        ApplicationContextHolder.dubboAppServiceAddr = dubboAppServiceAddr;
+        ImEntryAppContextHolder.dubboAppServiceAddr = dubboAppServiceAddr;
     }
 
     public static String getDubboAppServiceAddr() {

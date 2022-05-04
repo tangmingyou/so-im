@@ -1,1 +1,1 @@
-invoke_im_entry_filter=net.sopod.soim.router.config.InvokeImEntryFilter
+invoke_im_entry_filter=net.sopod.soim.router.config.filter.InvokeImEntryFilter

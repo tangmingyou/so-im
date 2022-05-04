@@ -14,10 +14,13 @@ public class Account extends NetUser {
 
     private final String name;
 
-    Account(NetUser netUser, long uid, String name) {
+    private final String imRouterId;
+
+    Account(NetUser netUser, long uid, String name, String imRouterId) {
         super(netUser.channel.get());
         this.uid = uid;
         this.name = name;
+        this.imRouterId = imRouterId;
     }
 
     @Override
@@ -38,9 +41,14 @@ public class Account extends NetUser {
         return name;
     }
 
+    public String getImRouterId() {
+        return imRouterId;
+    }
+
     public static class AccountBuilder {
         private long uid;
         private String name;
+        private String imRouterId;
         private NetUser netUser;
         public static AccountBuilder newBuilder() {
             return new AccountBuilder();
@@ -57,10 +65,14 @@ public class Account extends NetUser {
             this.name = name;
             return this;
         }
+        public AccountBuilder setImRouterId(String imRouterId) {
+            this.imRouterId = imRouterId;
+            return this;
+        }
         public Account build() {
             Preconditions.checkNotNull(netUser);
             Preconditions.checkNotNull(name);
-            return new Account(netUser, uid, name);
+            return new Account(netUser, uid, name, imRouterId);
         }
     }
 

@@ -31,8 +31,11 @@ public class CmdStarter {
         Logger.pre("【client】: ");
         while(this.scanner.hasNextLine()) {
             String cmd = this.scanner.nextLine();
-            this.cmdDispatcher.dispatchCmd(cmd);
-
+            try {
+                this.cmdDispatcher.dispatchCmd(cmd);
+            } catch (Exception e) {
+                Logger.error("cmd error: ", e.getMessage());
+            }
             // 退出
             if (CmdEnum.exit.name().equals(cmd.split("[ \t]+")[0])) {
                 Logger.info("bye bye");

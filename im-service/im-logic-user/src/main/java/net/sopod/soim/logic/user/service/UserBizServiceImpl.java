@@ -1,7 +1,7 @@
 package net.sopod.soim.logic.user.service;
 
 import net.sopod.soim.logic.common.model.UserInfo;
-import net.sopod.soim.router.api.service.UserEntryRegistryService;
+import net.sopod.soim.router.api.service.UserRouteService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -23,7 +23,7 @@ public class UserBizServiceImpl implements UserBizService {
     private static final Logger logger = LoggerFactory.getLogger(UserBizServiceImpl.class);
 
     @DubboReference
-    private UserEntryRegistryService userEntryRegistryService;
+    private UserRouteService userRouteService;
 
     @Override
     public CompletableFuture<String> sayHi(String name) {
@@ -38,7 +38,7 @@ public class UserBizServiceImpl implements UserBizService {
     @Override
     public List<UserInfo> onlineUserList(String keyword) {
         logger.info("service context uid: {}", RpcContext.getServiceContext().getAttachment("uid"));
-        return userEntryRegistryService.onlineUserList(keyword);
+        return userRouteService.onlineUserList(keyword);
     }
 
 }

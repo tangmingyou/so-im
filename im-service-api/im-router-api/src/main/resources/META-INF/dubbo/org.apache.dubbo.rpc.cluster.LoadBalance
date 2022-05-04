@@ -1,1 +1,2 @@
 im_route_consistent_hash=net.sopod.soim.router.api.route.ImRouterConsistentHashRoute
+im_router_direct=net.sopod.soim.router.api.route.ImRouterDirectLoadBalance

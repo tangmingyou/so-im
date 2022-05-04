@@ -3,19 +3,20 @@ package net.sopod.soim.router.api.service;
 import net.sopod.soim.logic.common.model.TextChat;
 import net.sopod.soim.router.api.model.CacheRes;
 import net.sopod.soim.logic.common.model.UserInfo;
+import net.sopod.soim.router.api.model.RegistryRes;
 
 import java.util.List;
 
 /**
- * AccountStoreService
+ * UserRouteService
  * 缓存登录账号信息，entry 节点信息...
  *
  * @author tmy
  * @date 2022-04-14 15:22
  */
-public interface UserEntryRegistryService {
+public interface UserRouteService {
 
-    CacheRes registryUserEntry(Long uid, String imEntryAddr);
+    RegistryRes registryUserEntry(Long uid, String imEntryAddr);
 
     /**
      * 查询在线用户列表

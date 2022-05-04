@@ -17,6 +17,6 @@ public class ClientConfig {
 
     private String host = "127.0.0.1";
 
-    private Integer port = 8088;
+    private Integer port = 8087;
 
 }

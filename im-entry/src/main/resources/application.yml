@@ -22,6 +22,7 @@ dubbo:
     loadbalance: im_entry_loadbalance
     timeout: 2000
     retries: 0
+    register: true
 
 entry-server:
   nacos-addr: 124.222.131.236:3848

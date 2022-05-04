@@ -1,6 +1,7 @@
 package net.sopod.soim.entry.config;
 
 import net.sopod.soim.common.constant.DubboConstant;
+import net.sopod.soim.logic.common.util.RpcContextUtil;
 import org.apache.dubbo.rpc.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,8 @@ public class DubboPreInvokeFilter implements Filter {
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         String uid = MessageHandlerContext.getAttribute(DubboConstant.CTX_UID);
         if (uid != null) {
-            RpcContext.getServiceContext().setAttachment(DubboConstant.CTX_UID, uid);
+            // 设置调用上下文 uid
+            RpcContextUtil.setContextUid(uid);
             if (logger.isDebugEnabled()) {
                 logger.debug("pre invoke filter set uid: {}", uid);
             }

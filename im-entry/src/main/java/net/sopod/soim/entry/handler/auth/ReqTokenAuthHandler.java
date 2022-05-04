@@ -1,7 +1,7 @@
 package net.sopod.soim.entry.handler.auth;
 
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.entry.config.ApplicationContextHolder;
+import net.sopod.soim.entry.config.ImEntryAppContextHolder;
 import net.sopod.soim.entry.handler.NetUserMessageHandler;
 import net.sopod.soim.core.session.Account;
 import net.sopod.soim.core.session.NetUser;
@@ -47,10 +47,10 @@ public class ReqTokenAuthHandler extends NetUserMessageHandler<Auth.ReqTokenAuth
         logger.info("ReqTokenAuth: uid={}", msg.getUid());
         // 校验 token，
         // TODO 更新 router 状态成功后再升级为 account，主动关闭时发送一个消息到客户端，校验错误/超时
-        Boolean isValid = userAuthService.validateToken(msg.getToken(),
-                ApplicationContextHolder.getDubboAppServiceAddr());
+        String imRouterId = userAuthService.validateToken(msg.getToken(),
+                ImEntryAppContextHolder.getDubboAppServiceAddr());
 
-        if (!Boolean.TRUE.equals(isValid)) {
+        if (imRouterId == null) {
             return Auth.ResTokenAuth.newBuilder()
                     .setSuccess(false)
                     .setMessage("token校验失败,请重新登录")
@@ -61,6 +61,7 @@ public class ReqTokenAuthHandler extends NetUserMessageHandler<Auth.ReqTokenAuth
                 .setNetUser(netUser)
                 .setUid(msg.getUid())
                 .setName("") // TODO 账户名处理
+                .setImRouterId(imRouterId)
                 .build();
         netUser.upgradeAccount(account);
 

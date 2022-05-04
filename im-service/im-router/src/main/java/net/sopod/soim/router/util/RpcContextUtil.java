@@ -1,7 +1,7 @@
 package net.sopod.soim.router.util;
 
 import net.sopod.soim.common.constant.DubboConstant;
-import net.sopod.soim.router.api.model.RouterUser;
+import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.SoImUserCache;
 import org.apache.dubbo.rpc.RpcContext;
 

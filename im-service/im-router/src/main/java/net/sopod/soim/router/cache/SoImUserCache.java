@@ -1,7 +1,5 @@
 package net.sopod.soim.router.cache;
 
-import net.sopod.soim.router.api.model.RouterUser;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

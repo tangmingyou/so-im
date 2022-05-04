@@ -1,13 +1,12 @@
 package net.sopod.soim.logic.user.service;
 
-import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.UserDasService;
 import net.sopod.soim.logic.common.model.TextChat;
-import net.sopod.soim.router.api.service.UserEntryRegistryService;
+import net.sopod.soim.logic.common.util.RpcContextUtil;
+import net.sopod.soim.router.api.service.UserRouteService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.rpc.RpcContext;
 
 import java.util.Objects;
 
@@ -21,7 +20,7 @@ import java.util.Objects;
 public class ChatServiceImpl implements ChatService {
 
     @DubboReference
-    private UserEntryRegistryService userEntryRegistryService;
+    private UserRouteService userRouteService;
 
     @DubboReference
     private UserDasService userDasService;
@@ -36,8 +35,9 @@ public class ChatServiceImpl implements ChatService {
             }
             textChat.setReceiverUid(receiverUser.getId());
         }
-        RpcContext.getServiceContext().setAttachment(DubboConstant.CTX_UID, String.valueOf(textChat.getReceiverUid()));
-        return userEntryRegistryService.routeTextChat(textChat);
+        // 设置调用 router 为消息接受者地址
+        RpcContextUtil.setContextUid(textChat.getReceiverUid());
+        return userRouteService.routeTextChat(textChat);
     }
 
 }

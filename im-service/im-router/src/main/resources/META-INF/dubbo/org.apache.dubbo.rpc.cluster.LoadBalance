@@ -1,0 +1,1 @@
+im_entry_loadbalance=net.sopod.soim.router.config.loadbalance.ImEntryServerAddressLoadBalance

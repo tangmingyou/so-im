@@ -20,4 +20,8 @@ public class StringUtil {
         return content == null || content.length() == 0;
     }
 
+    public static String toString(Object data) {
+        return data == null ? null : data.toString();
+    }
+
 }

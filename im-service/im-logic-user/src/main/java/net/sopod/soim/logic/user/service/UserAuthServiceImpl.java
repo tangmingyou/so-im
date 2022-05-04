@@ -8,8 +8,8 @@ import net.sopod.soim.das.user.api.service.UserDasService;
 import net.sopod.soim.logic.user.auth.model.ImAuth;
 import net.sopod.soim.logic.user.auth.service.UserAuthService;
 import net.sopod.soim.logic.user.config.AuthConfig;
-import net.sopod.soim.router.api.model.CacheRes;
-import net.sopod.soim.router.api.service.UserEntryRegistryService;
+import net.sopod.soim.router.api.model.RegistryRes;
+import net.sopod.soim.router.api.service.UserRouteService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -32,7 +32,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     private UserDasService userDasService;
 
     @DubboReference
-    private UserEntryRegistryService userEntryRegistryService;
+    private UserRouteService userRouteService;
 
     @Resource
     private AuthConfig authConfig;
@@ -61,17 +61,18 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public Boolean validateToken(String token, String imEntryAddr) {
+    public String validateToken(String token, String imEntryAddr) {
         TokenUtil.Payload payload = TokenUtil.validateAndParse(token);
         if (payload == null) {
-            return Boolean.FALSE;
+            return null;
         }
         // 注册记录用户登录的 entry 节点
         RpcContext.getServiceContext()
                 .setAttachment(DubboConstant.CTX_UID, String.valueOf(payload.getUserId()));
-        CacheRes cacheRes = userEntryRegistryService
+        RegistryRes registryRes = userRouteService
                 .registryUserEntry(payload.getUserId(), imEntryAddr);
-        return cacheRes.getSuccess();
+
+        return !Boolean.TRUE.equals(registryRes.getSuccess()) ? null : registryRes.getImRouterId();
     }
 
 }

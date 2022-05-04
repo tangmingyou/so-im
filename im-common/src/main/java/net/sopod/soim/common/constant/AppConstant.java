@@ -15,6 +15,8 @@ public interface AppConstant {
 
     String APP_IM_ENTRY_NAME = "im-entry";
 
+    String APP_IM_ROUTER_NAME = "im-router";
+
     String APP_IM_HTTP_ENTRY_NAME = "im-http-entry";
     String APP_IM_DAS_USER_NAME = "im-das-user";
 

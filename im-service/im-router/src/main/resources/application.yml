@@ -20,11 +20,13 @@ dubbo:
     group: so-im
   protocol:
     name: dubbo
-    port: 3032
+    port: 3031
   consumer:
     check: false
-    # filter: invoke_im_entry_filter
+    # filter: invoke_im_entry_filter # 调用im-entry时设置调用地址，配合im_entry_loadbalance路由到用户对应连接的im-entry
   provider:
-    loadbalance: im_route_consistent_hash
+    listener: im_router_api_export_listener # 监听im-router需要暴露的服务，启动时不注册，数据迁移后再注册为可用服务
+    loadbalance: im_route_consistent_hash # 调用im-router时根据上下文uid路由到用户对应的im-router
     retries: 0 # 这里服务重试时会路由到非uid所在对应im-router
     timeout: 2000
+    register: false # 不自动注册，数据初始化后注册

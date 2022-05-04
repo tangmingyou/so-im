@@ -17,7 +17,7 @@ public class SpringApplicationContextInitialed implements ApplicationContextAwar
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        ApplicationContextHolder.setContext(applicationContext);
+        ImEntryAppContextHolder.setContext(applicationContext);
 
         // 注册 protobuf 消息 handler
         ProtoMessageHandlerRegistry.registerHandlerWithApplicationContext(applicationContext);

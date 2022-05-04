@@ -18,6 +18,6 @@ public interface UserAuthService {
      * @param imEntryAddr entry 节点地址，检验通过后存储到 im-router
      * @return 是否校验成功
      */
-    Boolean validateToken(String token, String imEntryAddr);
+    String validateToken(String token, String imEntryAddr);
 
 }

@@ -1,7 +1,7 @@
 package net.sopod.soim.router.service;
 
 import net.sopod.soim.entry.api.service.OnlineUserService;
-import net.sopod.soim.router.api.model.RouterUser;
+import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.SoImUserCache;
 import org.apache.dubbo.config.annotation.DubboService;
 

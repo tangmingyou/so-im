@@ -1,5 +1,6 @@
 package net.sopod.soim.common.util;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
@@ -11,17 +12,51 @@ import java.util.function.Function;
  */
 public class Collects {
 
-    /**
-     * 数组翻转
-     */
-    public static long[] revers(long[] arr) {
-        for (int i = 0, j = arr.length - 1; i < j; i++, j--) {
-            long temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-        return arr;
-    }
+	public static boolean isEmpty(@Nullable Collection<?> collection) {
+		return collection == null || collection.isEmpty();
+	}
+
+	public static boolean isNotEmpty(@Nullable Collection<?> collection) {
+		return !isEmpty(collection);
+	}
+
+	public static boolean isEmpty(@Nullable Object[] arr) {
+		return arr == null || arr.length > 0;
+	}
+
+	public static boolean isNotEmpty(@Nullable Object[] arr) {
+		return !isEmpty(arr);
+	}
+
+	public static <T, K> Map<K, T> collect2Map(Collection<T> collect,
+											   Function<T, K> keyProvider) {
+		return collect2Map(collect, keyProvider, new HashMap<>());
+	}
+
+	public static <T, K> Map<K, T> collect2Map(Collection<T> collect,
+													Function<T, K> keyProvider,
+													Map<K, T> resultMap) {
+		for (T item : collect) {
+			resultMap.put(keyProvider.apply(item), item);
+		}
+		return resultMap;
+	}
+
+	public static <T, K, V> Map<K, V> collect2KvMap(Collection<T> collect,
+													Function<T, K> keyProvider,
+													Function<T, V> valueProvider) {
+		return collect2KvMap(collect, keyProvider, valueProvider, new HashMap<>());
+	}
+
+	public static <T, K, V> Map<K, V> collect2KvMap(Collection<T> collect,
+												  Function<T, K> keyProvider,
+												  Function<T, V> valueProvider,
+												  Map<K, V> resultMap) {
+		for (T item : collect) {
+			resultMap.put(keyProvider.apply(item), valueProvider.apply(item));
+		}
+		return resultMap;
+	}
 
 	public static <T,K,V> Map<K, List<V>> group(Collection<T> collect,
                                                 Function<T, K> groupBy,
@@ -58,6 +93,27 @@ public class Collects {
 			vals.add(val);
 		}
 		return result;
+	}
+
+	/**
+	 * 数组翻转
+	 */
+	public static long[] revers(long[] arr) {
+		for (int i = 0, j = arr.length - 1; i < j; i++, j--) {
+			long temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+		}
+		return arr;
+	}
+
+	/**
+	 * 根据元素个数计算 map 容量大小
+	 * @param size 元素个数
+	 * @return map 容量大小
+	 */
+	public static int mapCapacity(int size) {
+		return Math.max(2, (int)Math.ceil(size / 0.75));
 	}
 
 }

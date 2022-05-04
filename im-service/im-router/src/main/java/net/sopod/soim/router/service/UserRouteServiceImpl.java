@@ -8,13 +8,12 @@ import net.sopod.soim.das.user.api.service.UserDasService;
 import net.sopod.soim.entry.api.service.OnlineUserService;
 import net.sopod.soim.entry.api.service.TextChatService;
 import net.sopod.soim.logic.common.model.TextChat;
-import net.sopod.soim.router.api.model.CacheRes;
-import net.sopod.soim.router.api.model.RouterUser;
 import net.sopod.soim.logic.common.model.UserInfo;
-import net.sopod.soim.router.api.service.UserEntryRegistryService;
+import net.sopod.soim.router.api.model.RegistryRes;
+import net.sopod.soim.router.cache.RouterUser;
+import net.sopod.soim.router.api.service.UserRouteService;
 import net.sopod.soim.router.cache.SoImUserCache;
-import net.sopod.soim.router.util.RpcContextUtil;
-import net.sopod.soim.router.util.ServerContext;
+import net.sopod.soim.router.config.ImRouterAppContextHolder;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -22,20 +21,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * AccountStoreServiceImpl
+ * UserRouteServiceImpl
  *
  * @author tmy
  * @date 2022-04-28 9:47
  */
-@DubboService
-public class UserEntryRegistryServiceImpl implements UserEntryRegistryService {
+@DubboService()
+public class UserRouteServiceImpl implements UserRouteService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserEntryRegistryServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserRouteServiceImpl.class);
 
     @DubboReference
     private UserDasService userDasService;
@@ -47,15 +45,19 @@ public class UserEntryRegistryServiceImpl implements UserEntryRegistryService {
     private OnlineUserService onlineUserService;
 
     @Override
-    public CacheRes registryUserEntry(Long uid, String imEntryAddr) {
+    public RegistryRes registryUserEntry(Long uid, String imEntryAddr) {
         ImUser imUser = userDasService.getUserById(uid);
+        logger.info("registry user:{}, {}", uid, imUser.getAccount());
         RouterUser routerUser = new RouterUser().setUid(uid)
                 .setAccount(imUser.getAccount())
                 .setIsOnline(Boolean.TRUE)
                 .setOnlineTime(ImClock.millis())
                 .setImEntryAddr(imEntryAddr);
         SoImUserCache.getInstance().put(uid, routerUser);
-        return CacheRes.success(0L);
+        // 接口返回 im_router_id，后续调用 im-router 负载均衡指向当前router服务
+        return new RegistryRes()
+                .setSuccess(true)
+                .setImRouterId(ImRouterAppContextHolder.IM_ROUTER_ID);
     }
 
     @Override
@@ -72,35 +74,18 @@ public class UserEntryRegistryServiceImpl implements UserEntryRegistryService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 调用该方法时，将到 im-router 服务的路由 uid 设置为消息接受者的 uid
+     */
     @Override
     public Boolean routeTextChat(TextChat textChat) {
-        Long receiverUid = textChat.getReceiverUid();
-        // 查询 receiverUid 对应 im-entry 地址
-        RouterUser receiverUser = SoImUserCache.getInstance().get(textChat.getReceiverUid());
-        String receiverImEntryAddr = null;
-        if (receiverUser != null) {
-            receiverImEntryAddr = receiverUser.getImEntryAddr();
-            logger.info("local im-router service invoke: {}, {}", receiverUid, receiverImEntryAddr);
-        }
         // 本服务实例没有存储接收者用户信息，查询其他服务
 //        if (receiverImEntryAddr == null) {
 //            RpcContext.getServiceContext().setAttachment(DubboConstant.CTX_UID, String.valueOf(receiverUid));
 //            receiverImEntryAddr = onlineUserService.getImEntryAddrByUid(receiverUid);
 //            logger.info("other im-router service invoke: {}, {}", receiverUid, receiverImEntryAddr);
 //        }
-        // 调用该方法时，将到 im-router 服务的路由 uid 设置为消息接受者的 uid
-        if (receiverImEntryAddr == null) {
-            logger.info("消息接受者im-entry服务连接地址为找到");
-            return false;
-        }
-        logger.info("receiver user: {}, {}", receiverUid, receiverImEntryAddr);
-        // TODO 设置im-entry服务调用地址，优化集成到过滤器或工具类
-        RpcContext.getServiceContext().setAttachment(DubboConstant.IM_ENTRY_ADDR, receiverImEntryAddr);
-//        boolean set = RpcContextUtil.setImEntryRouteServerAddrByUid(textChat.getReceiverUid());
-//        if (!set) {
-//            logger.info("im-entry服务地址设置失败");
-//            return false;
-//        }
+
         Boolean send = textChatService.sendTextChat(textChat);
         if (!Boolean.TRUE.equals(send)) {
             // 未送到，消息存储，重发...

@@ -2,8 +2,9 @@ TODO
 - router -> entry 负载均衡
 - router 新增节点顺时针相邻节点数据一致性哈希迁移
 - router 冗余节点存储数据不提供服务
-- dubbo 服务异步处理吞吐量
+- dubbo 服务异步处理提升吞吐量
 - das 消息队列异步写
+- entry 监控，http 查询 entry 地址返回接口
 - 功能开发：
     - 消息群发(im-router 群消息路由,批量uid一致性哈希路由)
     - 好友列表(在线状态:批量uid一致性hash, router查询)
