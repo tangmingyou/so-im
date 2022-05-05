@@ -1,7 +1,6 @@
-package net.sopod.soim.router.datasync.server;
+package net.sopod.soim.router.datasync;
 
 import net.sopod.soim.common.util.StringUtil;
-import net.sopod.soim.router.cache.DataSync;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.SoImUserCache;
 
@@ -96,7 +95,12 @@ public class SyncTypes {
         @Nullable
         @SuppressWarnings("unchecked")
         static <T extends DataSync> SyncType<T> getSyncType(int ordinal) {
-            return (SyncType<T>) (ordinal < TYPES.size() ? TYPES.get(ordinal) : null);
+            for (SyncType<?> type : TYPES) {
+                if (type.ordinal == ordinal) {
+                    return (SyncType<T>) type;
+                }
+            }
+            return null;
         }
 
         @Override

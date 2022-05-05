@@ -1,6 +1,6 @@
-package net.sopod.soim.router.datasync.server;
+package net.sopod.soim.router.datasync;
 
-import net.sopod.soim.router.cache.DataSync;
+import net.sopod.soim.router.datasync.server.SyncLog;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

@@ -1,4 +1,4 @@
-package net.sopod.soim.router.cache.annotation;
+package net.sopod.soim.router.datasync.annotation;
 
 import java.lang.annotation.*;
 

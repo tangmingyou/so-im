@@ -1,24 +1,19 @@
-package net.sopod.soim.router.cache;
+package net.sopod.soim.router.datasync;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.common.util.Jackson;
-import net.sopod.soim.router.cache.annotation.Sync;
-import net.sopod.soim.router.cache.annotation.SyncIgnore;
-import net.sopod.soim.router.datasync.server.DataChangeTrigger;
-import net.sopod.soim.router.datasync.server.SyncTypes;
+import net.sopod.soim.router.cache.RouterUser;
+import net.sopod.soim.router.datasync.annotation.SyncIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * BiSyncProxyManager
@@ -34,7 +29,7 @@ public class DataSyncProxyFactory {
     /**
      * 缓存数据类型更新方法列表
      */
-    private static final Map<Class<? extends DataSync>, Set<String>> cacheTypeUpdaterMethods = new ConcurrentHashMap<>();
+    private static final Map<Class<? extends DataSync>, Set<String>> typeUpdaterMethodsCache = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     public static <T extends DataSync> T newProxyInstance(SyncTypes.SyncType<T> syncType) {
@@ -49,7 +44,7 @@ public class DataSyncProxyFactory {
         }
 
         // 获取查询更新方法列表
-        Set<String> updaterMethods = cacheTypeUpdaterMethods.computeIfAbsent(type, dataType -> {
+        Set<String> updaterMethods = typeUpdaterMethodsCache.computeIfAbsent(type, dataType -> {
             Method[] methods = dataType.getMethods();
             Set<String> updaterMethodNames = new HashSet<>();
             for (Method m : methods) {
@@ -98,6 +93,7 @@ public class DataSyncProxyFactory {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Object intercept(Object instance, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
             String methodName = method.getName();
             // 是判断不是更新的方法跳过
@@ -151,7 +147,7 @@ public class DataSyncProxyFactory {
 //                return methodProxy.invokeSuper(o, args);
 //            }
 //        });
-//
+
 //        B b = (B) enhancer.create();
 //        b.setAge(12);
 //        b.setName("沧海");

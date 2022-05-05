@@ -2,6 +2,7 @@ package net.sopod.soim.router.cache;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.sopod.soim.router.datasync.DataSync;
 
 /**
  * RouterUser

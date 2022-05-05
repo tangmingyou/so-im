@@ -1,4 +1,4 @@
-package net.sopod.soim.router.cache;
+package net.sopod.soim.router.datasync;
 
 /**
  * BiSync
