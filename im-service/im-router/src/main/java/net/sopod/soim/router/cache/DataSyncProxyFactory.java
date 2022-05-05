@@ -4,11 +4,21 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import net.sopod.soim.common.util.Collects;
+import net.sopod.soim.common.util.Jackson;
+import net.sopod.soim.router.cache.annotation.Sync;
+import net.sopod.soim.router.cache.annotation.SyncIgnore;
+import net.sopod.soim.router.datasync.server.DataChangeTrigger;
+import net.sopod.soim.router.datasync.server.SyncTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * BiSyncProxyManager
@@ -21,46 +31,139 @@ public class DataSyncProxyFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSyncProxyFactory.class);
 
+    /**
+     * 缓存数据类型更新方法列表
+     */
+    private static final Map<Class<? extends DataSync>, Set<String>> cacheTypeUpdaterMethods = new ConcurrentHashMap<>();
+
     @SuppressWarnings("unchecked")
-    public static <T extends DataSync> T newProxyInstance(Class<T> biSyncClazz) {
+    public static <T extends DataSync> T newProxyInstance(SyncTypes.SyncType<T> syncType) {
+        Class<T> type = syncType.dataType();
+        T instance;
+        try {
+            Constructor<T> constructor = type.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            instance = constructor.newInstance();
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            throw new IllegalStateException(type + "实例创建失败,没有无参构造函数", e);
+        }
+
+        // 获取查询更新方法列表
+        Set<String> updaterMethods = cacheTypeUpdaterMethods.computeIfAbsent(type, dataType -> {
+            Method[] methods = dataType.getMethods();
+            Set<String> updaterMethodNames = new HashSet<>();
+            for (Method m : methods) {
+                SyncIgnore syncIgnore = m.getDeclaredAnnotation(SyncIgnore.class);
+                String methodName = m.getName();
+                if (syncIgnore != null) {
+                    continue;
+                }
+                boolean isUpdater = m.getDeclaringClass() != Object.class
+                        && instance.isUpdateMethod(methodName);
+                if (isUpdater) {
+                    if (updaterMethodNames.contains(methodName)) {
+                        throw new IllegalStateException(dataType + "重复的数据更新方法名" + methodName);
+                    }
+                    // 检查参数可序列化
+                    Class<?>[] paramTypes = m.getParameterTypes();
+                    for (int i = 0; i < paramTypes.length; i++) {
+                        if (!Jackson.json().canSerialize(paramTypes[i])) {
+                            throw new IllegalStateException(String.format("类:%s 更新方法:%s 第%di个参数不可序列化",
+                                    instance.getClass().getName(), methodName, i + 1));
+                        }
+                    }
+                    updaterMethodNames.add(methodName);
+                }
+            }
+            logger.info("{} 更新方法列表: {}", dataType, updaterMethodNames);
+            return updaterMethodNames;
+        });
+
+        // 创建代理对象
         Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(biSyncClazz);
-        enhancer.setCallback(new DataSyncProxyCallback());
+        enhancer.setSuperclass(type);
+        enhancer.setCallback(new DataSyncProxyCallback<>(syncType, updaterMethods));
         return (T) enhancer.create();
     }
 
-    public static class DataSyncProxyCallback implements MethodInterceptor {
+    public static class DataSyncProxyCallback<T extends DataSync> implements MethodInterceptor {
+
+        private final SyncTypes.SyncType<T> syncType;
+
+        private final Set<String> updaterMethods;
+
+        public DataSyncProxyCallback(SyncTypes.SyncType<T> syncType, Set<String> updaterMethods) {
+            this.syncType = syncType;
+            this.updaterMethods = updaterMethods;
+        }
 
         @Override
         public Object intercept(Object instance, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
             String methodName = method.getName();
-            // 是判断是否更新的方法跳过
-            if ("isUpdateMethod".equals(methodName)) {
+            // 是判断不是更新的方法跳过
+            if (null != method.getDeclaredAnnotation(SyncIgnore.class)
+                    || !updaterMethods.contains(methodName)
+                    || "isUpdateMethod".equals(methodName)) {
                 return methodProxy.invokeSuper(instance, args);
             }
-            boolean isUpdateMethod = ((DataSync) instance).isUpdateMethod(methodName);
-            if (!isUpdateMethod) {
-                return methodProxy.invokeSuper(instance, args);
-            }
-            if (Collects.isNotEmpty(args)) {
-                // TODO 参数值可能为 null，检查参数可序列化放在生成代理对象时
-                for (int i = 0; i < args.length; i++) {
-                    if (!(args[i] instanceof Serializable)) {
-                        logger.error("类:{} 更新方法:{} 第{}i个参数不可序列化", instance.getClass(), methodName, i+1);
-                    }
-                }
-            }
+
             // TODO 记录更新操作(方法和参数)，查询数据订阅者，异步同步数据
+            DataChangeTrigger.instance().onUpdate(syncType, syncType.getDataKey((T) instance), methodName, args);
+
             System.out.println("intercept invoke:" + methodName);
             return methodProxy.invokeSuper(instance, args);
         }
 
     }
 
+    public static interface A {
+        default void setName(String name) {
+            System.out.println("setName: " + name);
+        }
+
+    }
+
+    public static class B implements A {
+        private int age;
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        @Override
+        public void setName(String name) {
+            System.out.println("over setName: " + name);
+        }
+    }
+
     public static void main(String[] args) {
-        RouterUser routerUser = newProxyInstance(RouterUser.class);
+
+        RouterUser routerUser = newProxyInstance(SyncTypes.ROUTER_USER);
         routerUser.setAccount("日月光");
         System.out.println(routerUser.getAccount());
+
+//        Enhancer enhancer = new Enhancer();
+//        enhancer.setSuperclass(B.class);
+//        enhancer.setCallback(new MethodInterceptor() {
+//            @Override
+//            public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+//                System.out.println("proxy method: " + method.getName());
+//                return methodProxy.invokeSuper(o, args);
+//            }
+//        });
+//
+//        B b = (B) enhancer.create();
+//        b.setAge(12);
+//        b.setName("沧海");
+//
+//        System.out.println(b.age);
+//
+//        for (Method method : B.class.getMethods()) {
+//            System.out.println(method.getName() + "-" + method.hashCode() + ": " + method.getDeclaringClass());
+//        }
+//        System.out.println(Serializable.class.isAssignableFrom(String.class));
+//        System.out.println(Serializable.class.isAssignableFrom(Integer.class));
+//        System.out.println(Integer.class.isAssignableFrom(Serializable.class));
     }
 
 }

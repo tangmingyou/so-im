@@ -176,6 +176,10 @@ public class Jackson {
 		return XML_INSTANCE;
 	}
 
+	public boolean canSerialize(Class<?> clazz) {
+		return objectMapper.canSerialize(clazz);
+	}
+
 	public <T> T deserialize(String content, Class<T> valueType) {
 		try {
 			return objectMapper.readValue(content, valueType);
