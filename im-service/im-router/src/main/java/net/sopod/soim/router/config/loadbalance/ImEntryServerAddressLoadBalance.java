@@ -1,10 +1,9 @@
 package net.sopod.soim.router.config.loadbalance;
 
-import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.StringUtil;
 import net.sopod.soim.logic.common.util.RpcContextUtil;
 import net.sopod.soim.router.cache.RouterUser;
-import net.sopod.soim.router.cache.SoImUserCache;
+import net.sopod.soim.router.cache.RouterUserStorage;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
@@ -34,8 +33,8 @@ public class ImEntryServerAddressLoadBalance extends AbstractLoadBalance {
         if (StringUtil.isEmpty(ctxUid)) {
             throw new IllegalCallerException("调用im-entry服务接口,上下文uid未指定");
         }
-        SoImUserCache soImUserCache = SoImUserCache.getInstance();
-        RouterUser routerUser = soImUserCache.get(Long.valueOf(ctxUid));
+        RouterUserStorage routerUserStorage = RouterUserStorage.getInstance();
+        RouterUser routerUser = routerUserStorage.get(Long.valueOf(ctxUid));
         if (routerUser != null) {
             entryAddr = routerUser.getImEntryAddr();
         }

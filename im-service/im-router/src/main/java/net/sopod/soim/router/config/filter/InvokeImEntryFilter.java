@@ -2,7 +2,7 @@ package net.sopod.soim.router.config.filter;
 
 import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.router.cache.RouterUser;
-import net.sopod.soim.router.cache.SoImUserCache;
+import net.sopod.soim.router.cache.RouterUserStorage;
 import org.apache.dubbo.rpc.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +30,8 @@ public class InvokeImEntryFilter implements Filter {
             // 获取请求链路用户id
             String ctxUid = invocation.getAttachment(DubboConstant.CTX_UID);
             if (ctxUid != null) {
-                SoImUserCache soImUserCache = SoImUserCache.getInstance();
-                RouterUser routerUser = soImUserCache.get(Long.valueOf(ctxUid));
+                RouterUserStorage routerUserStorage = RouterUserStorage.getInstance();
+                RouterUser routerUser = routerUserStorage.get(Long.valueOf(ctxUid));
                 if (routerUser != null) {
                     imEntryServerAddr = routerUser.getImEntryAddr();
                 }

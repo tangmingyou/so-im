@@ -19,6 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * BiSyncProxyManager
  * 设置属性的时候，将设置方法同步处理
  *
+ * 分段[cache0,cache2,...cache31] id取模定位, lockMap0[okId1, okId2] 加读写锁，避免序列化时加锁影响全部数据
+ * 数据序列化时，get加锁，删除加锁，新增加锁，代理类更新方法加锁
+ *
  * @author tmy
  * @date 2022-05-04 17:10
  */
@@ -109,7 +112,6 @@ public class DataSyncProxyFactory {
                 if (!Modifier.isFinal(field.getModifiers())) {
                     field.setAccessible(true);
                     field.set(target, field.get(source));
-                    System.out.println(field.getName() + ":" + field.get(source));
                 }
             }
         }
@@ -151,14 +153,48 @@ public class DataSyncProxyFactory {
     }
 
     public static void main(String[] args) {
-        RouterUser user1 = new RouterUser();
-        user1.setUid(10086L);
-        user1.setAccount("日月光");
+//        RouterUser user1 = new RouterUser();
+//        user1.setUid(10086L);
+//        user1.setAccount("日月光");
+//
+//        RouterUser routerUser = newProxyInstance(SyncTypes.ROUTER_USER, user1);
+//        System.out.println(routerUser);
+//        routerUser.setOnlineTime(ImClock.millis());
+//        System.out.println(routerUser);
 
-        RouterUser routerUser = newProxyInstance(SyncTypes.ROUTER_USER, user1);
-        System.out.println(routerUser);
-        routerUser.setOnlineTime(ImClock.millis());
-        System.out.println(routerUser);
+        ConcurrentHashMap<String, RouterUser> map = new ConcurrentHashMap<>();
+        map.put("10081", new RouterUser().setAccount("阿基过天玺"));
+        map.put("10082", new RouterUser().setAccount("家国"));
+        map.put("10083", new RouterUser().setAccount("天下"));
+        Collection<RouterUser> values = map.values();
+        map.put("10084", new RouterUser().setAccount("晚风"));
+        new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                map.put("100" + i, new RouterUser().setAccount("灯" + i));
+                if (i % 10 == 0) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+        int i = 0;
+
+        for (RouterUser value : values) {
+            System.out.println(value);
+            i++;
+            if (i % 3 == 0) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println(values.getClass());
+        System.out.println(values);
 
     }
 

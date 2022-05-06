@@ -12,7 +12,7 @@ import net.sopod.soim.logic.common.model.UserInfo;
 import net.sopod.soim.router.api.model.RegistryRes;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.api.service.UserRouteService;
-import net.sopod.soim.router.cache.SoImUserCache;
+import net.sopod.soim.router.cache.RouterUserStorage;
 import net.sopod.soim.router.config.ImRouterAppContextHolder;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -53,7 +53,7 @@ public class UserRouteServiceImpl implements UserRouteService {
                 .setIsOnline(Boolean.TRUE)
                 .setOnlineTime(ImClock.millis())
                 .setImEntryAddr(imEntryAddr);
-        SoImUserCache.getInstance().put(uid, routerUser);
+        RouterUserStorage.getInstance().put(uid, routerUser);
         // 接口返回 im_router_id，后续调用 im-router 负载均衡指向当前router服务
         return new RegistryRes()
                 .setSuccess(true)
@@ -65,7 +65,7 @@ public class UserRouteServiceImpl implements UserRouteService {
         //logger.info("client context uid: {}", ServerContext.getContextUid());
         logger.info("client context uid: {}", RpcContext.getServiceContext().getAttachment(DubboConstant.CTX_UID));
 
-        Stream<RouterUser> stream = SoImUserCache.getInstance().getRouterUserMap().values().stream();
+        Stream<RouterUser> stream = RouterUserStorage.getInstance().getRouterUserMap().values().stream();
         if (!StringUtil.isEmpty(keyword)) {
             // 根据关键词过滤
             stream = stream.filter(user -> user.getAccount().contains(keyword));

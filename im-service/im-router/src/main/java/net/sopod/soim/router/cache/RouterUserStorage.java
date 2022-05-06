@@ -14,19 +14,21 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * ImUserCache
  * 在线用户属性缓存
+ * 分段[cache0,cache2,...cache31] id取模定位, lockMap0[okId1, okId2] 加读写锁，避免序列化时加锁影响全部数据
+ * 数据序列化时，get加锁，删除加锁，新增加锁，代理类更新方法加锁
  *
  * @author tmy
  * @date 2022-05-02 14:07
  */
-public class SoImUserCache {
+public class RouterUserStorage {
 
-    private static final Logger logger = LoggerFactory.getLogger(SoImUserCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(RouterUserStorage.class);
 
-    private static final SoImUserCache INSTANCE = new SoImUserCache();
+    private static final RouterUserStorage INSTANCE = new RouterUserStorage();
 
     private final ConcurrentHashMap<Long, RouterUser> routerUserMap = new ConcurrentHashMap<>(128);
 
-    public static SoImUserCache getInstance() {
+    public static RouterUserStorage getInstance() {
         return INSTANCE;
     }
 

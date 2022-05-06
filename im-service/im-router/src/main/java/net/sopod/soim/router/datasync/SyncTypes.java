@@ -2,7 +2,7 @@ package net.sopod.soim.router.datasync;
 
 import net.sopod.soim.common.util.StringUtil;
 import net.sopod.soim.router.cache.RouterUser;
-import net.sopod.soim.router.cache.SoImUserCache;
+import net.sopod.soim.router.cache.RouterUserStorage;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -39,18 +39,18 @@ public class SyncTypes {
 
         @Override
         public RouterUser getData(String uid) {
-            return SoImUserCache.getInstance().get(Long.valueOf(uid));
+            return RouterUserStorage.getInstance().get(Long.valueOf(uid));
         }
 
         @Override
         public boolean addData(RouterUser data) {
-            SoImUserCache.getInstance().put(data.getUid(), data);
+            RouterUserStorage.getInstance().put(data.getUid(), data);
             return true;
         }
 
         @Override
         public boolean removeData(String uid) {
-            return null != SoImUserCache.getInstance().remove(Long.valueOf(uid));
+            return null != RouterUserStorage.getInstance().remove(Long.valueOf(uid));
         }
     };
 
