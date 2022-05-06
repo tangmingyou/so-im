@@ -4,7 +4,7 @@ import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 import net.sopod.soim.common.util.ImClock;
-import net.sopod.soim.entry.util.FastThreadLocalThreadFactory;
+import net.sopod.soim.common.util.netty.FastThreadLocalThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

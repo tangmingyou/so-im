@@ -3,15 +3,15 @@ package net.sopod.soim.router.datasync;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import net.sopod.soim.common.util.Collects;
+import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.Jackson;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.datasync.annotation.SyncIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,8 +31,12 @@ public class DataSyncProxyFactory {
      */
     private static final Map<Class<? extends DataSync>, Set<String>> typeUpdaterMethodsCache = new ConcurrentHashMap<>();
 
-    @SuppressWarnings("unchecked")
     public static <T extends DataSync> T newProxyInstance(SyncTypes.SyncType<T> syncType) {
+        return newProxyInstance(syncType, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends DataSync> T newProxyInstance(SyncTypes.SyncType<T> syncType, T source) {
         Class<T> type = syncType.dataType();
         T instance;
         try {
@@ -78,7 +82,41 @@ public class DataSyncProxyFactory {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(type);
         enhancer.setCallback(new DataSyncProxyCallback<>(syncType, updaterMethods));
-        return (T) enhancer.create();
+        T proxyObj = (T) enhancer.create();
+        if (source != null) {
+            try {
+                cloneFields(source, proxyObj);
+            } catch (Exception e) {
+                // logger.error("克隆对象失败:", e);
+                throw new IllegalStateException("克隆对象失败", e);
+            }
+        }
+        return proxyObj;
+    }
+
+    private static <T> void cloneFields(T source, T proxyObj) throws Exception {
+        cloneFields0(source.getClass(), source, proxyObj);
+    }
+
+    /**
+     * 复制对象属性值
+     * TODO 缓存 <class,fields> 避免每次clone从方法区查找
+     */
+    private static <T> void cloneFields0(Class<?> clazz, T source, T target) throws Exception {
+        Field[] fields = clazz.getDeclaredFields();
+        if (Collects.isNotEmpty(fields)) {
+            for (Field field : fields) {
+                if (!Modifier.isFinal(field.getModifiers())) {
+                    field.setAccessible(true);
+                    field.set(target, field.get(source));
+                    System.out.println(field.getName() + ":" + field.get(source));
+                }
+            }
+        }
+        Class<?> superClazz = clazz.getSuperclass();
+        if (superClazz != Object.class) {
+            cloneFields0(superClazz, source, target);
+        }
     }
 
     public static class DataSyncProxyCallback<T extends DataSync> implements MethodInterceptor {
@@ -103,7 +141,7 @@ public class DataSyncProxyFactory {
                 return methodProxy.invokeSuper(instance, args);
             }
 
-            // TODO 记录更新操作(方法和参数)，查询数据订阅者，异步同步数据
+            // 记录数据更新操作(方法和参数)
             DataChangeTrigger.instance().onUpdate(syncType, syncType.getDataKey((T) instance), methodName, args);
 
             System.out.println("intercept invoke:" + methodName);
@@ -112,54 +150,16 @@ public class DataSyncProxyFactory {
 
     }
 
-    public static interface A {
-        default void setName(String name) {
-            System.out.println("setName: " + name);
-        }
-
-    }
-
-    public static class B implements A {
-        private int age;
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-
-        @Override
-        public void setName(String name) {
-            System.out.println("over setName: " + name);
-        }
-    }
-
     public static void main(String[] args) {
+        RouterUser user1 = new RouterUser();
+        user1.setUid(10086L);
+        user1.setAccount("日月光");
 
-        RouterUser routerUser = newProxyInstance(SyncTypes.ROUTER_USER);
-        routerUser.setAccount("日月光");
-        System.out.println(routerUser.getAccount());
+        RouterUser routerUser = newProxyInstance(SyncTypes.ROUTER_USER, user1);
+        System.out.println(routerUser);
+        routerUser.setOnlineTime(ImClock.millis());
+        System.out.println(routerUser);
 
-//        Enhancer enhancer = new Enhancer();
-//        enhancer.setSuperclass(B.class);
-//        enhancer.setCallback(new MethodInterceptor() {
-//            @Override
-//            public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-//                System.out.println("proxy method: " + method.getName());
-//                return methodProxy.invokeSuper(o, args);
-//            }
-//        });
-
-//        B b = (B) enhancer.create();
-//        b.setAge(12);
-//        b.setName("沧海");
-//
-//        System.out.println(b.age);
-//
-//        for (Method method : B.class.getMethods()) {
-//            System.out.println(method.getName() + "-" + method.hashCode() + ": " + method.getDeclaringClass());
-//        }
-//        System.out.println(Serializable.class.isAssignableFrom(String.class));
-//        System.out.println(Serializable.class.isAssignableFrom(Integer.class));
-//        System.out.println(Integer.class.isAssignableFrom(Serializable.class));
     }
 
 }

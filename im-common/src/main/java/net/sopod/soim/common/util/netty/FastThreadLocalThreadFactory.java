@@ -1,4 +1,4 @@
-package net.sopod.soim.entry.util;
+package net.sopod.soim.common.util.netty;
 
 import io.netty.util.concurrent.FastThreadLocalThread;
 

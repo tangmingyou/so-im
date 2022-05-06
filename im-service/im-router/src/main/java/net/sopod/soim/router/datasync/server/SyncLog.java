@@ -43,8 +43,8 @@ public class SyncLog implements Serializable {
     public static final int OPT_REMOVE = 2;
     public static final int OPT_UPDATE = 3;
 
-    public static <T extends DataSync> AddLog<T> addLog(SyncTypes.SyncType<T> syncType) {
-        return new AddLog<>(syncType);
+    public static <T extends DataSync> AddLog<T> addLog(int logSeq, SyncTypes.SyncType<T> syncType) {
+        return new AddLog<>(logSeq, syncType);
     }
 
     public static <T extends DataSync> UpdateLog<T> updateLog(int logSeq, SyncTypes.SyncType<T> syncType) {
@@ -79,7 +79,7 @@ public class SyncLog implements Serializable {
     /** ================ 数据id标示:删除,更新用 ===================== */
     protected String dataKey;
 
-    /** ================ 更新数据:类,更新方法,更新方法序列化参数(避免修改) ===================== */
+    /** ================ 更新数据:类,更新方法,更新方法序列化后参数(避免修改) ===================== */
     protected String clazz;
 
     protected String method;
@@ -280,9 +280,9 @@ public class SyncLog implements Serializable {
                 .setAccount("画中")
                 .setImEntryAddr("127.0.0.2")
                 .setIsOnline(true);
-        AddLog<RouterUser> addLog = addLog(SyncTypes.ROUTER_USER)
-                .addSerializeData(user1)
-                .addSerializeData(user2);
+        AddLog<RouterUser> addLog = addLog(0, SyncTypes.ROUTER_USER)
+                .addData(user1)
+                .addData(user2);
 //        String json = Jackson.json().serialize(addLog);
 //        System.out.println(json);
 //        System.out.println(json.getBytes(StandardCharsets.UTF_8).length);
@@ -322,9 +322,10 @@ public class SyncLog implements Serializable {
      * @param <T>
      */
     public static class AddLog<T extends DataSync> extends SyncLog {
-        AddLog(SyncTypes.SyncType<T> syncType) {
+        AddLog(int logSeq, SyncTypes.SyncType<T> syncType) {
             super(syncType);
             this.operateType = OPT_ADD;
+            this.logSeq = logSeq;
         }
 
         public AddLog<T> setSerializeDataCollect(List<String> serializeDataCollect) {
@@ -332,7 +333,7 @@ public class SyncLog implements Serializable {
             return this;
         }
 
-        public AddLog<T> addSerializeData(T data) {
+        public AddLog<T> addData(T data) {
             if (this.serializeDataCollect == null) {
                 this.serializeDataCollect = new ArrayList<>();
             }

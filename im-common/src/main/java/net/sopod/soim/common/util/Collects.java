@@ -21,7 +21,7 @@ public class Collects {
 	}
 
 	public static boolean isEmpty(@Nullable Object[] arr) {
-		return arr == null || arr.length > 0;
+		return arr == null || arr.length == 0;
 	}
 
 	public static boolean isNotEmpty(@Nullable Object[] arr) {

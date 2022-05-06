@@ -20,7 +20,8 @@ public class ImEntryInitializer extends ChannelInitializer<SocketChannel> {
     private static final Logger logger = LoggerFactory.getLogger(ImEntryInitializer.class);
 
     @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
+    protected void initChannel(SocketChannel socketChannel) {
+        logger.info("init channel: {}", socketChannel);
         LogLevel logLevel = logger.isDebugEnabled() ? LogLevel.DEBUG : LogLevel.INFO;
         ChannelPipeline pipeline = socketChannel.pipeline();
         pipeline.addLast(new LoggingHandler(logLevel))
