@@ -8,6 +8,8 @@ import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.json.PackageVersion;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.CollectionLikeType;
+import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
@@ -24,9 +26,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -46,6 +46,7 @@ public class Jackson {
 	private static volatile Jackson JSON_INSTANCE;
 	private static volatile Jackson YAML_INSTANCE;
 	private static volatile Jackson XML_INSTANCE;
+	private static volatile Jackson MSGPACK_INSTANCE;
 
 	private final ObjectMapper objectMapper;
 
@@ -176,6 +177,19 @@ public class Jackson {
 		return XML_INSTANCE;
 	}
 
+	/**
+	 * 序列化的时候，不写入字段名字，会按字段顺序写入值
+	 * 如果在bean中要增加新字段，请务必保证新字段加在字段序的最后！
+	 * 对象新增字段，放在中间位置，会导致序列化失败！
+	 */
+	public static Jackson msgpack() {
+		getFactoryInstance("org.msgpack.jackson.dataformat.MessagePackFactory",
+			() -> MSGPACK_INSTANCE == null,
+			jackson -> MSGPACK_INSTANCE = jackson
+		);
+		return MSGPACK_INSTANCE;
+	}
+
 	public boolean canSerialize(Class<?> clazz) {
 		return objectMapper.canSerialize(clazz);
 	}
@@ -199,8 +213,107 @@ public class Jackson {
 		}
 	}
 
+	public <T> byte[] serializeBytes(T value) {
+		try {
+			return objectMapper.writeValueAsBytes(value);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public <T> T deserializeBytes(byte[] bytes, Class<T> valueType) {
+		try {
+			return objectMapper.readValue(bytes, valueType);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public <T> T toPojo(Map<String, Object> fromValue, Class<T> toValueType) {
 		return objectMapper.convertValue(fromValue, toValueType);
+	}
+
+	public <K, V> Map<K, V> readMap(String content, Class<K> keyClass, Class<V> valueClass) {
+		if (content == null || content.length() == 0) {
+			return Collections.emptyMap();
+		} else {
+			try {
+				return objectMapper.readValue(content, getMapType(keyClass, valueClass));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+	public <K, V> Map<K, V> readMap(byte[] content, Class<K> keyClass, Class<V> valueClass) {
+		if (content == null || content.length == 0) {
+			return Collections.emptyMap();
+		} else {
+			try {
+				return objectMapper.readValue(content, getMapType(keyClass, valueClass));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+	private MapType getMapType(Class<?> keyClass, Class<?> valueClass) {
+		return objectMapper.getTypeFactory().constructMapType(Map.class, keyClass, valueClass);
+	}
+
+
+	public List<Map<String, Object>> readListMap(String content) {
+		return readListMap(content, Object.class);
+	}
+
+	public <V> List<Map<String, V>> readListMap(String content, Class<V> valueType) {
+		if (content == null || content.length() == 0) {
+			return Collections.emptyList();
+		} else {
+			try {
+				return objectMapper.readValue(content, objectMapper.getTypeFactory()
+						.constructCollectionLikeType(List.class, getMapType(String.class, valueType)));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+
+	public <T> List<T> readList(byte[] content, Class<T> elementClass) {
+		if (content == null || content.length == 0) {
+			return Collections.emptyList();
+		} else {
+			try {
+				return objectMapper.readValue(content, getListType(elementClass));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+	public <T> List<T> readList(String content, Class<T> elementClass) {
+		if (content == null || content.length() == 0) {
+			return Collections.emptyList();
+		} else {
+			try {
+				return objectMapper.readValue(content, getListType(elementClass));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+	private CollectionLikeType getListType(Class<?> elementClass) {
+		objectMapper.getTypeFactory().constructCollectionLikeType(List.class, getMapType(String.class, Object.class));
+		return objectMapper.getTypeFactory().constructCollectionLikeType(List.class, elementClass);
 	}
 
 }

@@ -10,6 +10,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import net.sopod.soim.common.util.netty.FastThreadLocalThreadFactory;
+import net.sopod.soim.router.datasync.server.codec.SyncCmdCodec;
+import net.sopod.soim.router.datasync.server.codec.SyncLogEncoder;
+import net.sopod.soim.router.datasync.server.handler.SyncCmdServerHandler;
+import net.sopod.soim.router.datasync.server.handler.SyncLogServerHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +29,14 @@ public class SyncServer {
 
     private static final Logger logger = LoggerFactory.getLogger(SyncServer.class);
 
-    private final int port;
-
     private NioEventLoopGroup boss;
     private NioEventLoopGroup worker;
 
-    public SyncServer(int port) {
-        this.port = port;
+    public SyncServer() {
+
     }
 
-    public void start(Consumer<Throwable> onFail) throws InterruptedException {
+    public void start(int port, Consumer<Throwable> onFail) {
         this.boss = new NioEventLoopGroup(1, new FastThreadLocalThreadFactory("sync-server-boss-%d", Thread.NORM_PRIORITY));
         this.worker = new NioEventLoopGroup(2, new FastThreadLocalThreadFactory("sync-server-worker-%d", Thread.NORM_PRIORITY));
         ServerBootstrap serverBoot = new ServerBootstrap()
@@ -49,8 +51,10 @@ public class SyncServer {
                                 : logger.isErrorEnabled() ? LogLevel.ERROR : LogLevel.INFO;
                         ChannelPipeline pipeline = channel.pipeline();
                         pipeline.addLast(new LoggingHandler(logLevel))
-                                .addLast(new SyncLogDataCodec())
-                                 .addLast(new SyncServerInboundHandler());
+                                .addLast(new SyncCmdCodec())
+                                .addLast(new SyncLogEncoder())
+                                .addLast(new SyncCmdServerHandler())
+                                .addLast(new SyncLogServerHandler());
                     }
                 });
         serverBoot.bind(port).addListener((ChannelFutureListener) future -> {
@@ -71,6 +75,15 @@ public class SyncServer {
         if (worker != null) {
             worker.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) {
+        new SyncServer()
+                .start(9999, err -> {
+                    logger.error("服务启动失败");
+                });
+
+
     }
 
 }

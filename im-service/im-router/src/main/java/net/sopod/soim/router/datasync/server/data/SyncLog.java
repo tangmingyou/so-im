@@ -1,4 +1,4 @@
-package net.sopod.soim.router.datasync.server;
+package net.sopod.soim.router.datasync.server.data;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -12,8 +12,10 @@ import net.sopod.soim.router.datasync.SyncTypes;
 import org.apache.dubbo.common.io.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xerial.snappy.Snappy;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
@@ -37,7 +39,7 @@ public class SyncLog implements Serializable {
 
     private static final long serialVersionUID = -8925525709590423526L;
 
-    private static final short MAGIC = 0x7a21;
+    // private static final short MAGIC = 0x7a21;
 
     public static final int OPT_ADD = 1;
     public static final int OPT_REMOVE = 2;
@@ -87,7 +89,7 @@ public class SyncLog implements Serializable {
     protected String[] args;
 
     /** ================ 新增数据:序列化后的数据(避免修改) ===================== */
-    protected List<String> serializeDataCollect;
+    protected List<byte[]> serializeDataCollect;
 
     /** 数据可能同步给多个订阅者，缓存一下 */
     private transient byte[] toBytesCache;
@@ -125,8 +127,9 @@ public class SyncLog implements Serializable {
         int dataCollectByteLen = 0;
         if (dataCollectSize > 0) {
             int i = 0;
-            for (String dataCollect : serializeDataCollect) {
-                byteData[i] = dataCollect.getBytes(StandardCharsets.UTF_8);
+            for (byte[] dataCollect : serializeDataCollect) {
+                // byteData[i] = dataCollect.getBytes(StandardCharsets.UTF_8);
+                byteData[i] = dataCollect;
                 dataCollectByteLen += 4;
                 dataCollectByteLen += byteData[i].length;
                 i++;
@@ -134,8 +137,8 @@ public class SyncLog implements Serializable {
         }
         // 总长 + 同步数据类型(byte) +
         byte[] bytes = new byte[
-                2   // 魔术
-                + 4 // 请求体总长度
+                // 2 +  // 魔术
+                4 // 请求体总长度
                 + 1 // 同步数据类型 SyncType
                 + 1 // 新增/删除/更新
                 + 4 // logSeq 序列号
@@ -151,8 +154,8 @@ public class SyncLog implements Serializable {
                 + dataCollectByteLen // 序列化数据字节(len,dataBytes,len,dataBytes...)
         ];
         int offset = 0;
-        Bytes.short2bytes(MAGIC, bytes, offset);
-        offset += 2;
+//        Bytes.short2bytes(MAGIC, bytes, offset);
+//        offset += 2;
 
         Bytes.int2bytes(bytes.length - 6, bytes, offset);
         offset += 4;
@@ -204,10 +207,6 @@ public class SyncLog implements Serializable {
     }
 
     public static SyncLog read(ByteBuf buf) {
-        short magic = buf.readShort();
-        if (magic != MAGIC) {
-            throw new IllegalStateException("unknown bytes magic error");
-        }
         // 后续bytes长度
         int dataLen = buf.readInt();
         int syncDataType = buf.readByte();
@@ -258,18 +257,17 @@ public class SyncLog implements Serializable {
         int dataSize = buf.readInt();
         log.serializeDataCollect = dataSize > 0 ? new ArrayList<>(dataSize) : Collections.emptyList();
         if (dataSize > 0) {
-            byte[] dataByte = new byte[0];
             for (int i = 0; i < dataSize; i++) {
                 int dataByteLen = buf.readInt();
-                dataByte = dataByte.length >= dataByteLen ? dataByte : new byte[dataByteLen];
+                byte[] dataByte = new byte[dataByteLen];
                 buf.readBytes(dataByte, 0, dataByteLen);
-                log.serializeDataCollect.add(new String(dataByte, 0, dataByteLen, StandardCharsets.UTF_8));
+                log.serializeDataCollect.add(dataByte);
             }
         }
         return log;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         RouterUser user1 = new RouterUser()
                 .setUid(10001L)
                 .setAccount("前线")
@@ -288,6 +286,7 @@ public class SyncLog implements Serializable {
 //        System.out.println(json.getBytes(StandardCharsets.UTF_8).length);
 
         byte[] bytes = addLog.toBytes();
+        byte[] compress = Snappy.compress(bytes);
         ByteBuf buf = Unpooled.wrappedBuffer(bytes);
         SyncLog newLog = SyncLog.read(buf);
         buf.release();
@@ -328,7 +327,7 @@ public class SyncLog implements Serializable {
             this.logSeq = logSeq;
         }
 
-        public AddLog<T> setSerializeDataCollect(List<String> serializeDataCollect) {
+        public AddLog<T> setSerializeDataCollect(List<byte[]> serializeDataCollect) {
             this.serializeDataCollect = serializeDataCollect;
             return this;
         }
@@ -337,7 +336,8 @@ public class SyncLog implements Serializable {
             if (this.serializeDataCollect == null) {
                 this.serializeDataCollect = new ArrayList<>();
             }
-            this.serializeDataCollect.add(Jackson.json().serialize(data));
+            byte[] dataBytes = Jackson.msgpack().serializeBytes(data);
+            this.serializeDataCollect.add(dataBytes);
             return this;
         }
     }

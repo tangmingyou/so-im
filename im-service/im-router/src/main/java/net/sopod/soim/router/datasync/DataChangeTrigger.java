@@ -1,6 +1,6 @@
 package net.sopod.soim.router.datasync;
 
-import net.sopod.soim.router.datasync.server.SyncLog;
+import net.sopod.soim.router.datasync.server.data.SyncLog;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
