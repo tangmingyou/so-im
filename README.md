@@ -38,7 +38,9 @@
   - 异/同设备，多地登录
 
 
-
+### 资料
+一致性hash算法能否解决数据迁移的问题？
+https://www.zhihu.com/question/521159623
 
 
 ### TODO
