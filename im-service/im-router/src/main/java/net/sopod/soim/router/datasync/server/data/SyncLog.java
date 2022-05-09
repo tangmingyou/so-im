@@ -58,8 +58,8 @@ public class SyncLog implements Serializable {
     }
 
     protected SyncLog(SyncTypes.SyncType<?> syncType) {
-        this.syncDataType = syncType.ordinal();
-        this.clazz = syncType.dataType().getName();
+        this.syncType = syncType.ordinal();
+        // this.clazz = syncType.dataType().getName();
     }
 
     /** 日志序列号保证顺序 */
@@ -76,13 +76,13 @@ public class SyncLog implements Serializable {
     /**
      * {@link SyncTypes} ordinal
      */
-    protected int syncDataType;
+    protected int syncType;
 
     /** ================ 数据id标示:删除,更新用 ===================== */
     protected String dataKey;
 
     /** ================ 更新数据:类,更新方法,更新方法序列化后参数(避免修改) ===================== */
-    protected String clazz;
+    //protected String clazz;
 
     protected String method;
 
@@ -107,7 +107,7 @@ public class SyncLog implements Serializable {
 
     private byte[] toBytes0() {
         byte[] dataKeyBytes = dataKey == null ? new byte[0] : dataKey.getBytes();
-        byte[] clazzBytes = clazz == null ? new byte[0] : clazz.getBytes();
+        // byte[] clazzBytes = clazz == null ? new byte[0] : clazz.getBytes();
         byte[] methodBytes = method == null ? new byte[0] : method.getBytes();
         int argSize = args == null ? 0 : args.length;
 
@@ -145,7 +145,7 @@ public class SyncLog implements Serializable {
                 + 4 // dataKey 数据主键标识字节长度
                 + dataKeyBytes.length // dataKey 数据字节
                 + 4 // clazz 字节长度
-                + clazzBytes.length // clazz字节
+                // + clazzBytes.length // clazz字节
                 + 4 // method 字节长度
                 + methodBytes.length // method 字节
                 + 4 // args参数个数
@@ -160,7 +160,7 @@ public class SyncLog implements Serializable {
         Bytes.int2bytes(bytes.length - 6, bytes, offset);
         offset += 4;
 
-        bytes[offset] = (byte)syncDataType;
+        bytes[offset] = (byte) syncType;
         offset += 1;
         bytes[offset] = (byte)operateType;
         offset += 1;
@@ -173,10 +173,10 @@ public class SyncLog implements Serializable {
         System.arraycopy(dataKeyBytes, 0, bytes, offset, dataKeyBytes.length);
         offset += dataKeyBytes.length;
 
-        Bytes.int2bytes(clazzBytes.length, bytes, offset);
-        offset += 4;
-        System.arraycopy(clazzBytes, 0, bytes, offset, clazzBytes.length);
-        offset += clazzBytes.length;
+//        Bytes.int2bytes(clazzBytes.length, bytes, offset);
+//        offset += 4;
+//        System.arraycopy(clazzBytes, 0, bytes, offset, clazzBytes.length);
+//        offset += clazzBytes.length;
 
         Bytes.int2bytes(methodBytes.length, bytes, offset);
         offset += 4;
@@ -220,16 +220,16 @@ public class SyncLog implements Serializable {
             buf.readBytes(dataKeyBytes);
             log.dataKey = new String(dataKeyBytes, StandardCharsets.UTF_8);
         }
-        int clazzLen = buf.readInt();
-        byte[] clazzBytes = new byte[clazzLen];
-        if (clazzLen > 0) {
-            buf.readBytes(clazzBytes);
-            log.clazz = new String(clazzBytes, StandardCharsets.UTF_8);
-        }
+//        int clazzLen = buf.readInt();
+//        byte[] clazzBytes = new byte[clazzLen];
+//        if (clazzLen > 0) {
+//            buf.readBytes(clazzBytes);
+//            log.clazz = new String(clazzBytes, StandardCharsets.UTF_8);
+//        }
         int methodLen = buf.readInt();
         if (methodLen > 0) {
             // 复用 clazz 字节数组
-            byte[] methodBytes = clazzLen >= methodLen ? clazzBytes : new byte[methodLen];
+            byte[] methodBytes = new byte[methodLen];
             buf.readBytes(methodBytes, 0, methodLen);
             log.method = new String(methodBytes, 0, methodLen, StandardCharsets.UTF_8);
         }

@@ -4,6 +4,7 @@ import net.sopod.soim.common.util.Jackson;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.RouterUserStorage;
 
+import java.nio.channels.Channel;
 import java.util.Map;
 
 /**
@@ -13,6 +14,10 @@ import java.util.Map;
  * @date 2022-05-08 09:42
  */
 public class SyncService {
+
+    public SyncService(String clientAddr, Channel channel) {
+
+    }
 
     public void fullSync() {
         Map<Long, RouterUser> routerUserMap = RouterUserStorage.getInstance().getRouterUserMap();

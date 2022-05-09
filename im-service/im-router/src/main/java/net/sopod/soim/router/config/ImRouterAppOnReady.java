@@ -73,6 +73,36 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
     }
 
     /**
+     * 检查集群情况
+     */
+    public void checkClusterEnvironment() {
+        List<Instance> clusterImEntryInstance = getClusterImEntryInstance();
+        if (Collects.isEmpty(clusterImEntryInstance)) {
+            logger.info("当前集群无{}节点，直接启动", AppConstant.APP_IM_ROUTER_NAME);
+            return;
+        }
+        for (Instance instance : clusterImEntryInstance) {
+            String host = instance.getIp();
+            // 同步服务器端口偏移量 1000
+            int port = instance.getPort();
+        }
+    }
+
+    private List<Instance> getClusterImEntryInstance() {
+        String serverAddr = "124.222.131.236:3848";
+        Properties properties = new Properties();
+        properties.put("serverAddr", serverAddr);
+        // 获取当前服务实例
+        NamingService namingService = null;
+        try {
+            namingService = NacosFactory.createNamingService(properties);
+            return namingService.getAllInstances(AppConstant.APP_IM_ROUTER_NAME);
+        } catch (NacosException e) {
+            throw new IllegalStateException("集群状态检查失败:", e);
+        }
+    }
+
+    /**
      * 一致性hash，使用了虚拟节点会导致迁移多个数据节点
      *
      * 应用启动后，进行新增 im-router 节点逻辑处理

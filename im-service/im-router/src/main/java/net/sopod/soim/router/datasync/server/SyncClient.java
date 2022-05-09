@@ -5,7 +5,10 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
+import net.sopod.soim.router.cache.RouterUser;
+import net.sopod.soim.router.datasync.SyncTypes;
 import net.sopod.soim.router.datasync.server.codec.SyncCmdCodec;
 import net.sopod.soim.router.datasync.server.codec.SyncLogEncoder;
 import net.sopod.soim.router.datasync.server.data.SyncCmd;
@@ -29,6 +32,7 @@ public class SyncClient {
 
     public SyncClient() {
         this.bootstrap = new Bootstrap()
+                .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel channel) throws Exception {
@@ -69,4 +73,30 @@ public class SyncClient {
         this.group.shutdownGracefully();
     }
 
+
+    public static void main(String[] args) throws InterruptedException {
+        SyncClient client = new SyncClient();
+        client.connect("127.0.0.1", 9999);
+        // SyncCmd syncCmd = new SyncCmd().setCmdType(SyncCmd.SYNC_LOG);
+        // new SyncLog()
+        RouterUser user = new RouterUser()
+                .setUid(12312L)
+                .setAccount("蓝水云烟")
+                .setImEntryAddr("127.0.0.1")
+                .setIsOnline(false)
+                .setOnlineTime(10086L);
+        RouterUser user2 = new RouterUser()
+                .setUid(10010L)
+                .setAccount("百战成诗")
+                .setImEntryAddr("192.168.1.101")
+                .setIsOnline(true)
+                .setOnlineTime(16161L);
+        SyncLog.AddLog<RouterUser> addLog = SyncLog.addLog(1, SyncTypes.ROUTER_USER)
+                .addData(user)
+                .addData(user2);
+        client.clientChannel.writeAndFlush(addLog);
+
+        Thread.sleep(10000);
+        client.close();
+    }
 }

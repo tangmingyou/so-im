@@ -36,6 +36,7 @@ public class SyncCmdClientHandler extends SimpleChannelInboundHandler<SyncCmd> {
 
     private void handlePong(ChannelHandlerContext ctx, SyncCmd syncCmd) {
         logger.info("pong: {}", ctx.channel());
+        System.out.println("pong: " + ctx.channel());
     }
 
 }
