@@ -1,8 +1,10 @@
 package net.sopod.soim.router.config;
 
+import net.sopod.soim.common.constant.AppConstant;
 import net.sopod.soim.common.util.HashAlgorithms;
 import net.sopod.soim.common.util.StringUtil;
 import org.apache.dubbo.common.URL;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,19 +18,31 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author tmy
  * @date 2022-05-04 09:21
  */
-public class ImRouterAppContextHolder {
+public class AppContextHolder {
+
+    private static ApplicationContext applicationContext;
 
     /**
      * 要注册的 provider 服务的 url 列表
      */
     private static final List<URL> registryInvokerUrls = new CopyOnWriteArrayList<>();
 
-    private static String appServiceAddr;
+    private static String appAddr;
+    private static String appHost;
+    private static int appPort;
 
     public static final String IM_ROUTER_ID;
 
     static {
         IM_ROUTER_ID = String.valueOf(HashAlgorithms.md5Hash(StringUtil.randomUUID()));
+    }
+
+    public static void setApplicationContext(ApplicationContext applicationContext) {
+        AppContextHolder.applicationContext = applicationContext;
+    }
+
+    public static <T> T getBean(Class<T> type) {
+        return applicationContext.getBean(type);
     }
 
     public static void addRegistryInvokerUrl(URL registryInvokerUrl) {
@@ -39,12 +53,22 @@ public class ImRouterAppContextHolder {
         return registryInvokerUrls;
     }
 
-    public static void setAppServiceAddr(String appServiceAddr) {
-        ImRouterAppContextHolder.appServiceAddr = appServiceAddr;
+    public static void setAppServiceAddr(String host, int port) {
+        AppContextHolder.appAddr = host + ":" + port;
+        AppContextHolder.appHost = host;
+        AppContextHolder.appPort = port;
     }
 
-    public static String getAppServiceAddr() {
-        return appServiceAddr;
+    public static String getAppAddr() {
+        return appAddr;
+    }
+
+    public static String getAppHost() {
+        return appHost;
+    }
+
+    public static int getAppPort() {
+        return appPort;
     }
 
 }

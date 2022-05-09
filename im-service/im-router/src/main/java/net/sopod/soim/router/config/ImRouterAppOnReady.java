@@ -8,11 +8,14 @@ import net.sopod.soim.common.constant.AppConstant;
 import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.router.api.route.UidConsistentHashSelector;
+import net.sopod.soim.router.datasync.SyncLogMigrateService;
+import net.sopod.soim.router.datasync.server.session.SyncServerSession;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.registry.Registry;
 import org.apache.dubbo.registry.support.RegistryManager;
 import org.apache.dubbo.rpc.model.ApplicationModel;
-import org.apache.dubbo.rpc.proxy.AbstractProxyInvoker;
 import org.apache.dubbo.spring.boot.context.event.AwaitingNonWebApplicationListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * AppcationInitialed
@@ -35,13 +39,31 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
 
     private static final Logger logger = LoggerFactory.getLogger(ImRouterAppOnReady.class);
 
+    private static final int SYNC_SERVER_PORT_OFFSET = 1000;
+
     /**
      * 同步一致性hash临近节点数据
      */
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        AppContextHolder.setApplicationContext(event.getApplicationContext());
+
+        // 启动数据同步服务
+        this.startSyncServer();
+
+        SyncLogMigrateService syncLogMigrateService = event.getApplicationContext().getBean(SyncLogMigrateService.class);
+        // 检查集群状态
+        boolean registryNow = this.checkClusterEnvironment(syncLogMigrateService);
+
         // 服务已可用进行注册
-        this.doRegistry();
+        if (registryNow) {
+            this.doRegistry();
+        }
+    }
+
+    private void startSyncServer() {
+        SyncServerSession.getInstance()
+                .start(AppContextHolder.getAppPort() + SYNC_SERVER_PORT_OFFSET);
     }
 
     /**
@@ -51,7 +73,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
         RegistryManager registryManager = ApplicationModel.defaultModel().getBeanFactory()
                 .getBean(RegistryManager.class);
         Collection<Registry> registries = registryManager.getRegistries();
-        List<URL> registryInvokerUrls = ImRouterAppContextHolder.getRegistryInvokerUrls();
+        List<URL> registryInvokerUrls = AppContextHolder.getRegistryInvokerUrls();
         if (Collects.isNotEmpty(registries)
                 && Collects.isNotEmpty(registryInvokerUrls)) {
             for (Registry registry : registries) {
@@ -59,7 +81,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
                     // 添加 im-router 服务id参数，生成新的 url
                     URL url = invokerUrl.addParameter(
                             DubboConstant.IM_ROUTER_ID_KEY,
-                            ImRouterAppContextHolder.IM_ROUTER_ID
+                            AppContextHolder.IM_ROUTER_ID
                     );
                     registry.register(url);
                 }
@@ -74,18 +96,42 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
 
     /**
      * 检查集群情况
+     * @return 是否可立即注册服务
      */
-    public void checkClusterEnvironment() {
+    public boolean checkClusterEnvironment(SyncLogMigrateService syncLogMigrateService) {
+        // TODO 加分布式锁，同一时间单一节点进行数据同步
+
         List<Instance> clusterImEntryInstance = getClusterImEntryInstance();
         if (Collects.isEmpty(clusterImEntryInstance)) {
             logger.info("当前集群无{}节点，直接启动", AppConstant.APP_IM_ROUTER_NAME);
-            return;
+            return true;
         }
-        for (Instance instance : clusterImEntryInstance) {
-            String host = instance.getIp();
-            // 同步服务器端口偏移量 1000
-            int port = instance.getPort();
+        logger.info("当前集群{}节点: {} of {}",
+                AppConstant.APP_IM_ROUTER_NAME,
+                clusterImEntryInstance.size(),
+                clusterImEntryInstance.stream().map(Instance::toInetAddr).collect(Collectors.toList()));
+
+        // 构建一致性 hash 环，计算需要同步数据的节点
+        Map<String, Instance> addrInstanceMap = Collects.collect2Map(clusterImEntryInstance,
+                Instance::toInetAddr, // 服务地址, 如: 192.168.56.1:3031
+                new HashMap<>(Collects.mapCapacity(clusterImEntryInstance.size()))
+        );
+        UidConsistentHashSelector<Instance> selector = new UidConsistentHashSelector<>(addrInstanceMap, addrInstanceMap.hashCode());
+        Set<Instance> migrateNodes = selector.selectMigrateNodes(AppContextHolder.getAppAddr());
+        logger.info("需迁移数据{}节点: {} of {}",
+                AppConstant.APP_IM_ROUTER_NAME,
+                migrateNodes.size(),
+                migrateNodes.stream().map(Instance::toInetAddr).collect(Collectors.toList()));
+        if (Collects.isEmpty(migrateNodes)) {
+            return true;
         }
+        // 发起客户端连接，开始同步数据
+        List<Pair<String, Integer>> migrateHosts = migrateNodes.stream()
+                .map(instance -> ImmutablePair.of(instance.getIp(), instance.getPort() + SYNC_SERVER_PORT_OFFSET))
+                .collect(Collectors.toList());
+        // 开始同步数据
+        syncLogMigrateService.migrateSyncLog(migrateHosts);
+        return false;
     }
 
     private List<Instance> getClusterImEntryInstance() {
@@ -99,6 +145,14 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
             return namingService.getAllInstances(AppConstant.APP_IM_ROUTER_NAME);
         } catch (NacosException e) {
             throw new IllegalStateException("集群状态检查失败:", e);
+        } finally {
+            if (namingService != null) {
+                try {
+                    namingService.shutDown();
+                } catch (NacosException e) {
+                    logger.info("查询{}服务namingServer关闭失败!", AppConstant.APP_IM_ROUTER_NAME, e);
+                }
+            }
         }
     }
 

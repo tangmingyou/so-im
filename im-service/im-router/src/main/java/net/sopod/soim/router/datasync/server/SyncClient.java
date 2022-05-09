@@ -69,6 +69,22 @@ public class SyncClient {
         clientChannel.attr(key).get();
     }
 
+    /**
+     * 全量同步数据
+     */
+    public void syncLogByHash() {
+
+    }
+
+    /**
+     * 通过计算一致性 hash 同步数据
+     * @param currentAddr 当前新节点地址，hash(currentAddr)
+     */
+    public void syncLogByHash(String currentAddr) {
+        SyncCmd syncByHash = SyncCmd.syncByHash(currentAddr);
+        clientChannel.writeAndFlush(syncByHash);
+    }
+
     public void close() {
         this.group.shutdownGracefully();
     }

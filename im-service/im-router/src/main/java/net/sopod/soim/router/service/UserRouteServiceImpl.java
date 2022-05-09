@@ -13,7 +13,7 @@ import net.sopod.soim.router.api.model.RegistryRes;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.api.service.UserRouteService;
 import net.sopod.soim.router.cache.RouterUserStorage;
-import net.sopod.soim.router.config.ImRouterAppContextHolder;
+import net.sopod.soim.router.config.AppContextHolder;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -57,7 +57,7 @@ public class UserRouteServiceImpl implements UserRouteService {
         // 接口返回 im_router_id，后续调用 im-router 负载均衡指向当前router服务
         return new RegistryRes()
                 .setSuccess(true)
-                .setImRouterId(ImRouterAppContextHolder.IM_ROUTER_ID);
+                .setImRouterId(AppContextHolder.IM_ROUTER_ID);
     }
 
     @Override

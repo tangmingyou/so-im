@@ -25,19 +25,36 @@ public class SyncCmd {
     public static final int PONG = 2;
 
     /**
-     * 同步命令
+     * 全量同步命令
      */
-    public static final Integer SYNC = 3;
+    public static final Integer SYNC_FULL = 3;
+
+    /**
+     * 计算一致性hash同步数据
+     */
+    public static final int SYNC_BY_HASH = 4;
+
+    /**
+     * 一致性hash同步数据，收到后ACK响应
+     */
+    public static final int SYNC_BY_HASH_ACK = 5;
 
     /**
      * 同步结束命令
      */
-    public static final Integer SYNC_END = 4;
+    public static final Integer SYNC_END = 8;
 
     /**
      * SyncLog 推送命令
      */
     public static final Integer SYNC_LOG = 10;
+
+    public static SyncCmd syncByHash(String hashNode) {
+        SyncCmd syncCmd = new SyncCmd();
+        syncCmd.setCmdType(SYNC_BY_HASH);
+        syncCmd.setParam1(hashNode);
+        return syncCmd;
+    }
 
     private Integer cmdType;
 

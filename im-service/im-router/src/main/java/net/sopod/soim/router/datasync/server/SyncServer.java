@@ -64,11 +64,11 @@ public class SyncServer {
                 }
                 return;
             }
-            logger.info("sync-server listening at {}...", port);
+            logger.info("im-router sync-server listening at {}...", port);
         });
     }
 
-    public void shutdown() {
+    public void close() {
         if (boss != null) {
             boss.shutdownGracefully();
         }
@@ -82,8 +82,6 @@ public class SyncServer {
                 .start(9999, err -> {
                     logger.error("服务启动失败");
                 });
-
-
     }
 
 }
