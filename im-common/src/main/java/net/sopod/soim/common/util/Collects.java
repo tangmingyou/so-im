@@ -12,6 +12,14 @@ import java.util.function.Function;
  */
 public class Collects {
 
+	public static boolean isEmpty(@Nullable Map<?, ?> map) {
+		return map == null || map.isEmpty();
+	}
+
+	public static boolean isNotEmpty(@Nullable Map<?, ?> map) {
+		return !isEmpty(map);
+	}
+
 	public static boolean isEmpty(@Nullable Collection<?> collection) {
 		return collection == null || collection.isEmpty();
 	}

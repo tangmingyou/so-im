@@ -18,6 +18,8 @@ public class DataChangeTrigger {
 
     private static DataChangeTrigger INSTANCE;
 
+    // TODO subscribes 订阅 selector.select(dataKey);
+
     public static DataChangeTrigger instance() {
         if (INSTANCE == null) {
             synchronized (DataChangeTrigger.class) {
@@ -72,6 +74,13 @@ public class DataChangeTrigger {
 
     private AtomicInteger getSeqCounter(String dataKey) {
         return seqCounterMap.computeIfAbsent(dataKey, key -> new AtomicInteger());
+    }
+
+    /**
+     * 删除暂存数据字段等...
+     */
+    public void clean() {
+
     }
 
 }

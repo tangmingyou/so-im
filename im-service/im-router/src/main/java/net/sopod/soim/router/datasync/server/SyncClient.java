@@ -6,6 +6,8 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.AttributeKey;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.datasync.SyncTypes;
@@ -37,6 +39,7 @@ public class SyncClient {
                     @Override
                     protected void initChannel(SocketChannel channel) throws Exception {
                         channel.pipeline()
+                                .addLast(new LoggingHandler(LogLevel.INFO))
                                 .addLast(new SyncCmdCodec())
                                 .addLast(new SyncLogEncoder())
                                 .addLast(new SyncCmdClientHandler())

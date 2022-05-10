@@ -8,6 +8,8 @@ import net.sopod.soim.common.constant.AppConstant;
 import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.router.api.route.UidConsistentHashSelector;
+import net.sopod.soim.router.cache.RouterUser;
+import net.sopod.soim.router.cache.RouterUserStorage;
 import net.sopod.soim.router.datasync.SyncLogMigrateService;
 import net.sopod.soim.router.datasync.server.session.SyncServerSession;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -47,6 +49,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         AppContextHolder.setApplicationContext(event.getApplicationContext());
+        this.init();
 
         // 启动数据同步服务
         this.startSyncServer();
@@ -57,7 +60,43 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
 
         // 服务已可用进行注册
         if (registryNow) {
+            this.createMockData();
             this.doRegistry();
+        }
+    }
+
+    private void createMockData() {
+        for (long i = 10000L; i < 11000L; i++) {
+            RouterUser routerUser = new RouterUser()
+                    .setUid(i)
+                    .setAccount("京城" + i)
+                    .setIsOnline(i % 2 == 0)
+                    .setImEntryAddr("127.0.0.1:1313");
+            RouterUserStorage.getInstance().put(i, routerUser);
+        }
+    }
+
+    /**
+     * 获取注册中心地址
+     */
+    private void init() {
+        RegistryManager registryManager = ApplicationModel.defaultModel().getBeanFactory()
+                .getBean(RegistryManager.class);
+        Collection<Registry> registries = registryManager.getRegistries();
+        if (Collects.isNotEmpty(registries)) {
+            for (Registry registry : registries) {
+                // isServiceDiscovery(): true是注册应用(im-router)的registry, false是注册服务接口的registry
+                if (registry.isAvailable()
+                        && registry.isServiceDiscovery()) {
+                    String discoveryAddr = registry.getUrl().getAddress();
+                    AppContextHolder.setServiceDiscoveryRegistryAddr(discoveryAddr);
+                    logger.info("service discovery registry addr: {}", discoveryAddr);
+                    break;
+                }
+            }
+        }
+        if (AppContextHolder.getDiscoveryAddr() == null) {
+            logger.info("未解析到服务注册中心: 将直接启动不进行数据迁移");
         }
     }
 
@@ -101,7 +140,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
     public boolean checkClusterEnvironment(SyncLogMigrateService syncLogMigrateService) {
         // TODO 加分布式锁，同一时间单一节点进行数据同步
 
-        List<Instance> clusterImEntryInstance = getClusterImEntryInstance();
+        List<Instance> clusterImEntryInstance = AppContextHolder.getClusterImRouterInstance();
         if (Collects.isEmpty(clusterImEntryInstance)) {
             logger.info("当前集群无{}节点，直接启动", AppConstant.APP_IM_ROUTER_NAME);
             return true;
@@ -134,28 +173,6 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
         return false;
     }
 
-    private List<Instance> getClusterImEntryInstance() {
-        String serverAddr = "124.222.131.236:3848";
-        Properties properties = new Properties();
-        properties.put("serverAddr", serverAddr);
-        // 获取当前服务实例
-        NamingService namingService = null;
-        try {
-            namingService = NacosFactory.createNamingService(properties);
-            return namingService.getAllInstances(AppConstant.APP_IM_ROUTER_NAME);
-        } catch (NacosException e) {
-            throw new IllegalStateException("集群状态检查失败:", e);
-        } finally {
-            if (namingService != null) {
-                try {
-                    namingService.shutDown();
-                } catch (NacosException e) {
-                    logger.info("查询{}服务namingServer关闭失败!", AppConstant.APP_IM_ROUTER_NAME, e);
-                }
-            }
-        }
-    }
-
     /**
      * 一致性hash，使用了虚拟节点会导致迁移多个数据节点
      *
@@ -169,6 +186,8 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
      * 4.数据迁移完成后，注册dubbo服务
      * 5.定时n秒后或添加provider filter服务第一次被调用m秒后，依次调用所有迁移数据节点可清空用户数据（用户数据已移过来了失败不用管）
      *   可能依次调用清空数据过程中又会有数据更新需要订阅
+     *
+     * 关闭时检查默认有备份注册备份，无备份推送尝试数据到其他节点
      */
     private void nameServerTestCode() {
         String serverAddr = "124.222.131.236:3848";

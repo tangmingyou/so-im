@@ -52,6 +52,11 @@ public class SyncTypes {
         public boolean removeData(String uid) {
             return null != RouterUserStorage.getInstance().remove(Long.valueOf(uid));
         }
+
+        @Override
+        public int onceSyncSize() {
+            return 30;
+        }
     };
 
     public static abstract class SyncType<T extends DataSync> {
@@ -91,6 +96,8 @@ public class SyncTypes {
         public abstract boolean addData(T data);
 
         public abstract boolean removeData(String key);
+
+        public abstract int onceSyncSize();
 
         @Nullable
         @SuppressWarnings("unchecked")

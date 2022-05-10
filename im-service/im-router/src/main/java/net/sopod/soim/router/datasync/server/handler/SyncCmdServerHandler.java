@@ -30,6 +30,9 @@ public class SyncCmdServerHandler extends SimpleChannelInboundHandler<SyncCmd> {
             case SyncCmd.SYNC_BY_HASH:
                 this.handleReqSyncByHash(ctx, syncCmd);
                 break;
+            case SyncCmd.SYNC_BY_HASH_ACK:
+                this.handleReqSyncByHashAck(ctx, syncCmd);
+                break;
         }
     }
 
@@ -47,10 +50,18 @@ public class SyncCmdServerHandler extends SimpleChannelInboundHandler<SyncCmd> {
     private void handleReqSyncByHash(ChannelHandlerContext ctx, SyncCmd syncCmd) {
         String clientAddr = syncCmd.getParam1();
         // 绑定数据同步服务
-        SyncLogByHashService syncLogByHashService = new SyncLogByHashService(clientAddr);
+        SyncLogByHashService syncLogByHashService = new SyncLogByHashService(ctx.channel(), clientAddr);
         ctx.channel().attr(SyncLogByHashService.ATTR_KEY).set(syncLogByHashService);
         // 开始数据同步
         syncLogByHashService.startPush();
+    }
+
+    /**
+     * 推送数据响应，推送下一批数据
+     */
+    private void handleReqSyncByHashAck(ChannelHandlerContext ctx, SyncCmd syncCmd) {
+        SyncLogByHashService syncLogByHashService = ctx.channel().attr(SyncLogByHashService.ATTR_KEY).get();
+        syncLogByHashService.pushNextBatch();
     }
 
 }

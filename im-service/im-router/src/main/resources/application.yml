@@ -20,7 +20,7 @@ dubbo:
     group: so-im
   protocol:
     name: dubbo
-    port: 3031
+    port: 3032
   consumer:
     check: false
     # filter: invoke_im_entry_filter # 调用im-entry时设置调用地址，配合im_entry_loadbalance路由到用户对应连接的im-entry
