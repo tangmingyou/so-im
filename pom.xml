@@ -27,6 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>
@@ -332,9 +333,6 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
-                    <!--                    <testExcludes>-->
-                    <!--                        <testExclude>/src/test/**</testExclude>-->
-                    <!--                    </testExcludes>-->
                     <encoding>utf-8</encoding>
                 </configuration>
             </plugin>
