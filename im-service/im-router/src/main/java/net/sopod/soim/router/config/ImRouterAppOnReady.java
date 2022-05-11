@@ -27,6 +27,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 /**
@@ -58,12 +62,14 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
         // 检查集群状态
         boolean registryNow = this.checkClusterEnvironment(syncLogMigrateService);
 
-        // 服务已可用进行注册
+        // 服务已可用立即进行注册
         if (registryNow) {
             this.createMockData();
-            this.doRegistry();
+            AppContextHolder.doRegistry();
         }
     }
+
+    private AtomicLong uidCounter = new AtomicLong(10000);
 
     private void createMockData() {
         for (long i = 10000L; i < 11000L; i++) {
@@ -74,6 +80,18 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
                     .setImEntryAddr("127.0.0.1:1313");
             RouterUserStorage.getInstance().put(i, routerUser);
         }
+
+        Executors.newSingleThreadScheduledExecutor()
+                .scheduleWithFixedDelay(() -> {
+                    for (int i = 0; i < 10; i++) {
+                        RouterUser routerUser = RouterUserStorage.getInstance().get(uidCounter.getAndIncrement());
+                        if (routerUser == null) {
+                            return;
+                        }
+                        routerUser.setAccount("changeAccount:" + uidCounter.get());
+                    }
+                    logger.info("change log....: {}", uidCounter.get());
+                }, 30, 10, TimeUnit.SECONDS);
     }
 
     /**
@@ -86,6 +104,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
         if (Collects.isNotEmpty(registries)) {
             for (Registry registry : registries) {
                 // isServiceDiscovery(): true是注册应用(im-router)的registry, false是注册服务接口的registry
+                logger.info("registry: {}, {}", registry.getUrl().getAddress(), registry.isServiceDiscovery());
                 if (registry.isAvailable()
                         && registry.isServiceDiscovery()) {
                     String discoveryAddr = registry.getUrl().getAddress();
@@ -105,28 +124,6 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
                 .start(AppContextHolder.getAppPort() + SYNC_SERVER_PORT_OFFSET);
     }
 
-    /**
-     * 注册 im-router 的API接口服务
-     */
-    private void doRegistry() {
-        RegistryManager registryManager = ApplicationModel.defaultModel().getBeanFactory()
-                .getBean(RegistryManager.class);
-        Collection<Registry> registries = registryManager.getRegistries();
-        List<URL> registryInvokerUrls = AppContextHolder.getRegistryInvokerUrls();
-        if (Collects.isNotEmpty(registries)
-                && Collects.isNotEmpty(registryInvokerUrls)) {
-            for (Registry registry : registries) {
-                for (URL invokerUrl : registryInvokerUrls) {
-                    // 添加 im-router 服务id参数，生成新的 url
-                    URL url = invokerUrl.addParameter(
-                            DubboConstant.IM_ROUTER_ID_KEY,
-                            AppContextHolder.IM_ROUTER_ID
-                    );
-                    registry.register(url);
-                }
-            }
-        }
-    }
 
     @Override
     public int getOrder() {

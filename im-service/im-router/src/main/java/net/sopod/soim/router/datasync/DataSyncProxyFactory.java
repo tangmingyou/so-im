@@ -145,57 +145,49 @@ public class DataSyncProxyFactory {
 
             // 记录数据更新操作(方法和参数)
             DataChangeTrigger.instance().onUpdate(syncType, syncType.getDataKey((T) instance), methodName, args);
-
-            System.out.println("intercept invoke:" + methodName);
+            // System.out.println("intercept invoke:" + methodName);
             return methodProxy.invokeSuper(instance, args);
         }
 
     }
 
-    public static void main(String[] args) {
-//        RouterUser user1 = new RouterUser();
-//        user1.setUid(10086L);
-//        user1.setAccount("日月光");
-//
-//        RouterUser routerUser = newProxyInstance(SyncTypes.ROUTER_USER, user1);
-//        System.out.println(routerUser);
-//        routerUser.setOnlineTime(ImClock.millis());
-//        System.out.println(routerUser);
-
-        ConcurrentHashMap<String, RouterUser> map = new ConcurrentHashMap<>();
-        map.put("10081", new RouterUser().setAccount("阿基过天玺"));
-        map.put("10082", new RouterUser().setAccount("家国"));
-        map.put("10083", new RouterUser().setAccount("天下"));
-        Collection<RouterUser> values = map.values();
-        map.put("10084", new RouterUser().setAccount("晚风"));
-        new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                map.put("100" + i, new RouterUser().setAccount("灯" + i));
-                if (i % 10 == 0) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        int i = 0;
-
-        for (RouterUser value : values) {
-            System.out.println(value);
-            i++;
-            if (i % 3 == 0) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+    public static class A {
+        public static String name() {
+            return "1";
         }
-        System.out.println(values.getClass());
-        System.out.println(values);
+        public void age() {}
+    }
 
+    public static class B extends A {
+        public void some() {}
+        public static void what() {}
+    }
+
+    public static void main(String[] args) {
+//        Enhancer enhancer = new Enhancer();
+//        enhancer.setSuperclass(B.class);
+//        enhancer.setCallback(new MethodInterceptor() {
+//            @Override
+//            public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+//                System.out.println("intercept:" + method.getName());
+//                return methodProxy.invokeSuper(o, objects);
+//            }
+//        });
+//        B b = (B)enhancer.create();
+//        b.some();
+//        b.age();
+//        b.name();
+//        b.what();
+//        b.equals(b);
+//        B.name();
+
+        for (Method m : B.class.getDeclaredMethods()) {
+            System.out.println(m.getName());
+        }
+        System.out.println("=============================");
+        for (Method m : B.class.getMethods()) {
+            System.out.println(m.getName());
+        }
     }
 
 }

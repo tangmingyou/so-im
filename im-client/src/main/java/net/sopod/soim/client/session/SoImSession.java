@@ -10,6 +10,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import net.sopod.soim.client.logger.Logger;
+import net.sopod.soim.common.util.netty.Varint32FrameCodec;
 import net.sopod.soim.core.net.ImMessageCodec;
 import net.sopod.soim.data.msg.auth.Auth;
 import net.sopod.soim.data.msg.chat.Chat;
@@ -55,6 +56,7 @@ public class SoImSession {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
+                            .addLast(new Varint32FrameCodec())
                             .addLast(new ImMessageCodec())
                             .addLast(messageDispatcher);
                     }

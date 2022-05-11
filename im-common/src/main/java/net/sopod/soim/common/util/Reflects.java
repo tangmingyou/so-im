@@ -1,5 +1,7 @@
 package net.sopod.soim.common.util;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +56,33 @@ public class Reflects {
         // 父类有多个泛型
         String[] genericNames = genericName.split(", ");
         return Arrays.asList(genericNames);
+    }
+
+    public static List<Method> getNonstaticMethods(Class<?> clazz, String name) {
+        return getNonstaticMethods(clazz, name, -1);
+    }
+
+    /**
+     * @param clazz 类
+     * @param name 方法名称
+     * @param paramSize 大于0，匹配参数个数
+     * @return 匹配到的方法集合
+     */
+    public static List<Method> getNonstaticMethods(Class<?> clazz, String name, int paramSize) {
+        List<Method> methodList = new ArrayList<>();
+        Method[] methods = clazz.getMethods();
+        for (Method method : methods) {
+            if (method.getName().equals(name)
+                    && !Modifier.isStatic(method.getModifiers())) {
+                if (paramSize < 0) {
+                    methodList.add(method);
+                } else if (method.getParameterCount() == paramSize) {
+                    // 参数个数匹配
+                    methodList.add(method);
+                }
+            }
+        }
+        return methodList;
     }
 
 }

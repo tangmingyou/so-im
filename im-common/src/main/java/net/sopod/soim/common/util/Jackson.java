@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.CollectionLikeType;
 import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
@@ -20,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -312,8 +315,76 @@ public class Jackson {
 	}
 
 	private CollectionLikeType getListType(Class<?> elementClass) {
-		objectMapper.getTypeFactory().constructCollectionLikeType(List.class, getMapType(String.class, Object.class));
 		return objectMapper.getTypeFactory().constructCollectionLikeType(List.class, elementClass);
 	}
+
+	public ObjectMapper getObjectMapper() {
+		return objectMapper;
+	}
+
+	public TypeFactory getTypeFactory() {
+		return objectMapper.getTypeFactory();
+	}
+
+	/**
+	 * @param content 序列化内容
+	 * @param type 方法参数类型等可能包含泛型类型
+	 * @return 解析结果
+	 */
+	public Object readWithType(String content, Type type) {
+		if (content == null || content.length() == 0) {
+			return null;
+		} else {
+			JavaType javaType = getJavaType(type);
+			try {
+				return objectMapper.readValue(content, javaType);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+	public Object readWithType(byte[] bytes, Type type) {
+		if (bytes == null || bytes.length == 0) {
+			return null;
+		} else {
+			JavaType javaType = getJavaType(type);
+			try {
+				return objectMapper.readValue(bytes, javaType);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+	/**
+	 * 解析任意层数泛型对象
+	 * @param type 泛型类型
+	 * @return jackson JavaType
+	 */
+	private JavaType getJavaType(Type type) {
+        //判断是否带有泛型
+        if (type instanceof ParameterizedType) {
+            Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
+            System.out.println(Arrays.asList(actualTypeArguments));
+            //获取泛型类型
+            Class<?> rowClass = (Class<?>) ((ParameterizedType) type).getRawType();
+
+            JavaType[] javaTypes = new JavaType[actualTypeArguments.length];
+
+            for (int i = 0; i < actualTypeArguments.length; i++) {
+                //泛型也可能带有泛型，递归获取
+                javaTypes[i] = getJavaType(actualTypeArguments[i]);
+            }
+            return objectMapper.getTypeFactory().constructParametricType(rowClass, javaTypes);
+        } else {
+            //简单类型直接用该类构建JavaType
+            Class<?> cla = (Class<?>) type;
+            // TypeFactory.defaultInstance()
+            return objectMapper.getTypeFactory().constructParametricType(cla, new JavaType[0]);
+        }
+    }
 
 }

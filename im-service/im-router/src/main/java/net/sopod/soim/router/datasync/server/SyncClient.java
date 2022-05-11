@@ -9,6 +9,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.AttributeKey;
+import net.sopod.soim.common.util.netty.Varint32FrameCodec;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.datasync.SyncTypes;
 import net.sopod.soim.router.datasync.server.codec.SyncCmdCodec;
@@ -38,8 +39,11 @@ public class SyncClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel channel) throws Exception {
+
                         channel.pipeline()
                                 .addLast(new LoggingHandler(LogLevel.INFO))
+                                // 接收字节可能会分段到达，添加帧编解码器
+                                .addLast(new Varint32FrameCodec())
                                 .addLast(new SyncCmdCodec())
                                 .addLast(new SyncLogEncoder())
                                 .addLast(new SyncCmdClientHandler())

@@ -2,7 +2,7 @@ package net.sopod.soim.router.datasync.server.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import net.sopod.soim.router.datasync.server.SyncLogByHashService;
+import net.sopod.soim.router.datasync.SyncLogByHashService;
 import net.sopod.soim.router.datasync.server.data.SyncCmd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

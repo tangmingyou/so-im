@@ -10,6 +10,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import net.sopod.soim.common.util.netty.FastThreadLocalThreadFactory;
+import net.sopod.soim.common.util.netty.Varint32FrameCodec;
 import net.sopod.soim.router.datasync.server.codec.SyncCmdCodec;
 import net.sopod.soim.router.datasync.server.codec.SyncLogEncoder;
 import net.sopod.soim.router.datasync.server.handler.SyncCmdServerHandler;
@@ -49,8 +50,11 @@ public class SyncServer {
                                 : logger.isInfoEnabled() ? LogLevel.INFO
                                 : logger.isWarnEnabled() ? LogLevel.WARN
                                 : logger.isErrorEnabled() ? LogLevel.ERROR : LogLevel.INFO;
+
                         ChannelPipeline pipeline = channel.pipeline();
                         pipeline.addLast(new LoggingHandler(logLevel))
+                                // 接收字节可能会分段到达，添加帧编解码器
+                                .addLast(new Varint32FrameCodec())
                                 .addLast(new SyncCmdCodec())
                                 .addLast(new SyncLogEncoder())
                                 .addLast(new SyncCmdServerHandler())

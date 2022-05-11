@@ -107,7 +107,6 @@ public class SyncLog implements Serializable {
 
     private byte[] toBytes0() {
         byte[] dataKeyBytes = dataKey == null ? new byte[0] : dataKey.getBytes();
-        // byte[] clazzBytes = clazz == null ? new byte[0] : clazz.getBytes();
         byte[] methodBytes = method == null ? new byte[0] : method.getBytes();
         int argSize = args == null ? 0 : args.length;
 
@@ -144,7 +143,7 @@ public class SyncLog implements Serializable {
                 + 4 // logSeq 序列号
                 + 4 // dataKey 数据主键标识字节长度
                 + dataKeyBytes.length // dataKey 数据字节
-                + 4 // clazz 字节长度
+                // + 4 // clazz 字节长度
                 // + clazzBytes.length // clazz字节
                 + 4 // method 字节长度
                 + methodBytes.length // method 字节
@@ -157,12 +156,12 @@ public class SyncLog implements Serializable {
 //        Bytes.short2bytes(MAGIC, bytes, offset);
 //        offset += 2;
 
-        Bytes.int2bytes(bytes.length - 6, bytes, offset);
+        Bytes.int2bytes(bytes.length - 4, bytes, offset);
         offset += 4;
 
         bytes[offset] = (byte) syncType;
         offset += 1;
-        bytes[offset] = (byte)operateType;
+        bytes[offset] = (byte) operateType;
         offset += 1;
 
         Bytes.int2bytes(logSeq, bytes, offset);
@@ -237,14 +236,6 @@ public class SyncLog implements Serializable {
         int argSize = buf.readInt();
         log.args = new String[argSize];
         if (argSize > 0) {
-//            Method method = getClassMethod(log.clazz, log.method);
-//            if (method == null) {
-//                throw new IllegalStateException("类" + log.clazz + "方法" + log.method + "未找到");
-//            }
-//            Class<?>[] paramTypes = method.getParameterTypes();
-//            if (paramTypes.length != argSize) {
-//                throw new IllegalStateException("类" + log.clazz + "方法" + log.method + "指定参数" + argSize + "个,查到参数" + paramTypes.length + "个");
-//            }
             // 复用 bytes
             byte[] argBytes = new byte[0];
             for (int i = 0; i < argSize; i++) {

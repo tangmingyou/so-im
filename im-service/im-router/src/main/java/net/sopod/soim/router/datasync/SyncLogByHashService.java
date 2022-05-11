@@ -1,13 +1,11 @@
-package net.sopod.soim.router.datasync.server;
+package net.sopod.soim.router.datasync;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.router.api.route.UidConsistentHashSelector;
 import net.sopod.soim.router.config.AppContextHolder;
-import net.sopod.soim.router.datasync.DataSync;
-import net.sopod.soim.router.datasync.DataSyncStorage;
-import net.sopod.soim.router.datasync.SyncTypes;
+import net.sopod.soim.router.datasync.server.data.SyncCmd;
 import net.sopod.soim.router.datasync.server.data.SyncLog;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -18,13 +16,12 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * SyncLogPushService
+ * SyncLogByHashService
  *
  * @author tmy
  * @date 2022-05-10 00:30
  */
-
-public class SyncLogByHashService {
+public class SyncLogByHashService extends DataChangeTrigger.DataKeySyncLogSubscribe {
 
     private static final Logger logger = LoggerFactory.getLogger(SyncLogByHashService.class);
 
@@ -37,7 +34,7 @@ public class SyncLogByHashService {
 
     private final UidConsistentHashSelector<String> selector;
 
-    Set<String> syncedDataKeys = new HashSet<>();
+    // Set<String> syncedDataKeys = new HashSet<>();
 
     public SyncLogByHashService(Channel clientChannel, String newNodeAddr) {
         this.clientChannel = new WeakReference<>(clientChannel);
@@ -47,18 +44,9 @@ public class SyncLogByHashService {
         twoNodes.put(newNodeAddr, newNodeAddr);
         twoNodes.put(AppContextHolder.getAppAddr(), AppContextHolder.getAppAddr());
         selector = new UidConsistentHashSelector<>(twoNodes, twoNodes.hashCode());
-    }
 
-    public static void main(String[] args) {
-        Map<String, Pair<String, AtomicInteger>> twoNodes = new HashMap<>();
-        twoNodes.put("192.168.101.69:3032", Pair.of("192.168.101.69:3032", new AtomicInteger()));
-        twoNodes.put("192.168.101.69:3031", Pair.of("192.168.101.69:3031", new AtomicInteger()));
-        UidConsistentHashSelector<Pair<String, AtomicInteger>> selector = new UidConsistentHashSelector<>(twoNodes, twoNodes.hashCode());
-        for (int i = 10000; i < 11000; i++) {
-            Pair<String, AtomicInteger> pair = selector.select(i + "");
-            pair.getRight().incrementAndGet();
-        }
-        System.out.println(twoNodes);
+        // 添加数据变化监听
+        DataChangeTrigger.instance().addSubscribe(this);
     }
 
     private Map<DataSyncStorage<? extends DataSync>, SyncTypes.SyncType<? extends DataSync>> storages;
@@ -102,8 +90,10 @@ public class SyncLogByHashService {
             // TODO 数据加锁
             addLog.addData(data);
             // TODO DataChangeTrigger.instance().subscribe(syncType, dataKey)
+
             // 注册更改日志
-            syncedDataKeys.add(dataKey);
+            super.addSubscribeDataKey(dataKey);
+
             // TODO 解锁
             count ++; totalCount ++;
 
@@ -159,6 +149,35 @@ public class SyncLogByHashService {
 
     private void syncFinishSuccess() {
         logger.info("sync push finish and success!");
+        Channel channel = clientChannel.get();
+        if (channel != null && channel.isActive()) {
+            SyncCmd syncEndCmd = new SyncCmd();
+            syncEndCmd.setCmdType(SyncCmd.SYNC_END);
+            channel.writeAndFlush(syncEndCmd);
+        }
+    }
+
+    /**
+     * 修改数据日志
+     */
+    @Override
+    public void onSyncLog(SyncLog syncLog) {
+        Channel channel = clientChannel.get();
+        if (channel != null && channel.isActive()) {
+            channel.writeAndFlush(syncLog);
+        }
+    }
+
+    public static void main(String[] args) {
+        Map<String, Pair<String, AtomicInteger>> twoNodes = new HashMap<>();
+        twoNodes.put("192.168.101.69:3032", Pair.of("192.168.101.69:3032", new AtomicInteger()));
+        twoNodes.put("192.168.101.69:3031", Pair.of("192.168.101.69:3031", new AtomicInteger()));
+        UidConsistentHashSelector<Pair<String, AtomicInteger>> selector = new UidConsistentHashSelector<>(twoNodes, twoNodes.hashCode());
+        for (int i = 10000; i < 11000; i++) {
+            Pair<String, AtomicInteger> pair = selector.select(i + "");
+            pair.getRight().incrementAndGet();
+        }
+        System.out.println(twoNodes);
     }
 
 }

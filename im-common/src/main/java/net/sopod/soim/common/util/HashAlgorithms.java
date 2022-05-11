@@ -35,25 +35,6 @@ public class HashAlgorithms {
         return hashCode & 0xffffffffL;
     }
 
-    public static long md5Hash(String value, int number) {
-        MessageDigest md5;
-        try {
-            md5 = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("MD5 not supported", e);
-        }
-        md5.reset();
-        byte[] keyBytes = value.getBytes(StandardCharsets.UTF_8);
-        md5.update(keyBytes);
-        byte[] digest = md5.digest();
-        // dubbo md5 hash algorithms
-        return (((long) (digest[3 + number * 4] & 0xFF) << 24)
-                | ((long) (digest[2 + number * 4] & 0xFF) << 16)
-                | ((long) (digest[1 + number * 4] & 0xFF) << 8)
-                | (digest[number * 4] & 0xFF))
-                & 0xFFFFFFFFL;
-    }
-
 
     /**
      * CRC系列算法本身并非查表，可是，查表是它的一种最快的实现方式。以下是CRC32的实现

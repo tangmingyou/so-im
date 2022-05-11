@@ -51,10 +51,6 @@ public class ConsistentHashTest {
         return HashAlgorithms.md5Hash(value);
     }
 
-    public static long hash(String value, int number) {
-        return HashAlgorithms.md5Hash(value, number);
-    }
-
     private static void testConsistentHash() {
         String[] nodes = {
                 "192.168.31.156:3032",

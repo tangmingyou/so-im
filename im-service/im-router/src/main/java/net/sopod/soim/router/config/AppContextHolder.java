@@ -5,13 +5,19 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import net.sopod.soim.common.constant.AppConstant;
+import net.sopod.soim.common.constant.DubboConstant;
+import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.common.util.HashAlgorithms;
 import net.sopod.soim.common.util.StringUtil;
 import org.apache.dubbo.common.URL;
+import org.apache.dubbo.registry.Registry;
+import org.apache.dubbo.registry.support.RegistryManager;
+import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -116,8 +122,7 @@ public class AppContextHolder {
             }
         }
         try {
-            List<Instance> allInstances = namingService.getAllInstances(AppConstant.APP_IM_ROUTER_NAME);
-            return allInstances;
+            return namingService.getAllInstances(AppConstant.APP_IM_ROUTER_NAME);
         } catch (NacosException e) {
             throw new IllegalStateException(AppConstant.APP_IM_ROUTER_NAME + "集群信息获取失败:", e);
         } finally {
@@ -126,6 +131,29 @@ public class AppContextHolder {
                     namingService.shutDown();
                 } catch (NacosException e) {
                     logger.error("查询{}服务NamingServer关闭失败!", AppConstant.APP_IM_ROUTER_NAME, e);
+                }
+            }
+        }
+    }
+
+    /**
+     * 注册 im-router 的API接口服务
+     */
+    public static void doRegistry() {
+        RegistryManager registryManager = ApplicationModel.defaultModel().getBeanFactory()
+                .getBean(RegistryManager.class);
+        Collection<Registry> registries = registryManager.getRegistries();
+        List<URL> registryInvokerUrls = AppContextHolder.getRegistryInvokerUrls();
+        if (Collects.isNotEmpty(registries)
+                && Collects.isNotEmpty(registryInvokerUrls)) {
+            for (Registry registry : registries) {
+                for (URL invokerUrl : registryInvokerUrls) {
+                    // 添加 im-router 服务id参数，生成新的 url
+                    URL url = invokerUrl.addParameter(
+                            DubboConstant.IM_ROUTER_ID_KEY,
+                            AppContextHolder.IM_ROUTER_ID
+                    );
+                    registry.register(url);
                 }
             }
         }

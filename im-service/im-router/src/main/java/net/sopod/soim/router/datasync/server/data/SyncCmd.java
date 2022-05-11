@@ -42,7 +42,7 @@ public class SyncCmd {
     /**
      * 同步结束命令
      */
-    public static final Integer SYNC_END = 8;
+    public static final int SYNC_END = 8;
 
     /**
      * SyncLog 推送命令
