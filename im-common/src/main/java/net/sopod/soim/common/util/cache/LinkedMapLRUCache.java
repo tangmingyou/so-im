@@ -17,6 +17,8 @@ public class LinkedMapLRUCache<K, V> extends LinkedHashMap<K, V> {
     private final int maxEntries;
 
     public LinkedMapLRUCache(int maxEntries) {
+        // 设置accessOrder为true
+        super(Math.max(2, maxEntries / 2), 0.75f, true);
         this.maxEntries = maxEntries;
     }
 
