@@ -34,6 +34,8 @@ public class DataSyncProxyFactory {
      */
     private static final Map<Class<? extends DataSync>, Set<String>> typeUpdaterMethodsCache = new ConcurrentHashMap<>();
 
+    private static final Map<SyncTypes.SyncType<?>, DataSyncProxyCallback<?>> syncTypeCallbackCache = new ConcurrentHashMap<>();
+
     public static <T extends DataSync> T newProxyInstance(SyncTypes.SyncType<T> syncType) {
         return newProxyInstance(syncType, null);
     }
@@ -50,51 +52,54 @@ public class DataSyncProxyFactory {
             throw new IllegalStateException(type + "实例创建失败,没有无参构造函数", e);
         }
 
-        // 获取查询更新方法列表
-        Set<String> updaterMethods = typeUpdaterMethodsCache.computeIfAbsent(type, dataType -> {
-            Method[] methods = dataType.getMethods();
-            Set<String> updaterMethodNames = new HashSet<>();
-            for (Method m : methods) {
-                SyncIgnore syncIgnore = m.getDeclaredAnnotation(SyncIgnore.class);
-                String methodName = m.getName();
-                if (syncIgnore != null) {
-                    continue;
-                }
-                boolean isUpdater = m.getDeclaringClass() != Object.class
-                        && instance.isUpdateMethod(methodName);
-                if (isUpdater) {
-                    if (updaterMethodNames.contains(methodName)) {
-                        throw new IllegalStateException(dataType + "重复的数据更新方法名" + methodName);
-                    }
-                    // 检查参数可序列化
-                    Class<?>[] paramTypes = m.getParameterTypes();
-                    for (int i = 0; i < paramTypes.length; i++) {
-                        if (!Jackson.json().canSerialize(paramTypes[i])) {
-                            throw new IllegalStateException(String.format("类:%s 更新方法:%s 第%di个参数不可序列化",
-                                    instance.getClass().getName(), methodName, i + 1));
-                        }
-                    }
-                    updaterMethodNames.add(methodName);
-                }
-            }
-            logger.info("{} 更新方法列表: {}", dataType, updaterMethodNames);
-            return updaterMethodNames;
-        });
-
         // 创建代理对象
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(type);
-        enhancer.setCallback(new DataSyncProxyCallback<>(syncType, updaterMethods));
+        DataSyncProxyCallback<?> dataSyncProxyCallback = syncTypeCallbackCache
+                .computeIfAbsent(syncType, sType -> {
+                    Set<String> updaterMethods = getUpdaterMethods(instance, type);
+                    return new DataSyncProxyCallback<>(syncType, updaterMethods);
+                });
+        enhancer.setCallback(dataSyncProxyCallback);
         T proxyObj = (T) enhancer.create();
         if (source != null) {
             try {
                 cloneFields(source, proxyObj);
             } catch (Exception e) {
-                // logger.error("克隆对象失败:", e);
                 throw new IllegalStateException("克隆对象失败", e);
             }
         }
         return proxyObj;
+    }
+
+    private static <T extends DataSync> Set<String> getUpdaterMethods(T instance, Class<T> dataType) {
+        Method[] methods = dataType.getMethods();
+        Set<String> updaterMethodNames = new HashSet<>();
+        for (Method m : methods) {
+            SyncIgnore syncIgnore = m.getDeclaredAnnotation(SyncIgnore.class);
+            String methodName = m.getName();
+            if (syncIgnore != null) {
+                continue;
+            }
+            boolean isUpdater = m.getDeclaringClass() != Object.class
+                    && instance.isUpdateMethod(methodName);
+            if (isUpdater) {
+                if (updaterMethodNames.contains(methodName)) {
+                    throw new IllegalStateException(dataType + "重复的数据更新方法名" + methodName);
+                }
+                // 检查参数可序列化
+                Class<?>[] paramTypes = m.getParameterTypes();
+                for (int i = 0; i < paramTypes.length; i++) {
+                    if (!Jackson.json().canSerialize(paramTypes[i])) {
+                        throw new IllegalStateException(String.format("类:%s 更新方法:%s 第%di个参数不可序列化",
+                                instance.getClass().getName(), methodName, i + 1));
+                    }
+                }
+                updaterMethodNames.add(methodName);
+            }
+        }
+        logger.info("{} 更新方法列表: {}", dataType, updaterMethodNames);
+        return updaterMethodNames;
     }
 
     private static <T> void cloneFields(T source, T proxyObj) throws Exception {

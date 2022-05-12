@@ -7,13 +7,13 @@ import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.RouterUserStorage;
 import net.sopod.soim.router.config.AppContextHolder;
 import net.sopod.soim.router.datasync.server.SyncClient;
+import net.sopod.soim.router.datasync.server.data.SyncCmd;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * SyncLogMigrateService
@@ -56,13 +56,11 @@ public class SyncLogMigrateService {
             throw new IllegalStateException("当前有客户端正在全量同步数据");
         }
         if (this.curMigrateHosts.isEmpty()) {
-            return false;
-        }
-        Pair<String, Integer> nextHost = this.curMigrateHosts.removeFirst();
-        if (nextHost == null) {
+            // 同步结束
             this.allHostSyncFinish();
             return true;
         }
+        Pair<String, Integer> nextHost = this.curMigrateHosts.removeFirst();
         try {
             this.curClient = new SyncClient();
             this.curClient.connect(nextHost.getLeft(), nextHost.getRight());
@@ -96,6 +94,15 @@ public class SyncLogMigrateService {
         logger.info("所有节点数据同步完成：执行注册服务....");
         AppContextHolder.doRegistry();
         logger.info("注册服务成功");
+        // 通知服务端同步结束，关闭服务端连接
+        for (SyncClient migrateClient : migrateClients) {
+            SyncCmd syncFinishCmd = new SyncCmd();
+            syncFinishCmd.setCmdType(SyncCmd.SYNC_FINISH_CLOSE);
+            migrateClient.write(syncFinishCmd);
+        }
+        for (SyncClient migratedClient : migrateClients) {
+            migratedClient.close();
+        }
     }
 
     @Deprecated
@@ -106,17 +113,6 @@ public class SyncLogMigrateService {
             RouterUser value = entry.getValue();
             Jackson.json().serialize(value);
         }
-    }
-
-    public static void main(String[] args) {
-        ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
-        map.put("1", "A");
-        map.put("2", "B");
-        Iterator<String> iterator = map.values().iterator();
-        System.out.println("a." + iterator.next());
-        map.remove("2");
-        System.out.println("b." + iterator.next());
-        System.out.println(iterator.next());
     }
 
 }

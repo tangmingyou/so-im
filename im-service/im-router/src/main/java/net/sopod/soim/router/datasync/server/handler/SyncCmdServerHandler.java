@@ -2,7 +2,8 @@ package net.sopod.soim.router.datasync.server.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import net.sopod.soim.router.datasync.SyncLogByHashService;
+import net.sopod.soim.router.datasync.DataChangeTrigger;
+import net.sopod.soim.router.datasync.SyncLogByHashPusher;
 import net.sopod.soim.router.datasync.server.data.SyncCmd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,9 @@ public class SyncCmdServerHandler extends SimpleChannelInboundHandler<SyncCmd> {
             case SyncCmd.SYNC_BY_HASH_ACK:
                 this.handleReqSyncByHashAck(ctx, syncCmd);
                 break;
+            case SyncCmd.SYNC_FINISH_CLOSE:
+                this.handleSyncFinishClose(ctx, syncCmd);
+                break;
         }
     }
 
@@ -50,18 +54,29 @@ public class SyncCmdServerHandler extends SimpleChannelInboundHandler<SyncCmd> {
     private void handleReqSyncByHash(ChannelHandlerContext ctx, SyncCmd syncCmd) {
         String clientAddr = syncCmd.getParam1();
         // 绑定数据同步服务
-        SyncLogByHashService syncLogByHashService = new SyncLogByHashService(ctx.channel(), clientAddr);
-        ctx.channel().attr(SyncLogByHashService.ATTR_KEY).set(syncLogByHashService);
+        SyncLogByHashPusher syncLogByHashPusher = new SyncLogByHashPusher(ctx.channel(), clientAddr);
+        ctx.channel().attr(SyncLogByHashPusher.ATTR_KEY).set(syncLogByHashPusher);
         // 开始数据同步
-        syncLogByHashService.startPush();
+        syncLogByHashPusher.startPush();
     }
 
     /**
      * 推送数据响应，推送下一批数据
      */
     private void handleReqSyncByHashAck(ChannelHandlerContext ctx, SyncCmd syncCmd) {
-        SyncLogByHashService syncLogByHashService = ctx.channel().attr(SyncLogByHashService.ATTR_KEY).get();
-        syncLogByHashService.pushNextBatch();
+        SyncLogByHashPusher syncLogByHashPusher = ctx.channel().attr(SyncLogByHashPusher.ATTR_KEY).get();
+        syncLogByHashPusher.pushNextBatch();
+    }
+
+    private void handleSyncFinishClose(ChannelHandlerContext ctx, SyncCmd syncCmd) {
+        SyncLogByHashPusher syncLogByHashPusher = ctx.channel().attr(SyncLogByHashPusher.ATTR_KEY).get();
+        // 取消修改监听
+        DataChangeTrigger.instance().unsubscribe(syncLogByHashPusher);
+        // 移除已迁移的数据
+        syncLogByHashPusher.releaseResource();
+        // 断开连接
+        ctx.channel().close();
+        logger.info("channel@{} 同步结束,资源已释放", ctx.channel().id());
     }
 
 }

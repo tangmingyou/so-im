@@ -318,14 +318,6 @@ public class Jackson {
 		return objectMapper.getTypeFactory().constructCollectionLikeType(List.class, elementClass);
 	}
 
-	public ObjectMapper getObjectMapper() {
-		return objectMapper;
-	}
-
-	public TypeFactory getTypeFactory() {
-		return objectMapper.getTypeFactory();
-	}
-
 	/**
 	 * @param content 序列化内容
 	 * @param type 方法参数类型等可能包含泛型类型

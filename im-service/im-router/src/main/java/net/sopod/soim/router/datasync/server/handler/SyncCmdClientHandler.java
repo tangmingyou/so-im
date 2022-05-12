@@ -27,7 +27,7 @@ public class SyncCmdClientHandler extends SimpleChannelInboundHandler<SyncCmd> {
             case SyncCmd.PONG:
                 this.handlePong(ctx, syncCmd);
                 break;
-            case SyncCmd.SYNC_END:
+            case SyncCmd.SYNC_FULL_END:
                 this.handleSyncEnd(ctx, syncCmd);
                 break;
         }

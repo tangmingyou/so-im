@@ -68,21 +68,6 @@ public class SyncClient {
         clientChannel.write(syncLog);
     }
 
-    public <T> void setAttr(AttributeKey<T> key, T val) {
-        clientChannel.attr(key).set(val);
-    }
-
-    public <T> void getAttr(AttributeKey<T> key) {
-        clientChannel.attr(key).get();
-    }
-
-    /**
-     * 全量同步数据
-     */
-    public void syncLogByHash() {
-
-    }
-
     /**
      * 通过计算一致性 hash 同步数据
      * @param currentAddr 当前新节点地址，hash(currentAddr)
@@ -93,33 +78,8 @@ public class SyncClient {
     }
 
     public void close() {
+        this.clientChannel.close();
         this.group.shutdownGracefully();
     }
 
-
-    public static void main(String[] args) throws InterruptedException {
-        SyncClient client = new SyncClient();
-        client.connect("127.0.0.1", 9999);
-        // SyncCmd syncCmd = new SyncCmd().setCmdType(SyncCmd.SYNC_LOG);
-        // new SyncLog()
-        RouterUser user = new RouterUser()
-                .setUid(12312L)
-                .setAccount("蓝水云烟")
-                .setImEntryAddr("127.0.0.1")
-                .setIsOnline(false)
-                .setOnlineTime(10086L);
-        RouterUser user2 = new RouterUser()
-                .setUid(10010L)
-                .setAccount("百战成诗")
-                .setImEntryAddr("192.168.1.101")
-                .setIsOnline(true)
-                .setOnlineTime(16161L);
-        SyncLog.AddLog<RouterUser> addLog = SyncLog.addLog(1, SyncTypes.ROUTER_USER)
-                .addData(user)
-                .addData(user2);
-        client.clientChannel.writeAndFlush(addLog);
-
-        Thread.sleep(10000);
-        client.close();
-    }
 }

@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Accessors(chain = true)
 public class SyncCmd {
 
-    private static final short MAGIC = 0x7a21;
+    private static final short MAGIC = 0x544D;
 
     public static final int PING = 1;
 
@@ -40,9 +40,14 @@ public class SyncCmd {
     public static final int SYNC_BY_HASH_ACK = 5;
 
     /**
-     * 同步结束命令
+     * 全量同步结束命令
      */
-    public static final int SYNC_END = 8;
+    public static final int SYNC_FULL_END = 8;
+
+    /**
+     * 结束同步命令，释放资源，关闭连接
+     */
+    public static final int SYNC_FINISH_CLOSE = 9;
 
     /**
      * SyncLog 推送命令

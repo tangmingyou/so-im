@@ -100,8 +100,10 @@ public class SyncLogClientHandler extends SimpleChannelInboundHandler<SyncLog> {
             method.invoke(data, params);
             logger.info("invoke:{},  args:{}", method.getName(), params);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("failed invoke {}.{} args:{} ", dataType, method.getName(), params, e);
         }
     }
+
+
 
 }

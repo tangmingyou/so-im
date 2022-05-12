@@ -1,13 +1,13 @@
 package net.sopod.soim.router.datasync;
 
-import net.sopod.soim.router.config.ImRouterAppOnReady;
 import net.sopod.soim.router.datasync.server.data.SyncLog;
+import org.apache.dubbo.common.utils.ConcurrentHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -46,15 +46,15 @@ public class DataChangeTrigger {
     /**
      * 监听者列表
      */
-    private final List<SyncLogSubscribe> subscribes = new ArrayList<>();
+    private final List<SyncLogSubscribe> subscribes = new CopyOnWriteArrayList<>();
 
-    private List<SyncLogSubscribe> getSubscribes(String dataKey) {
+    private List<SyncLogSubscribe> getSubscribes(SyncTypes.SyncType<?> syncType, String dataKey) {
         if (subscribes.isEmpty()) {
             return Collections.emptyList();
         }
         List<SyncLogSubscribe> acceptSubs = new ArrayList<>(5);
         for (SyncLogSubscribe subscribe : subscribes) {
-            if (subscribe.accept(dataKey)) {
+            if (subscribe.accept(syncType, dataKey)) {
                 acceptSubs.add(subscribe);
             }
         }
@@ -63,7 +63,7 @@ public class DataChangeTrigger {
 
     public <T extends DataSync> void onUpdate(SyncTypes.SyncType<T> syncType, String dataKey, String method, Object[] args) {
         List<SyncLogSubscribe> acceptSubs;
-        if ((acceptSubs = getSubscribes(dataKey)).isEmpty()) {
+        if ((acceptSubs = getSubscribes(syncType, dataKey)).isEmpty()) {
             return;
         }
         // 序列化 args，避免后续更改
@@ -71,21 +71,21 @@ public class DataChangeTrigger {
                 .setDataKey(dataKey)
                 .setMethod(method)
                 .setArgs(args);
-        publishLog(updateLog, acceptSubs);
+        publishLog(syncType, updateLog, acceptSubs);
 
     }
 
     public <T extends DataSync> void onAdd(SyncTypes.SyncType<T> syncType, T data) {
         List<SyncLogSubscribe> acceptSubs;
         String dataKey = syncType.getDataKey(data);
-        if ((acceptSubs = getSubscribes(dataKey)).isEmpty()) {
+        if ((acceptSubs = getSubscribes(syncType, dataKey)).isEmpty()) {
             return;
         }
         AtomicInteger seqCounter = getSeqCounter(dataKey);
         // 序列化 data，避免后续更改
         SyncLog.AddLog<T> addLog = SyncLog.addLog(seqCounter.getAndIncrement(), syncType)
                 .addData(data);
-        publishLog(addLog, acceptSubs);
+        publishLog(syncType, addLog, acceptSubs);
     }
 
     /**
@@ -93,18 +93,22 @@ public class DataChangeTrigger {
      */
     public <T extends DataSync> void onRemove(SyncTypes.SyncType<T> syncType, String dataKey) {
         List<SyncLogSubscribe> acceptSubs;
-        if ((acceptSubs = getSubscribes(dataKey)).isEmpty()) {
+        if ((acceptSubs = getSubscribes(syncType, dataKey)).isEmpty()) {
             return;
         }
         SyncLog.RemoveLog<T> removeLog = SyncLog.removeLog(getSeq(dataKey), syncType)
                 .setDataKey(dataKey);
-        publishLog(removeLog, acceptSubs);
+        publishLog(syncType, removeLog, acceptSubs);
     }
 
-    private void publishLog(SyncLog log, List<SyncLogSubscribe> acceptSubs) {
+    /**
+     * 为监听者推送数据更新消息
+     * TODO 异步处理
+     */
+    private void publishLog(SyncTypes.SyncType<?> syncType, SyncLog log, List<SyncLogSubscribe> acceptSubs) {
         for (SyncLogSubscribe acceptSub : acceptSubs) {
             try {
-              acceptSub.onSyncLog(log);
+              acceptSub.onSyncLog(syncType, log);
             } catch (Exception e) {
                 logger.error("监听者 {} 执行错误", acceptSub, e);
             }
@@ -122,8 +126,12 @@ public class DataChangeTrigger {
     /**
      * 添加更改日志监听者
      */
-    public void addSubscribe(SyncLogSubscribe syncLogSubscribe) {
+    public void subscribe(SyncLogSubscribe syncLogSubscribe) {
         subscribes.add(syncLogSubscribe);
+    }
+
+    public void unsubscribe(SyncLogSubscribe syncLogSubscribe) {
+        subscribes.remove(syncLogSubscribe);
     }
 
     /**
@@ -135,31 +143,34 @@ public class DataChangeTrigger {
 
     public static interface SyncLogSubscribe {
 
-        public abstract boolean accept(String dataKey);
+        public abstract boolean accept(SyncTypes.SyncType<?> syncType, String dataKey);
 
-        public abstract void onSyncLog(SyncLog syncLog);
+        public abstract void onSyncLog(SyncTypes.SyncType<?> syncType, SyncLog syncLog);
 
     }
 
     public static abstract class DataKeySyncLogSubscribe implements SyncLogSubscribe {
 
-        private final Set<String> subscribeDataKeys;
+        protected final ConcurrentHashMap<SyncTypes.SyncType<?>, Set<String>> syncedTypeDataKyes;
 
         public DataKeySyncLogSubscribe() {
-            this.subscribeDataKeys = new HashSet<>(1024);
+            this.syncedTypeDataKyes = new ConcurrentHashMap<>(6);
         }
 
         @Override
-        public boolean accept(String dataKey) {
-            return subscribeDataKeys.contains(dataKey);
+        public boolean accept(SyncTypes.SyncType<?> syncType, String dataKey) {
+            return syncedTypeDataKyes.getOrDefault(syncType, Collections.emptySet()).contains(dataKey);
         }
 
-        public void addSubscribeDataKey(String dataKey) {
-            subscribeDataKeys.add(dataKey);
+        public void addSubscribeDataKey(SyncTypes.SyncType<?> syncType, String dataKey) {
+            syncedTypeDataKyes.computeIfAbsent(
+                    syncType,
+                    type -> new ConcurrentHashSet<>()
+            ).add(dataKey);
         }
 
         @Override
-        public abstract void onSyncLog(SyncLog syncLog);
+        public abstract void onSyncLog(SyncTypes.SyncType<?> syncType, SyncLog syncLog);
 
     }
 
