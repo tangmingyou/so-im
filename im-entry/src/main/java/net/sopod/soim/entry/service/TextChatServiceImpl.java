@@ -1,6 +1,6 @@
 package net.sopod.soim.entry.service;
 
-import net.sopod.soim.core.session.Account;
+import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.data.msg.chat.Chat;
 import net.sopod.soim.entry.api.service.TextChatService;
 import net.sopod.soim.entry.config.ImEntryAppContextHolder;

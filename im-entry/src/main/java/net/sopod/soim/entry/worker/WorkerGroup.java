@@ -1,8 +1,5 @@
 package net.sopod.soim.entry.worker;
 
-import com.google.protobuf.GeneratedMessageV3;
-import net.sopod.soim.core.session.Account;
-import net.sopod.soim.core.session.NetUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

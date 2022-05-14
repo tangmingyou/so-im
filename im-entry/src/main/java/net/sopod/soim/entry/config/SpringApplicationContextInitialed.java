@@ -1,6 +1,6 @@
 package net.sopod.soim.entry.config;
 
-import net.sopod.soim.core.registry.ProtoMessageHandlerRegistry;
+import net.sopod.soim.entry.registry.ProtoMessageHandlerRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

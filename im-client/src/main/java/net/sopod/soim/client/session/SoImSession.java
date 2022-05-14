@@ -11,7 +11,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import net.sopod.soim.client.logger.Logger;
 import net.sopod.soim.common.util.netty.Varint32FrameCodec;
-import net.sopod.soim.core.net.ImMessageCodec;
+import net.sopod.soim.data.serialize.ImMessageCodec;
 import net.sopod.soim.data.msg.auth.Auth;
 import net.sopod.soim.data.msg.chat.Chat;
 import org.slf4j.LoggerFactory;

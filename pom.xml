@@ -10,10 +10,8 @@
     <version>1.0.0</version>
     <modules>
         <module>im-common</module>
-        <module>im-data</module>
         <module>im-entry</module>
         <module>im-client</module>
-        <module>im-core</module>
         <module>im-das</module>
         <module>im-das-api</module>
         <module>im-service</module>
@@ -44,6 +42,7 @@
         <nacos.version>2.0.3</nacos.version>
         <msgpack.version>0.9.1</msgpack.version>
         <dubbo.compiler.version>0.0.3</dubbo.compiler.version>
+        <protoc.version>3.19.4</protoc.version>
     </properties>
 
     <dependencyManagement>
@@ -54,14 +53,9 @@
                 <version>${netty.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-buffer</artifactId>
-                <version>${netty.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>3.19.4</version>
+                <version>${protoc.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.lmax</groupId>

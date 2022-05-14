@@ -1,6 +1,7 @@
 package net.sopod.soim.entry.config;
 
 import io.netty.util.concurrent.FastThreadLocal;
+import net.sopod.soim.entry.server.handler.MessageHandler;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * MsgHandlerContext
  *
  * 线程上下文属性设置工具
- * 这里主要用于 {@link net.sopod.soim.core.handler.MessageHandler} 与 dubbo RpcContext 上下文参数传递
+ * 这里主要用于 {@link MessageHandler} 与 dubbo RpcContext 上下文参数传递
  *
  * @author tmy
  * @date 2022-05-01 22:42

@@ -1,6 +1,6 @@
 package net.sopod.soim.entry.server;
 
-import net.sopod.soim.core.session.Account;
+import net.sopod.soim.entry.server.session.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

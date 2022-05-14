@@ -6,7 +6,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import net.sopod.soim.common.util.netty.Varint32FrameCodec;
-import net.sopod.soim.core.net.ImMessageCodec;
+import net.sopod.soim.data.serialize.ImMessageCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>net.sopod</groupId>
-            <artifactId>im-core</artifactId>
+            <artifactId>im-entry-protocol</artifactId>
             <version>${soim.version}</version>
         </dependency>
         <dependency>
