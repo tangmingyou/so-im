@@ -4,9 +4,9 @@ import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.TokenUtil;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.user.api.service.UserDasService;
-import net.sopod.soim.logic.user.auth.model.ImAuth;
-import net.sopod.soim.logic.user.auth.service.UserAuthService;
+import net.sopod.soim.das.user.api.service.UserDas;
+import net.sopod.soim.logic.api.user.auth.model.ImAuth;
+import net.sopod.soim.logic.api.user.auth.service.UserAuthService;
 import net.sopod.soim.logic.user.config.AuthConfig;
 import net.sopod.soim.router.api.model.RegistryRes;
 import net.sopod.soim.router.api.service.UserRouteService;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class UserAuthServiceImpl implements UserAuthService {
 
     @DubboReference
-    private UserDasService userDasService;
+    private UserDas userDas;
 
     @DubboReference
     private UserRouteService userRouteService;
@@ -39,7 +39,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public ImAuth pwdAuth(String account, String password) {
-        ImUser imUser = userDasService.getNormalUserByAccount(account);
+        ImUser imUser = userDas.getNormalUserByAccount(account);
         ImAuth imAuth = new ImAuth()
                 .setSuccess(false)
                 .setExpireMs(-1L)

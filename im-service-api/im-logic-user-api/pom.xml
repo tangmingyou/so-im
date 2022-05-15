@@ -15,7 +15,7 @@
         <dependency>
             <artifactId>im-logic-common</artifactId>
             <groupId>net.sopod</groupId>
-            <version>1.0.0</version>
+            <version>${soim.version}</version>
         </dependency>
     </dependencies>
 

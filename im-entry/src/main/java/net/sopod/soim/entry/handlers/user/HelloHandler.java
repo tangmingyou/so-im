@@ -6,7 +6,7 @@ import net.sopod.soim.data.msg.hello.HelloPB;
 import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
-import net.sopod.soim.logic.user.service.UserBizService;
+import net.sopod.soim.logic.api.user.service.UserBizService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.rpc.RpcContext;

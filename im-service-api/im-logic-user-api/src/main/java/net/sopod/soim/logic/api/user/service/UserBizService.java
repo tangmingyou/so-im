@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.user.service;
+package net.sopod.soim.logic.api.user.service;
 
 
 import net.sopod.soim.logic.common.model.UserInfo;

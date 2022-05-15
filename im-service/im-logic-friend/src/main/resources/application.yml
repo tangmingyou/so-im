@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: im-logic-friend
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://124.222.131.236:3848
+    group: so-im
+  protocol:
+    name: dubbo
+    serialization: protobuf
+    port: 3014
+  consumer:
+    check: false
+  provider:
+    retries: 0
+    timeout: 2000

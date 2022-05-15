@@ -5,7 +5,7 @@ import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.data.msg.user.UserGroup;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
 import net.sopod.soim.logic.common.model.UserInfo;
-import net.sopod.soim.logic.user.service.UserBizService;
+import net.sopod.soim.logic.api.user.service.UserBizService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

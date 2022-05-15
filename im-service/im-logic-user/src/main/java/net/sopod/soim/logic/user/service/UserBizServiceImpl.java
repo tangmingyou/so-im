@@ -1,5 +1,6 @@
 package net.sopod.soim.logic.user.service;
 
+import net.sopod.soim.logic.api.user.service.UserBizService;
 import net.sopod.soim.logic.common.model.UserInfo;
 import net.sopod.soim.router.api.service.UserRouteService;
 import org.apache.dubbo.config.annotation.DubboReference;

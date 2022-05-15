@@ -5,7 +5,7 @@ import net.sopod.soim.entry.server.handler.AccountMessageHandler;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.data.msg.chat.Chat;
 import net.sopod.soim.logic.common.model.TextChat;
-import net.sopod.soim.logic.user.service.ChatService;
+import net.sopod.soim.logic.api.user.service.ChatService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

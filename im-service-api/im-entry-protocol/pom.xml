@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>so-im</artifactId>
+        <artifactId>im-service-api</artifactId>
         <groupId>net.sopod</groupId>
         <version>1.0.0</version>
     </parent>
@@ -65,21 +65,11 @@
                     <protoSourceRoot>src/main/resources</protoSourceRoot>
                     <outputDirectory>src/main/java</outputDirectory>
                     <clearOutputDirectory>false</clearOutputDirectory>
-<!--                    <protocPlugins>-->
-<!--                        <protocPlugin>-->
-<!--                            <id>dubbo</id>-->
-<!--                            <groupId>org.apache.dubbo</groupId>-->
-<!--                            <artifactId>dubbo-compiler</artifactId>-->
-<!--                            <version>${dubbo.compiler.version}</version>-->
-<!--                            <mainClass>org.apache.dubbo.gen.dubbo.Dubbo3Generator</mainClass>-->
-<!--                        </protocPlugin>-->
-<!--                    </protocPlugins>-->
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>compile</goal>
-                            <goal>test-compile</goal>
+                            <!-- <goal>compile</goal> -->
                         </goals>
                     </execution>
                 </executions>

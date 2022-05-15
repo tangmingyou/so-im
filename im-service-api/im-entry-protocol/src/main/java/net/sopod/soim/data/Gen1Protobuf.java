@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 
+@Deprecated
 public class Gen1Protobuf {
 
     private static final Logger logger = LoggerFactory.getLogger(Gen1Protobuf.class);

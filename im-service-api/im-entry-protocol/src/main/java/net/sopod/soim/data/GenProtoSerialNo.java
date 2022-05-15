@@ -18,9 +18,9 @@ import java.util.Set;
  * @author tmy
  * @date 2022-04-12 11:38
  */
-public class Gen2ProtoSerialNo {
+public class GenProtoSerialNo {
 
-    private static final String msgSerialNoTableFilePath = "./im-data/src/main/resources/" + ProtoMessageManager.protoSerialNoTableName;
+    private static final String msgSerialNoTableFilePath = "./im-service-api/im-entry-protocol/src/main/resources/" + ProtoMessageManager.protoSerialNoTableName;
 
     /** 将 protobuf java class 编码 id */
     private static StringBuilder genProtoMessageTable() {

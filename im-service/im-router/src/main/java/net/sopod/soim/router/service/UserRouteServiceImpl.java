@@ -4,7 +4,7 @@ import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.StringUtil;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.user.api.service.UserDasService;
+import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.entry.api.service.OnlineUserService;
 import net.sopod.soim.entry.api.service.TextChatService;
 import net.sopod.soim.logic.common.model.TextChat;
@@ -36,7 +36,7 @@ public class UserRouteServiceImpl implements UserRouteService {
     private static final Logger logger = LoggerFactory.getLogger(UserRouteServiceImpl.class);
 
     @DubboReference
-    private UserDasService userDasService;
+    private UserDas userDas;
 
     @DubboReference
     private TextChatService textChatService;
@@ -46,7 +46,7 @@ public class UserRouteServiceImpl implements UserRouteService {
 
     @Override
     public RegistryRes registryUserEntry(Long uid, String imEntryAddr) {
-        ImUser imUser = userDasService.getUserById(uid);
+        ImUser imUser = userDas.getUserById(uid);
         logger.info("registry user:{}, {}", uid, imUser.getAccount());
         RouterUser routerUser = new RouterUser().setUid(uid)
                 .setAccount(imUser.getAccount())

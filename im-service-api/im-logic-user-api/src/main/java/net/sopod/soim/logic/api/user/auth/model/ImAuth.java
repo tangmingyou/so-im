@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.user.auth.model;
+package net.sopod.soim.logic.api.user.auth.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

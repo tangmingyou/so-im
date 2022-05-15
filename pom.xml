@@ -17,8 +17,6 @@
         <module>im-service</module>
         <module>im-service-api</module>
         <module>im-entry-http</module>
-        <module>im-service-api/im-logic-common</module>
-        <module>im-service-api/im-entry-api</module>
     </modules>
 
     <properties>
@@ -41,8 +39,10 @@
         <shardingsphere.version>5.1.0</shardingsphere.version>
         <nacos.version>2.0.3</nacos.version>
         <msgpack.version>0.9.1</msgpack.version>
-        <dubbo.compiler.version>0.0.3</dubbo.compiler.version>
+        <dubbo.compiler.version>0.0.2</dubbo.compiler.version>
+        <dubbo.compiler.triple.version>0.0.3</dubbo.compiler.triple.version>
         <protoc.version>3.19.4</protoc.version>
+        <dubbo.protobuf.verion>2.7.15</dubbo.protobuf.verion>
     </properties>
 
     <dependencyManagement>

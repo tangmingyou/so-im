@@ -15,6 +15,7 @@
         <module>im-segment-id</module>
         <module>im-router</module>
         <module>im-logic-user</module>
+        <module>im-logic-friend</module>
     </modules>
 
 

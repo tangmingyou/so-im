@@ -1,7 +1,8 @@
 package net.sopod.soim.logic.user.service;
 
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.user.api.service.UserDasService;
+import net.sopod.soim.das.user.api.service.UserDas;
+import net.sopod.soim.logic.api.user.service.ChatService;
 import net.sopod.soim.logic.common.model.TextChat;
 import net.sopod.soim.logic.common.util.RpcContextUtil;
 import net.sopod.soim.router.api.service.UserRouteService;
@@ -23,13 +24,13 @@ public class ChatServiceImpl implements ChatService {
     private UserRouteService userRouteService;
 
     @DubboReference
-    private UserDasService userDasService;
+    private UserDas userDas;
 
     @Override
     public Boolean textChat(TextChat textChat) {
         if (textChat.getReceiverUid() == null
                 || Objects.equals(textChat.getReceiverUid(), 0L)) {
-            ImUser receiverUser = userDasService.getNormalUserByAccount(textChat.getReceiverName());
+            ImUser receiverUser = userDas.getNormalUserByAccount(textChat.getReceiverName());
             if (receiverUser == null) {
                 return false;
             }

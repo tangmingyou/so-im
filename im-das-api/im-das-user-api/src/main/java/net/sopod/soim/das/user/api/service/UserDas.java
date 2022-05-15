@@ -8,7 +8,7 @@ import net.sopod.soim.das.user.api.model.entity.ImUser;
  * @author tmy
  * @date 2022-04-13 23:28
  */
-public interface UserDasService {
+public interface UserDas {
 
     ImUser getUserById(Long id);
 

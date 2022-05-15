@@ -1,6 +1,6 @@
-package net.sopod.soim.logic.user.auth.service;
+package net.sopod.soim.logic.api.user.auth.service;
 
-import net.sopod.soim.logic.user.auth.model.ImAuth;
+import net.sopod.soim.logic.api.user.auth.model.ImAuth;
 
 /**
  * AuthService

@@ -8,7 +8,7 @@ import net.sopod.soim.entry.server.session.NetUser;
 import net.sopod.soim.data.msg.auth.Auth;
 import net.sopod.soim.entry.config.EntryServerConfig;
 import net.sopod.soim.entry.server.AccountRegistry;
-import net.sopod.soim.logic.user.auth.service.UserAuthService;
+import net.sopod.soim.logic.api.user.auth.service.UserAuthService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

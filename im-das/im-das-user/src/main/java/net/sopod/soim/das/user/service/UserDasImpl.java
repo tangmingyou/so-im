@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import net.sopod.soim.common.constant.LogicConsts;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.user.api.service.UserDasService;
+import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.das.user.dao.UserMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -17,7 +17,7 @@ import org.apache.dubbo.config.annotation.DubboService;
  */
 @DubboService
 @AllArgsConstructor
-public class UserDasServiceImpl implements UserDasService {
+public class UserDasImpl implements UserDas {
 
     private UserMapper userMapper;
 
