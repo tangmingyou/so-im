@@ -1,5 +1,5 @@
 syntax="proto3";
-package proto;
+package net.sopod.soim.data.msg.user;
 
 option java_multiple_files = false;
 option java_outer_classname = "UserGroup";

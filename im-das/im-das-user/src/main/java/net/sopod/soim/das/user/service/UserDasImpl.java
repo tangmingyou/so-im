@@ -2,12 +2,15 @@ package net.sopod.soim.das.user.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.sopod.soim.common.constant.LogicConsts;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.das.user.dao.UserMapper;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.List;
 
 /**
  * UserDasServiceImpl
@@ -33,5 +36,15 @@ public class UserDasImpl implements UserDas {
                 .eq(ImUser::getStatus, LogicConsts.STATUS_NORMAL);
         return userMapper.selectOne(accountQuery);
     }
+
+    public List<ImUser> searchImUser(String keyword, Integer limit) {
+        Page<ImUser> page = new Page<>();
+        page.setCurrent(1).setSize(limit);
+        LambdaQueryWrapper<ImUser> userQuery = new QueryWrapper<ImUser>().lambda()
+                .likeRight(ImUser::getAccount, keyword);
+        Page<ImUser> imUserPage = userMapper.selectPage(page, userQuery);
+        return imUserPage.getRecords();
+    }
+
 
 }

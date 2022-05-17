@@ -2,13 +2,16 @@ package net.sopod.soim.logic.friend.service;
 
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.UserDas;
-import net.sopod.soim.logic.api.friend.search.UserSearchReply;
-import net.sopod.soim.logic.api.friend.search.UserSearchReq;
-import net.sopod.soim.logic.api.friend.search.UserSearchService;
+import net.sopod.soim.logic.api.friend.search.AccountInfo;
+import net.sopod.soim.logic.api.friend.search.AccountSearchService;
+import net.sopod.soim.logic.api.friend.search.ReqAccountSearch;
+import net.sopod.soim.logic.api.friend.search.ResAccountSearch;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * UserSearchServiceImpl
@@ -17,22 +20,30 @@ import java.util.concurrent.CompletableFuture;
  * @date 2022-05-15 22:43
  */
 @DubboService
-public class UserSearchServiceImpl implements UserSearchService {
+public class UserSearchServiceImpl implements AccountSearchService {
 
     @DubboReference
     private UserDas userDas;
 
     @Override
-    public UserSearchReply searchUser(UserSearchReq request) {
+    public ResAccountSearch searchAccountLikely(ReqAccountSearch request) {
         // 查询在线用户列表
+        List<ImUser> imUsers = userDas.searchImUser(request.getKeyword(), 10);
+        List<AccountInfo> userInfos = imUsers.stream().map(
+                imUser -> AccountInfo.newBuilder().
+                        setAccount(imUser.getAccount())
+                        .setNickname(imUser.getNickname())
+                        .setUid(imUser.getId()).build()
+        ).collect(Collectors.toList());
 
-
-        return null;
+        return ResAccountSearch.newBuilder()
+                .addAllAccounts(userInfos)
+                .build();
     }
 
     @Override
-    public CompletableFuture<UserSearchReply> searchUserAsync(UserSearchReq request) {
-        return CompletableFuture.completedFuture(searchUser(request));
+    public CompletableFuture<ResAccountSearch> searchAccountLikelyAsync(ReqAccountSearch request) {
+        return CompletableFuture.completedFuture(searchAccountLikely(request));
     }
 
 }

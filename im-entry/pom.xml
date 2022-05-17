@@ -37,6 +37,11 @@
             <version>${soim.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-logic-friend-api</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

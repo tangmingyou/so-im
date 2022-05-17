@@ -1,10 +1,7 @@
 package net.sopod.soim.client.cmd;
 
 import net.sopod.soim.client.cmd.handler.CmdHandler;
-import net.sopod.soim.client.handler.cmd.ExitHandler;
-import net.sopod.soim.client.handler.cmd.LoginHandler;
-import net.sopod.soim.client.handler.cmd.SendHandler;
-import net.sopod.soim.client.handler.cmd.UsersHandler;
+import net.sopod.soim.client.handler.cmd.*;
 
 /**
  * Commands
@@ -25,6 +22,9 @@ public enum CmdEnum {
 
     /** 用户分组列表 */
     groups,
+
+    /** 用户搜索 */
+    search(SearchHandler.class),
 
     help,
 
