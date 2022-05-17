@@ -1,5 +1,6 @@
 package net.sopod.soim.logic.friend.service;
 
+import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.logic.api.friend.search.UserSearchReply;
 import net.sopod.soim.logic.api.friend.search.UserSearchReq;
@@ -23,6 +24,9 @@ public class UserSearchServiceImpl implements UserSearchService {
 
     @Override
     public UserSearchReply searchUser(UserSearchReq request) {
+        // 查询在线用户列表
+
+
         return null;
     }
 
