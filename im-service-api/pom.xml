@@ -23,7 +23,7 @@
     </modules>
 
     <dependencies>
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-serialization-protobuf</artifactId>
             <version>${dubbo.protobuf.verion}</version>
@@ -38,7 +38,7 @@
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>${protoc.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
