@@ -1560,6 +1560,18 @@ public final class UserGroup {
      */
     com.google.protobuf.ByteString
         getAccountBytes();
+
+    /**
+     * <code>string nickname = 3;</code>
+     * @return The nickname.
+     */
+    java.lang.String getNickname();
+    /**
+     * <code>string nickname = 3;</code>
+     * @return The bytes for nickname.
+     */
+    com.google.protobuf.ByteString
+        getNicknameBytes();
   }
   /**
    * Protobuf type {@code net.sopod.soim.data.msg.user.UserInfo}
@@ -1575,6 +1587,7 @@ public final class UserGroup {
     }
     private UserInfo() {
       account_ = "";
+      nickname_ = "";
     }
 
     @java.lang.Override
@@ -1616,6 +1629,12 @@ public final class UserGroup {
               java.lang.String s = input.readStringRequireUtf8();
 
               account_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              nickname_ = s;
               break;
             }
             default: {
@@ -1699,6 +1718,44 @@ public final class UserGroup {
       }
     }
 
+    public static final int NICKNAME_FIELD_NUMBER = 3;
+    private volatile java.lang.Object nickname_;
+    /**
+     * <code>string nickname = 3;</code>
+     * @return The nickname.
+     */
+    @java.lang.Override
+    public java.lang.String getNickname() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        nickname_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string nickname = 3;</code>
+     * @return The bytes for nickname.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNicknameBytes() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nickname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1719,6 +1776,9 @@ public final class UserGroup {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(account_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, account_);
       }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickname_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, nickname_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1734,6 +1794,9 @@ public final class UserGroup {
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(account_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, account_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickname_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, nickname_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1754,6 +1817,8 @@ public final class UserGroup {
           != other.getUid()) return false;
       if (!getAccount()
           .equals(other.getAccount())) return false;
+      if (!getNickname()
+          .equals(other.getNickname())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1770,6 +1835,8 @@ public final class UserGroup {
           getUid());
       hash = (37 * hash) + ACCOUNT_FIELD_NUMBER;
       hash = (53 * hash) + getAccount().hashCode();
+      hash = (37 * hash) + NICKNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getNickname().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1907,6 +1974,8 @@ public final class UserGroup {
 
         account_ = "";
 
+        nickname_ = "";
+
         return this;
       }
 
@@ -1935,6 +2004,7 @@ public final class UserGroup {
         net.sopod.soim.data.msg.user.UserGroup.UserInfo result = new net.sopod.soim.data.msg.user.UserGroup.UserInfo(this);
         result.uid_ = uid_;
         result.account_ = account_;
+        result.nickname_ = nickname_;
         onBuilt();
         return result;
       }
@@ -1988,6 +2058,10 @@ public final class UserGroup {
         }
         if (!other.getAccount().isEmpty()) {
           account_ = other.account_;
+          onChanged();
+        }
+        if (!other.getNickname().isEmpty()) {
+          nickname_ = other.nickname_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -2125,6 +2199,82 @@ public final class UserGroup {
         onChanged();
         return this;
       }
+
+      private java.lang.Object nickname_ = "";
+      /**
+       * <code>string nickname = 3;</code>
+       * @return The nickname.
+       */
+      public java.lang.String getNickname() {
+        java.lang.Object ref = nickname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          nickname_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string nickname = 3;</code>
+       * @return The bytes for nickname.
+       */
+      public com.google.protobuf.ByteString
+          getNicknameBytes() {
+        java.lang.Object ref = nickname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nickname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string nickname = 3;</code>
+       * @param value The nickname to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNickname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nickname = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNickname() {
+        
+        nickname_ = getDefaultInstance().getNickname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nickname = 3;</code>
+       * @param value The bytes for nickname to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNicknameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2206,9 +2356,10 @@ public final class UserGroup {
       "soim.data.msg.user\"$\n\021ReqOnlineUserList\022" +
       "\017\n\007keyword\030\002 \001(\t\"J\n\021ResOnlineUserList\0225\n" +
       "\005users\030\002 \003(\0132&.net.sopod.soim.data.msg.u" +
-      "ser.UserInfo\"(\n\010UserInfo\022\013\n\003uid\030\001 \001(\003\022\017\n" +
-      "\007account\030\002 \001(\tB+\n\034net.sopod.soim.data.ms" +
-      "g.userB\tUserGroupP\000b\006proto3"
+      "ser.UserInfo\":\n\010UserInfo\022\013\n\003uid\030\001 \001(\003\022\017\n" +
+      "\007account\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\tB+\n\034net." +
+      "sopod.soim.data.msg.userB\tUserGroupP\000b\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2231,7 +2382,7 @@ public final class UserGroup {
     internal_static_net_sopod_soim_data_msg_user_UserInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_user_UserInfo_descriptor,
-        new java.lang.String[] { "Uid", "Account", });
+        new java.lang.String[] { "Uid", "Account", "Nickname", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

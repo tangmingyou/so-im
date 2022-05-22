@@ -27,7 +27,7 @@ public class UserSearchServiceImpl implements AccountSearchService {
 
     @Override
     public ResAccountSearch searchAccountLikely(ReqAccountSearch request) {
-        // 查询在线用户列表
+        // 查询用户账户列表
         List<ImUser> imUsers = userDas.searchImUser(request.getKeyword(), 10);
         List<AccountInfo> userInfos = imUsers.stream().map(
                 imUser -> AccountInfo.newBuilder().

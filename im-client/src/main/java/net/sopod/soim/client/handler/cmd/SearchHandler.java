@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import net.sopod.soim.client.cmd.args.ArgsSearch;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.session.SoImSession;
-import net.sopod.soim.data.msg.friend.Friend;
+import net.sopod.soim.data.msg.user.AccountSearch;
 
 /**
  * SearchHandler
@@ -26,7 +26,8 @@ public class SearchHandler implements CmdHandler<ArgsSearch> {
 
     @Override
     public void handleArgs(ArgsSearch args) {
-        Friend.ReqFriendSearch reqSearch = Friend.ReqFriendSearch.newBuilder().setKeyword("").build();
+        AccountSearch.ReqAccountSearch reqSearch = AccountSearch.ReqAccountSearch
+                .newBuilder().setKeyword(args.getAccount()).build();
         soImSession.send(reqSearch);
     }
 

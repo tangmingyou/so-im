@@ -21,4 +21,6 @@ public class UserInfo implements Serializable {
 
     private String account;
 
+    private String nickname;
+
 }

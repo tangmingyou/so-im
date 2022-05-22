@@ -6,18 +6,15 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * ArgsSearch
+ * ArgsAddFriend
  *
  * @author tmy
- * @date 2022-05-17 23:10
+ * @date 2022-05-21 19:28
  */
 @Data
-public class ArgsSearch {
+public class ArgsAddFriend {
 
     @Parameter
     private List<String> parameters;
-
-    @Parameter(names = {"-u", "-account"}, required = true, description = "账号")
-    private String account;
 
 }

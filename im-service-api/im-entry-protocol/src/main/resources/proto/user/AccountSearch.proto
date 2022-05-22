@@ -1,0 +1,15 @@
+syntax="proto3";
+
+option java_multiple_files = false;
+option java_outer_classname = "AccountSearch";
+
+package net.sopod.soim.data.msg.user;
+
+import "proto/user/UserGroup.proto";
+
+message ReqAccountSearch {
+  string keyword = 1;
+}
+message ResAccountSearch {
+  repeated UserInfo users = 8;
+}

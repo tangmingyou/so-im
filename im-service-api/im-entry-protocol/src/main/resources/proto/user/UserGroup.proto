@@ -14,8 +14,8 @@ message ReqOnlineUserList {
 message ResOnlineUserList {
   repeated UserInfo users = 2; // 查询用户列表
 }
-
 message UserInfo {
   int64 uid = 1;
   string account = 2;
+  string nickname = 3;
 }
