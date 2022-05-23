@@ -589,12 +589,12 @@ public final class AccountSearch {
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
-    java.util.List<net.sopod.soim.data.msg.user.UserGroup.UserInfo> 
+    java.util.List<net.sopod.soim.data.msg.user.UserMsg.UserInfo> 
         getUsersList();
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
-    net.sopod.soim.data.msg.user.UserGroup.UserInfo getUsers(int index);
+    net.sopod.soim.data.msg.user.UserMsg.UserInfo getUsers(int index);
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
@@ -602,12 +602,12 @@ public final class AccountSearch {
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
-    java.util.List<? extends net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder> 
+    java.util.List<? extends net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder> 
         getUsersOrBuilderList();
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
-    net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder getUsersOrBuilder(
+    net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder getUsersOrBuilder(
         int index);
   }
   /**
@@ -659,11 +659,11 @@ public final class AccountSearch {
               break;
             case 66: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                users_ = new java.util.ArrayList<net.sopod.soim.data.msg.user.UserGroup.UserInfo>();
+                users_ = new java.util.ArrayList<net.sopod.soim.data.msg.user.UserMsg.UserInfo>();
                 mutable_bitField0_ |= 0x00000001;
               }
               users_.add(
-                  input.readMessage(net.sopod.soim.data.msg.user.UserGroup.UserInfo.parser(), extensionRegistry));
+                  input.readMessage(net.sopod.soim.data.msg.user.UserMsg.UserInfo.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -702,19 +702,19 @@ public final class AccountSearch {
     }
 
     public static final int USERS_FIELD_NUMBER = 8;
-    private java.util.List<net.sopod.soim.data.msg.user.UserGroup.UserInfo> users_;
+    private java.util.List<net.sopod.soim.data.msg.user.UserMsg.UserInfo> users_;
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
     @java.lang.Override
-    public java.util.List<net.sopod.soim.data.msg.user.UserGroup.UserInfo> getUsersList() {
+    public java.util.List<net.sopod.soim.data.msg.user.UserMsg.UserInfo> getUsersList() {
       return users_;
     }
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
     @java.lang.Override
-    public java.util.List<? extends net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder> 
+    public java.util.List<? extends net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder> 
         getUsersOrBuilderList() {
       return users_;
     }
@@ -729,14 +729,14 @@ public final class AccountSearch {
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
     @java.lang.Override
-    public net.sopod.soim.data.msg.user.UserGroup.UserInfo getUsers(int index) {
+    public net.sopod.soim.data.msg.user.UserMsg.UserInfo getUsers(int index) {
       return users_.get(index);
     }
     /**
      * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
      */
     @java.lang.Override
-    public net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder getUsersOrBuilder(
+    public net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder getUsersOrBuilder(
         int index) {
       return users_.get(index);
     }
@@ -1083,22 +1083,22 @@ public final class AccountSearch {
       }
       private int bitField0_;
 
-      private java.util.List<net.sopod.soim.data.msg.user.UserGroup.UserInfo> users_ =
+      private java.util.List<net.sopod.soim.data.msg.user.UserMsg.UserInfo> users_ =
         java.util.Collections.emptyList();
       private void ensureUsersIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          users_ = new java.util.ArrayList<net.sopod.soim.data.msg.user.UserGroup.UserInfo>(users_);
+          users_ = new java.util.ArrayList<net.sopod.soim.data.msg.user.UserMsg.UserInfo>(users_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          net.sopod.soim.data.msg.user.UserGroup.UserInfo, net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder, net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder> usersBuilder_;
+          net.sopod.soim.data.msg.user.UserMsg.UserInfo, net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder, net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder> usersBuilder_;
 
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public java.util.List<net.sopod.soim.data.msg.user.UserGroup.UserInfo> getUsersList() {
+      public java.util.List<net.sopod.soim.data.msg.user.UserMsg.UserInfo> getUsersList() {
         if (usersBuilder_ == null) {
           return java.util.Collections.unmodifiableList(users_);
         } else {
@@ -1118,7 +1118,7 @@ public final class AccountSearch {
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public net.sopod.soim.data.msg.user.UserGroup.UserInfo getUsers(int index) {
+      public net.sopod.soim.data.msg.user.UserMsg.UserInfo getUsers(int index) {
         if (usersBuilder_ == null) {
           return users_.get(index);
         } else {
@@ -1129,7 +1129,7 @@ public final class AccountSearch {
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
       public Builder setUsers(
-          int index, net.sopod.soim.data.msg.user.UserGroup.UserInfo value) {
+          int index, net.sopod.soim.data.msg.user.UserMsg.UserInfo value) {
         if (usersBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1146,7 +1146,7 @@ public final class AccountSearch {
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
       public Builder setUsers(
-          int index, net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder builderForValue) {
+          int index, net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder builderForValue) {
         if (usersBuilder_ == null) {
           ensureUsersIsMutable();
           users_.set(index, builderForValue.build());
@@ -1159,7 +1159,7 @@ public final class AccountSearch {
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public Builder addUsers(net.sopod.soim.data.msg.user.UserGroup.UserInfo value) {
+      public Builder addUsers(net.sopod.soim.data.msg.user.UserMsg.UserInfo value) {
         if (usersBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1176,7 +1176,7 @@ public final class AccountSearch {
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
       public Builder addUsers(
-          int index, net.sopod.soim.data.msg.user.UserGroup.UserInfo value) {
+          int index, net.sopod.soim.data.msg.user.UserMsg.UserInfo value) {
         if (usersBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1193,7 +1193,7 @@ public final class AccountSearch {
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
       public Builder addUsers(
-          net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder builderForValue) {
+          net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder builderForValue) {
         if (usersBuilder_ == null) {
           ensureUsersIsMutable();
           users_.add(builderForValue.build());
@@ -1207,7 +1207,7 @@ public final class AccountSearch {
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
       public Builder addUsers(
-          int index, net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder builderForValue) {
+          int index, net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder builderForValue) {
         if (usersBuilder_ == null) {
           ensureUsersIsMutable();
           users_.add(index, builderForValue.build());
@@ -1221,7 +1221,7 @@ public final class AccountSearch {
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
       public Builder addAllUsers(
-          java.lang.Iterable<? extends net.sopod.soim.data.msg.user.UserGroup.UserInfo> values) {
+          java.lang.Iterable<? extends net.sopod.soim.data.msg.user.UserMsg.UserInfo> values) {
         if (usersBuilder_ == null) {
           ensureUsersIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1261,14 +1261,14 @@ public final class AccountSearch {
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder getUsersBuilder(
+      public net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder getUsersBuilder(
           int index) {
         return getUsersFieldBuilder().getBuilder(index);
       }
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder getUsersOrBuilder(
+      public net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder getUsersOrBuilder(
           int index) {
         if (usersBuilder_ == null) {
           return users_.get(index);  } else {
@@ -1278,7 +1278,7 @@ public final class AccountSearch {
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public java.util.List<? extends net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder> 
+      public java.util.List<? extends net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder> 
            getUsersOrBuilderList() {
         if (usersBuilder_ != null) {
           return usersBuilder_.getMessageOrBuilderList();
@@ -1289,31 +1289,31 @@ public final class AccountSearch {
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder addUsersBuilder() {
+      public net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder addUsersBuilder() {
         return getUsersFieldBuilder().addBuilder(
-            net.sopod.soim.data.msg.user.UserGroup.UserInfo.getDefaultInstance());
+            net.sopod.soim.data.msg.user.UserMsg.UserInfo.getDefaultInstance());
       }
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder addUsersBuilder(
+      public net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder addUsersBuilder(
           int index) {
         return getUsersFieldBuilder().addBuilder(
-            index, net.sopod.soim.data.msg.user.UserGroup.UserInfo.getDefaultInstance());
+            index, net.sopod.soim.data.msg.user.UserMsg.UserInfo.getDefaultInstance());
       }
       /**
        * <code>repeated .net.sopod.soim.data.msg.user.UserInfo users = 8;</code>
        */
-      public java.util.List<net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder> 
+      public java.util.List<net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder> 
            getUsersBuilderList() {
         return getUsersFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          net.sopod.soim.data.msg.user.UserGroup.UserInfo, net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder, net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder> 
+          net.sopod.soim.data.msg.user.UserMsg.UserInfo, net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder, net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder> 
           getUsersFieldBuilder() {
         if (usersBuilder_ == null) {
           usersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              net.sopod.soim.data.msg.user.UserGroup.UserInfo, net.sopod.soim.data.msg.user.UserGroup.UserInfo.Builder, net.sopod.soim.data.msg.user.UserGroup.UserInfoOrBuilder>(
+              net.sopod.soim.data.msg.user.UserMsg.UserInfo, net.sopod.soim.data.msg.user.UserMsg.UserInfo.Builder, net.sopod.soim.data.msg.user.UserMsg.UserInfoOrBuilder>(
                   users_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
@@ -1395,16 +1395,16 @@ public final class AccountSearch {
   static {
     java.lang.String[] descriptorData = {
       "\n\036proto/user/AccountSearch.proto\022\034net.so" +
-      "pod.soim.data.msg.user\032\032proto/user/UserG" +
-      "roup.proto\"#\n\020ReqAccountSearch\022\017\n\007keywor" +
-      "d\030\001 \001(\t\"I\n\020ResAccountSearch\0225\n\005users\030\010 \003" +
-      "(\0132&.net.sopod.soim.data.msg.user.UserIn" +
-      "foB\021B\rAccountSearchP\000b\006proto3"
+      "pod.soim.data.msg.user\032\030proto/user/UserM" +
+      "sg.proto\"#\n\020ReqAccountSearch\022\017\n\007keyword\030" +
+      "\001 \001(\t\"I\n\020ResAccountSearch\0225\n\005users\030\010 \003(\013" +
+      "2&.net.sopod.soim.data.msg.user.UserInfo" +
+      "B\021B\rAccountSearchP\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          net.sopod.soim.data.msg.user.UserGroup.getDescriptor(),
+          net.sopod.soim.data.msg.user.UserMsg.getDescriptor(),
         });
     internal_static_net_sopod_soim_data_msg_user_ReqAccountSearch_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -1418,7 +1418,7 @@ public final class AccountSearch {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_user_ResAccountSearch_descriptor,
         new java.lang.String[] { "Users", });
-    net.sopod.soim.data.msg.user.UserGroup.getDescriptor();
+    net.sopod.soim.data.msg.user.UserMsg.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -14,16 +14,16 @@ import net.sopod.soim.entry.server.session.NetUser;
 public abstract class AccountMessageHandler<T> implements MessageHandler<T> {
 
     @Override
-    public final void exec(NetUser netUser, T msg) {
+    public final void exec(NetUser netUser, T req) {
         if (!netUser.isAccount()) {
             throw new IllegalStateException("NetUser is not account!" + netUser);
         }
-        MessageLite res = handle((Account) netUser, msg);
+        MessageLite res = handle((Account) netUser, req);
         if (res != null) {
             netUser.writeNow(res);
         }
     }
 
-    public abstract MessageLite handle(Account account, T msg);
+    public abstract MessageLite handle(Account account, T req);
 
 }

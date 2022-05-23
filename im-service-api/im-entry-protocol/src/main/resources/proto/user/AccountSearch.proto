@@ -5,7 +5,7 @@ option java_outer_classname = "AccountSearch";
 
 package net.sopod.soim.data.msg.user;
 
-import "proto/user/UserGroup.proto";
+import "proto/user/UserMsg.proto";
 
 message ReqAccountSearch {
   string keyword = 1;

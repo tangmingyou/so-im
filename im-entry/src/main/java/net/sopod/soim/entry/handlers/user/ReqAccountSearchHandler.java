@@ -3,6 +3,7 @@ package net.sopod.soim.entry.handlers.user;
 import com.google.protobuf.MessageLite;
 import net.sopod.soim.data.msg.user.AccountSearch;
 import net.sopod.soim.data.msg.user.UserGroup;
+import net.sopod.soim.data.msg.user.UserMsg;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.logic.api.user.service.AccountService;
@@ -30,8 +31,8 @@ public class ReqAccountSearchHandler extends AccountMessageHandler<AccountSearch
     public MessageLite handle(Account account, AccountSearch.ReqAccountSearch msg) {
         CompletableFuture<List<UserInfo>> future = accountService.searchAccountLikely(msg.getKeyword());
         future.thenAccept(userInfos -> {
-            List<UserGroup.UserInfo> infos = userInfos.stream().map(
-                    acc -> UserGroup.UserInfo.newBuilder()
+            List<UserMsg.UserInfo> infos = userInfos.stream().map(
+                    acc -> UserMsg.UserInfo.newBuilder()
                             .setAccount(acc.getAccount())
                             .setNickname(acc.getNickname())
                             .setUid(acc.getUid())

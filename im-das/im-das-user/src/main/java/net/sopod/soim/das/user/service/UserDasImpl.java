@@ -26,7 +26,10 @@ public class UserDasImpl implements UserDas {
 
     @Override
     public ImUser getUserById(Long id) {
-        return userMapper.selectById(id);
+        LambdaQueryWrapper<ImUser> userQuery = new QueryWrapper<ImUser>().lambda()
+                .eq(ImUser::getId, id)
+                .eq(ImUser::getStatus, LogicConsts.STATUS_NORMAL);
+        return userMapper.selectOne(userQuery);
     }
 
     @Override

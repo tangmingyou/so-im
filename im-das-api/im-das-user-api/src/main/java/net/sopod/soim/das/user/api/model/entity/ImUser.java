@@ -28,7 +28,7 @@ public class ImUser implements Serializable {
     @TableId(value = "id", type= IdType.INPUT)
     private Long id;
 
-    /** 状态:1.正常,2.禁用,3删除 */
+    /** 状态:0删除,1.正常,2.禁用 */
     @TableField(value = "status")
     private Integer status;
 

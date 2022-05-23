@@ -8,10 +8,11 @@ package net.sopod.soim.common.constant;
  */
 public interface LogicConsts {
 
+    Integer STATUS_DELETED = 0;
+
     Integer STATUS_NORMAL = 1;
 
     Integer STATUS_DISABLED = 2;
 
-    Integer STATUS_DELETED = 3;
 
 }

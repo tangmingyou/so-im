@@ -1,0 +1,26 @@
+syntax="proto3";
+
+option java_multiple_files = false;
+option java_outer_classname = "Friend";
+
+package net.sopod.soim.data.msg.user;
+
+import "proto/user/UserMsg.proto";
+
+message ReqAddFriend {
+  int64 fid = 1;
+}
+
+message ResAddFriend {
+  bool success = 1;
+  string msg = 2;
+}
+
+
+message ReqFriendList {
+
+}
+
+message ResFriendList {
+  repeated UserInfo friends = 6;
+}
