@@ -3,7 +3,7 @@
 <mapper namespace="net.sopod.soim.das.user.dao.FriendMapper">
 
     <select id="selectAllFriendId" resultType="long">
-        select fid from im_friend where uid = #{uid} and status = 0
+        select fid from im_friend where uid = #{uid} and status = 1
     </select>
 
 </mapper>

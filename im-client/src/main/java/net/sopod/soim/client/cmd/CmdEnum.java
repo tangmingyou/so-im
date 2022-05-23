@@ -26,6 +26,11 @@ public enum CmdEnum {
     /** 用户搜索 */
     search(SearchHandler.class),
 
+    /** 添加好友 */
+    add(AddFriendHandler.class),
+
+    friends(FriendsHandler.class),
+
     help,
 
     /** 退出 */

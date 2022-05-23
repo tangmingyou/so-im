@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
 
 /**
  * dispatch -> worker * core_num -> disruptor 队列执行
@@ -76,4 +77,21 @@ public class Worker implements EventHandler<TaskEvent>, EventFactory<TaskEvent> 
     public TaskEvent newInstance() {
         return new TaskEvent();
     }
+
+    public <T> void whenCompleteAsync(CompletableFuture<T> future,
+                                      BiConsumer<? super T, ? super Throwable> action) {
+//        BiConsumer<? super T, ? super Throwable> wrapper = (data, err) -> {
+//            try {
+//                action.accept(data, err);
+//            }catch (Exception e) {
+//                logger.error("future执行失败: ", e);
+//            }
+//        };
+        future.whenCompleteAsync(action, executor)
+                .exceptionally(err -> {
+                    logger.error("future执行失败: ", err);
+                    return null;
+                });
+    }
+
 }

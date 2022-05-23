@@ -8,6 +8,6 @@ package net.sopod.soim.client.session;
  */
 public interface MessageHandler<T> {
 
-    void handleMsg(T msg);
+    void handleMsg(T res);
 
 }

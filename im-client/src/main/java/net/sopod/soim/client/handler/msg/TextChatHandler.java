@@ -15,8 +15,8 @@ import net.sopod.soim.data.msg.chat.Chat;
 public class TextChatHandler implements MessageHandler<Chat.TextChat> {
 
     @Override
-    public void handleMsg(Chat.TextChat msg) {
-        Logger.info("{}: {}", msg.getSender(), msg.getMessage());
+    public void handleMsg(Chat.TextChat res) {
+        Logger.info("{}: {}", res.getSender(), res.getMessage());
     }
 
 }

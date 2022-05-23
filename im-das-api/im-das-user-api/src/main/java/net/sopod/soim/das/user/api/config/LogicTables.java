@@ -10,4 +10,6 @@ public interface LogicTables {
 
     String IM_USER = "im_user";
 
+    String IM_FRIEND = "im_friend";
+
 }

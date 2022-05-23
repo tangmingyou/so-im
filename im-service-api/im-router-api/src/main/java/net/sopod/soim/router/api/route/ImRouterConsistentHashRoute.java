@@ -43,6 +43,7 @@ public class ImRouterConsistentHashRoute extends AbstractLoadBalance {
                     invoker -> invoker.getUrl().getAddress(),
                     new HashMap<>(6));
             selector = new UidConsistentHashSelector<>(serverAddrInvokerMap, invokersHash);
+            selector.asCurrent();
         }
         // 获取上下文 uid, 同 RpcContext
         String uid = invocation.getAttachment(DubboConstant.CTX_UID);

@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 public class ResOnlineUserListHandler implements MessageHandler<UserGroup.ResOnlineUserList> {
 
     @Override
-    public void handleMsg(UserGroup.ResOnlineUserList msg) {
-        List<String> userLines = msg.getUsersList().stream()
+    public void handleMsg(UserGroup.ResOnlineUserList res) {
+        List<String> userLines = res.getUsersList().stream()
                 .map(user -> user.getUid() + " | " + user.getAccount())
                 .collect(Collectors.toList());
         Logger.logList("在线用户", userLines);

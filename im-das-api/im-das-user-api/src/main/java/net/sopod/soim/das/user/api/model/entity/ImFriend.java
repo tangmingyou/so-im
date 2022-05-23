@@ -1,5 +1,6 @@
 package net.sopod.soim.das.user.api.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,7 +25,7 @@ public class ImFriend implements Serializable {
     private static final long serialVersionUID = -4703347353944742873L;
 
     /**  */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.INPUT)
     private Long id;
 
     /** 用户id */

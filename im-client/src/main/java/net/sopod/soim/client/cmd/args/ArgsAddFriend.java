@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class ArgsAddFriend {
 
-    @Parameter
-    private List<String> parameters;
+    @Parameter(names = {"-u"}, required = true, description = "好友id")
+    private Long friendId;
 
 }

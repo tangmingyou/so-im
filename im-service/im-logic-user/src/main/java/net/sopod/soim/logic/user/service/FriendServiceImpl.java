@@ -1,14 +1,19 @@
 package net.sopod.soim.logic.user.service;
 
+import net.sopod.soim.common.util.Collects;
+import net.sopod.soim.common.util.StringUtil;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.logic.api.user.service.FriendService;
 import net.sopod.soim.logic.common.model.UserInfo;
+import net.sopod.soim.logic.common.util.RpcContextUtil;
+import net.sopod.soim.router.api.route.UidConsistentHashSelector;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -42,12 +47,30 @@ public class FriendServiceImpl implements FriendService {
         }
         // 添加好友数据
         friendDas.insert(uid, fid);
+        // 相互添加为好友
+        if (Boolean.FALSE.equals(friendDas.isExists(fid, uid))) {
+            friendDas.insert(fid, uid);
+        }
         return CompletableFuture.completedFuture(null);
     }
 
     @Override
     public CompletableFuture<List<UserInfo>> listFriend(Long uid) {
         List<ImUser> imUsers = friendDas.queryAllFriend(uid);
+        // TODO 分组到 im-router 查询在线状态
+        UidConsistentHashSelector<?> selector = UidConsistentHashSelector.getCurrent();
+        if (selector == null) {
+            // TODO 单实例 im-router, 直接调用
+        } else {
+            Map<?, List<ImUser>> userRouteGroup =
+                    Collects.group(imUsers, imUser -> selector.select(StringUtil.toString(imUser.getId())), imUser -> imUser);
+            for (List<ImUser> users : userRouteGroup.values()) {
+                List<Long> userIds = users.stream().map(ImUser::getId).collect(Collectors.toList());
+                RpcContextUtil.setContextUid(userIds.get(0));
+                // TODO 调用在线状态查询接口，按返回list索引更新在线状态
+                
+            }
+        }
         List<UserInfo> userInfos = imUsers.stream().map(imUser -> new UserInfo()
                 .setUid(imUser.getId())
                 .setAccount(imUser.getAccount())

@@ -1,6 +1,5 @@
 package net.sopod.soim.router.api.route;
 
-import net.sopod.soim.common.util.HashAlgorithms;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -118,6 +117,19 @@ public class UidConsistentHashSelector<V> {
 
     public int getIdentityHashCode() {
         return identityHashCode;
+    }
+
+    private static volatile UidConsistentHashSelector<?> currentSelector;
+
+    void asCurrent() {
+        currentSelector = this;
+    }
+
+    public static UidConsistentHashSelector<?> getCurrent() {
+//        if (currentSelector == null) {
+//            throw new IllegalStateException("当前无运行中的UidConsistentHashSelector");
+//        }
+        return currentSelector;
     }
 
 }
