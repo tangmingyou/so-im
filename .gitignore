@@ -55,4 +55,4 @@ yarn-debug.log*
 yarn-error.log*
 
 /log
-*/.back_so-im
+*/.back_so-im/

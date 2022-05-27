@@ -22,7 +22,7 @@ public class ResFriendListHandler implements MessageHandler<Friend.ResFriendList
     public void handleMsg(Friend.ResFriendList res) {
         List<UserMsg.UserInfo> friendsList = res.getFriendsList();
         List<String> userLines = friendsList.stream()
-                .map(u -> u.getUid() + "|" + u.getAccount() + "|" + u.getNickname())
+                .map(u -> u.getUid() + "|" + u.getAccount() + "|" + u.getNickname() + "|" + u.getOnline())
                 .collect(Collectors.toList());
         Logger.logList("好友列表", userLines);
     }

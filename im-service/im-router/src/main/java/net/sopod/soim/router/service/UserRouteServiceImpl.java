@@ -20,6 +20,7 @@ import org.apache.dubbo.rpc.RpcContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -92,6 +93,18 @@ public class UserRouteServiceImpl implements UserRouteService {
             logger.info("消息未送达: {}: {}", textChat.getReceiverName(), textChat.getMessage());
         }
         return Boolean.TRUE;
+    }
+
+    @Override
+    public List<Boolean> isOnlineUsers(List<Long> userIds) {
+        int len = userIds.size();
+        List<Boolean> isOnlines = new ArrayList<>(len);
+        RouterUserStorage userStorage = RouterUserStorage.getInstance();
+        for (int i = 0; i < len; i++) {
+            RouterUser routerUser = userStorage.get(userIds.get(i));
+            isOnlines.add(routerUser != null && Boolean.TRUE.equals(routerUser.getIsOnline()));
+        }
+        return isOnlines;
     }
 
 }

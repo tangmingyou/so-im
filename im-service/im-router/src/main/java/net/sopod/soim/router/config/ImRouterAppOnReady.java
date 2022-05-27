@@ -64,7 +64,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
 
         // 服务已可用立即进行注册
         if (registryNow) {
-            this.createMockData();
+            // this.createMockData();
             AppContextHolder.doRegistry();
         }
     }

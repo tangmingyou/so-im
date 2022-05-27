@@ -38,6 +38,7 @@ public class ReqFriendListHandler extends AccountMessageHandler<Friend.ReqFriend
                     .setAccount(acc.getAccount())
                     .setNickname(acc.getNickname())
                     .setUid(acc.getUid())
+                    .setOnline(Boolean.TRUE.equals(acc.getIsOnline()))
                     .build()
             ).collect(Collectors.toList());
             Friend.ResFriendList res = Friend.ResFriendList.newBuilder().addAllFriends(userInfos).build();

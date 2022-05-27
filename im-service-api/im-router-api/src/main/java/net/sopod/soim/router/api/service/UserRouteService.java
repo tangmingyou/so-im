@@ -27,4 +27,6 @@ public interface UserRouteService {
 
     Boolean routeTextChat(TextChat textChat);
 
+    List<Boolean> isOnlineUsers(List<Long> userIds);
+
 }

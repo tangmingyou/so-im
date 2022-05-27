@@ -9,9 +9,11 @@ import net.sopod.soim.logic.api.user.service.FriendService;
 import net.sopod.soim.logic.common.model.UserInfo;
 import net.sopod.soim.logic.common.util.RpcContextUtil;
 import net.sopod.soim.router.api.route.UidConsistentHashSelector;
+import net.sopod.soim.router.api.service.UserRouteService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -31,6 +33,9 @@ public class FriendServiceImpl implements FriendService {
 
     @DubboReference
     private UserDas userDas;
+
+    @DubboReference
+    private UserRouteService userRouteService;
 
     /**
      * TODO 幂等性处理
@@ -59,8 +64,13 @@ public class FriendServiceImpl implements FriendService {
         List<ImUser> imUsers = friendDas.queryAllFriend(uid);
         // TODO 分组到 im-router 查询在线状态
         UidConsistentHashSelector<?> selector = UidConsistentHashSelector.getCurrent();
+        List<UserInfo> userInfos = new ArrayList<>(imUsers.size());
         if (selector == null) {
             // TODO 单实例 im-router, 直接调用
+            // TODO 多个实例变成单个后，selector 不为 null
+            List<Long> userIds = imUsers.stream().map(ImUser::getId).collect(Collectors.toList());
+            List<Boolean> onlineUsers = userRouteService.isOnlineUsers(userIds);
+            mappingUserInfos(imUsers, onlineUsers, userInfos);
         } else {
             Map<?, List<ImUser>> userRouteGroup =
                     Collects.group(imUsers, imUser -> selector.select(StringUtil.toString(imUser.getId())), imUser -> imUser);
@@ -68,15 +78,24 @@ public class FriendServiceImpl implements FriendService {
                 List<Long> userIds = users.stream().map(ImUser::getId).collect(Collectors.toList());
                 RpcContextUtil.setContextUid(userIds.get(0));
                 // TODO 调用在线状态查询接口，按返回list索引更新在线状态
-                
+                List<Boolean> onlineUsers = userRouteService.isOnlineUsers(userIds);
+                // TODO 排序
+                mappingUserInfos(users, onlineUsers, userInfos);
             }
         }
-        List<UserInfo> userInfos = imUsers.stream().map(imUser -> new UserInfo()
+        return CompletableFuture.completedFuture(userInfos);
+    }
+
+    private void mappingUserInfos(List<ImUser> imUsers, List<Boolean> onlineUsers, List<UserInfo> container) {
+        for (int i = 0; i < imUsers.size(); i++) {
+            ImUser imUser = imUsers.get(i);
+            UserInfo userInfo = new UserInfo()
                 .setUid(imUser.getId())
                 .setAccount(imUser.getAccount())
                 .setNickname(imUser.getNickname())
-        ).collect(Collectors.toList());
-        return CompletableFuture.completedFuture(userInfos);
+                .setIsOnline(onlineUsers.get(i));
+            container.add(userInfo);
+        }
     }
 
 }

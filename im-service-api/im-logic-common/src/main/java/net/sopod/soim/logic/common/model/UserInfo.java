@@ -23,4 +23,6 @@ public class UserInfo implements Serializable {
 
     private String nickname;
 
+    private Boolean isOnline;
+
 }

@@ -47,6 +47,12 @@ public final class UserMsg {
      */
     com.google.protobuf.ByteString
         getNicknameBytes();
+
+    /**
+     * <code>bool online = 4;</code>
+     * @return The online.
+     */
+    boolean getOnline();
   }
   /**
    * Protobuf type {@code net.sopod.soim.data.msg.user.UserInfo}
@@ -110,6 +116,11 @@ public final class UserMsg {
               java.lang.String s = input.readStringRequireUtf8();
 
               nickname_ = s;
+              break;
+            }
+            case 32: {
+
+              online_ = input.readBool();
               break;
             }
             default: {
@@ -231,6 +242,17 @@ public final class UserMsg {
       }
     }
 
+    public static final int ONLINE_FIELD_NUMBER = 4;
+    private boolean online_;
+    /**
+     * <code>bool online = 4;</code>
+     * @return The online.
+     */
+    @java.lang.Override
+    public boolean getOnline() {
+      return online_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -254,6 +276,9 @@ public final class UserMsg {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickname_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, nickname_);
       }
+      if (online_ != false) {
+        output.writeBool(4, online_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -272,6 +297,10 @@ public final class UserMsg {
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickname_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, nickname_);
+      }
+      if (online_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, online_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -294,6 +323,8 @@ public final class UserMsg {
           .equals(other.getAccount())) return false;
       if (!getNickname()
           .equals(other.getNickname())) return false;
+      if (getOnline()
+          != other.getOnline()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -312,6 +343,9 @@ public final class UserMsg {
       hash = (53 * hash) + getAccount().hashCode();
       hash = (37 * hash) + NICKNAME_FIELD_NUMBER;
       hash = (53 * hash) + getNickname().hashCode();
+      hash = (37 * hash) + ONLINE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getOnline());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -451,6 +485,8 @@ public final class UserMsg {
 
         nickname_ = "";
 
+        online_ = false;
+
         return this;
       }
 
@@ -480,6 +516,7 @@ public final class UserMsg {
         result.uid_ = uid_;
         result.account_ = account_;
         result.nickname_ = nickname_;
+        result.online_ = online_;
         onBuilt();
         return result;
       }
@@ -538,6 +575,9 @@ public final class UserMsg {
         if (!other.getNickname().isEmpty()) {
           nickname_ = other.nickname_;
           onChanged();
+        }
+        if (other.getOnline() != false) {
+          setOnline(other.getOnline());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -750,6 +790,37 @@ public final class UserMsg {
         onChanged();
         return this;
       }
+
+      private boolean online_ ;
+      /**
+       * <code>bool online = 4;</code>
+       * @return The online.
+       */
+      @java.lang.Override
+      public boolean getOnline() {
+        return online_;
+      }
+      /**
+       * <code>bool online = 4;</code>
+       * @param value The online to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOnline(boolean value) {
+        
+        online_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool online = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOnline() {
+        
+        online_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -818,10 +889,10 @@ public final class UserMsg {
   static {
     java.lang.String[] descriptorData = {
       "\n\030proto/user/UserMsg.proto\022\034net.sopod.so" +
-      "im.data.msg.user\":\n\010UserInfo\022\013\n\003uid\030\001 \001(" +
-      "\003\022\017\n\007account\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\tB)\n\034" +
-      "net.sopod.soim.data.msg.userB\007UserMsgP\000b" +
-      "\006proto3"
+      "im.data.msg.user\"J\n\010UserInfo\022\013\n\003uid\030\001 \001(" +
+      "\003\022\017\n\007account\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\t\022\016\n\006" +
+      "online\030\004 \001(\010B)\n\034net.sopod.soim.data.msg." +
+      "userB\007UserMsgP\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -832,7 +903,7 @@ public final class UserMsg {
     internal_static_net_sopod_soim_data_msg_user_UserInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_user_UserInfo_descriptor,
-        new java.lang.String[] { "Uid", "Account", "Nickname", });
+        new java.lang.String[] { "Uid", "Account", "Nickname", "Online", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
