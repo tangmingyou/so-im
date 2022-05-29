@@ -6,7 +6,6 @@ spring:
     port: 3672
     username: soim
     password: sopod@rabbit#
-    virtual-host: soim
 
 dubbo:
   application:

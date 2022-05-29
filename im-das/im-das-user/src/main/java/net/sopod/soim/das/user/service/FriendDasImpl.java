@@ -47,6 +47,8 @@ public class FriendDasImpl implements FriendDas {
                 .setUid(uid)
                 .setFid(fid)
                 .setStatus(1)
+                .setUnreadNum(0)
+                .setUnreadOffsetId(0L)
                 .setCreateTime(ImClock.date());
         return friendMapper.insert(imFriend);
     }

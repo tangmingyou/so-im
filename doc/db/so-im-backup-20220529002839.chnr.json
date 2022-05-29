@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "4.1.1",
   "createdTime": "2022-3-7 15:11:08",
-  "updatedTime": "2022-5-27 17:22:49",
+  "updatedTime": "2022-5-28 20:52:53",
   "profile": {
     "default": {
       "db": "8FE7C65E-40EB-41B6-B60E-79063AFF6273",
@@ -398,7 +398,7 @@
         "id": "9965DCFB-54BE-4C5A-9518-DF09D4E58140"
       }
     ],
-    "menuWidth": "244px",
+    "menuWidth": "306px",
     "headers": [
       {
         "refKey": "defKey",
@@ -1437,7 +1437,7 @@
         },
         {
           "defKey": "status",
-          "defName": "状态:0删除1正常",
+          "defName": "状态:0删除,1正常,2临时好友(群单聊)",
           "comment": "",
           "type": "",
           "len": "",
@@ -1451,6 +1451,40 @@
           "extProps": {},
           "domain": "09839FE6-4295-489C-9A58-7B2FF7817DC5",
           "id": "A38D6DB7-AAAB-470B-93B4-1370C52519FB"
+        },
+        {
+          "defKey": "unread_num",
+          "defName": "群未读消息数量",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": "CBE2B93C-DD97-4950-86A8-B583971583C8",
+          "refDict": "",
+          "extProps": {},
+          "id": "401FEB84-613C-4567-8937-84ACA5C0DCB7"
+        },
+        {
+          "defKey": "unread_offset_id",
+          "defName": "群未读消息id偏移量(大于等于该id的都未读)",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "refDict": "",
+          "extProps": {},
+          "id": "10FF9F4A-5729-4F07-B4D3-F7FEEEAAAC64"
         },
         {
           "defKey": "create_time",
@@ -1886,361 +1920,6 @@
       "indexes": []
     },
     {
-      "id": "B1ED08AE-B919-4FED-B29D-B55ED6AC5E8B",
-      "env": {
-        "base": {
-          "nameSpace": "",
-          "codeRoot": ""
-        }
-      },
-      "defKey": "im_group",
-      "defName": "群聊",
-      "comment": "",
-      "properties": {},
-      "nameTemplate": "{defKey}[{defName}]",
-      "headers": [
-        {
-          "refKey": "hideInGraph",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "defKey",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "defName",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "primaryKey",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "notNull",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "autoIncrement",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "domain",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "type",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "len",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "scale",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "comment",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "refDict",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "defaultValue",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "isStandard",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "uiHint",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "extProps",
-          "hideInGraph": true
-        }
-      ],
-      "fields": [
-        {
-          "defKey": "id",
-          "defName": "群聊id",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": true,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
-          "refDict": "",
-          "uiHint": "",
-          "id": "2C9A9472-C178-4CB2-A106-854E4A34EB33"
-        },
-        {
-          "defKey": "master_uid",
-          "defName": "群主id",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "extProps": {},
-          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
-          "id": "41EA492A-EF92-425A-A5D3-DC68EB912E4C"
-        },
-        {
-          "defKey": "group_name",
-          "defName": "群聊名称",
-          "comment": "",
-          "domain": "",
-          "type": "VARCHAR",
-          "len": 128,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "170A4BD4-E0A1-4096-981D-93C0A7E781D2"
-        },
-        {
-          "defKey": "user_limit",
-          "defName": "群聊人数限制",
-          "comment": "",
-          "domain": "4159ACB8-2488-4350-9C3B-797336F7246E",
-          "type": "",
-          "len": 32,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "6641EA6E-E954-4891-B53B-C835DEA73658"
-        },
-        {
-          "defKey": "user_num",
-          "defName": "当前群聊人数",
-          "comment": "",
-          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "8A5245A6-B7FE-4E9F-8DE3-A59F233395FD"
-        },
-        {
-          "defKey": "create_time",
-          "defName": "创建时间",
-          "comment": "",
-          "domain": "4159ACB8-2488-4350-9C3B-797336F7246E",
-          "type": "",
-          "len": 32,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "0B211C29-062B-4127-9F74-FA955C1A033F"
-        },
-        {
-          "defKey": "update_time",
-          "defName": "更新时间",
-          "comment": "",
-          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "3EB0D741-1686-4F63-AD33-0BA8AF31ED7A"
-        }
-      ],
-      "correlations": [],
-      "indexes": []
-    },
-    {
-      "id": "88057B50-B0B5-4A2D-B3D3-E60638224625",
-      "env": {
-        "base": {
-          "nameSpace": "",
-          "codeRoot": ""
-        }
-      },
-      "defKey": "im_group_users",
-      "defName": "群聊用户列表",
-      "comment": "",
-      "properties": {},
-      "nameTemplate": "{defKey}[{defName}]",
-      "headers": [
-        {
-          "refKey": "hideInGraph",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "defKey",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "defName",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "primaryKey",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "notNull",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "autoIncrement",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "domain",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "type",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "len",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "scale",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "comment",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "refDict",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "defaultValue",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "isStandard",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "uiHint",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "extProps",
-          "hideInGraph": true
-        }
-      ],
-      "fields": [
-        {
-          "defKey": "id",
-          "defName": "id",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": true,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
-          "refDict": "",
-          "uiHint": "",
-          "id": "5F41F42F-AC11-49D2-A266-A060D98F2288"
-        },
-        {
-          "defKey": "group_id",
-          "defName": "群聊id",
-          "comment": "",
-          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "506450D7-9074-4078-9D42-5F9186672193"
-        },
-        {
-          "defKey": "uid",
-          "defName": "创建人",
-          "comment": "",
-          "domain": "4159ACB8-2488-4350-9C3B-797336F7246E",
-          "type": "",
-          "len": 32,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "C0C455D3-95F9-46D4-836C-C52F426D16EC"
-        },
-        {
-          "defKey": "create_time",
-          "defName": "创建时间",
-          "comment": "",
-          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "305FC7FE-4303-4363-8FA9-58344D3786DE"
-        }
-      ],
-      "correlations": [],
-      "indexes": []
-    },
-    {
       "id": "853E9034-1796-44AD-9AE8-18434821ECAC",
       "env": {
         "base": {
@@ -2331,11 +2010,28 @@
           "notNull": true,
           "autoIncrement": false,
           "defaultValue": "",
-          "hideInGraph": true,
+          "hideInGraph": false,
           "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
           "refDict": "",
           "uiHint": "",
           "id": "5F41F42F-AC11-49D2-A266-A060D98F2288"
+        },
+        {
+          "defKey": "friend_id",
+          "defName": "好友关系id(分片)",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "extProps": {},
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "1041E216-E990-47E6-9235-14C3DF7190DD"
         },
         {
           "defKey": "sender",
@@ -2366,7 +2062,7 @@
           "notNull": true,
           "autoIncrement": false,
           "defaultValue": "",
-          "hideInGraph": true,
+          "hideInGraph": false,
           "refDict": "",
           "uiHint": "",
           "id": "C0C455D3-95F9-46D4-836C-C52F426D16EC"
@@ -2383,7 +2079,7 @@
           "notNull": false,
           "autoIncrement": false,
           "defaultValue": "",
-          "hideInGraph": true,
+          "hideInGraph": false,
           "refDict": "",
           "uiHint": "",
           "id": "305FC7FE-4303-4363-8FA9-58344D3786DE"
@@ -2410,6 +2106,395 @@
       "indexes": []
     },
     {
+      "id": "B1ED08AE-B919-4FED-B29D-B55ED6AC5E8B",
+      "env": {
+        "base": {
+          "nameSpace": "",
+          "codeRoot": ""
+        }
+      },
+      "defKey": "im_group",
+      "defName": "群聊",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "uiHint",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "id",
+          "defName": "群聊id",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "refDict": "",
+          "uiHint": "",
+          "id": "2C9A9472-C178-4CB2-A106-854E4A34EB33"
+        },
+        {
+          "defKey": "master_uid",
+          "defName": "群主id",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "extProps": {},
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "41EA492A-EF92-425A-A5D3-DC68EB912E4C"
+        },
+        {
+          "defKey": "group_name",
+          "defName": "群聊名称",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 128,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "170A4BD4-E0A1-4096-981D-93C0A7E781D2"
+        },
+        {
+          "defKey": "user_limit",
+          "defName": "群聊人数限制",
+          "comment": "",
+          "domain": "4159ACB8-2488-4350-9C3B-797336F7246E",
+          "type": "",
+          "len": 32,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "6641EA6E-E954-4891-B53B-C835DEA73658"
+        },
+        {
+          "defKey": "user_num",
+          "defName": "当前群聊人数",
+          "comment": "",
+          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "8A5245A6-B7FE-4E9F-8DE3-A59F233395FD"
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "4159ACB8-2488-4350-9C3B-797336F7246E",
+          "type": "",
+          "len": 32,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "0B211C29-062B-4127-9F74-FA955C1A033F"
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "3EB0D741-1686-4F63-AD33-0BA8AF31ED7A"
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "id": "88057B50-B0B5-4A2D-B3D3-E60638224625",
+      "env": {
+        "base": {
+          "nameSpace": "",
+          "codeRoot": ""
+        }
+      },
+      "defKey": "im_group_user",
+      "defName": "群聊用户列表",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "uiHint",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "id",
+          "defName": "id",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "refDict": "",
+          "uiHint": "",
+          "id": "5F41F42F-AC11-49D2-A266-A060D98F2288"
+        },
+        {
+          "defKey": "group_id",
+          "defName": "群聊id",
+          "comment": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "506450D7-9074-4078-9D42-5F9186672193"
+        },
+        {
+          "defKey": "uid",
+          "defName": "用户id",
+          "comment": "",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "C0C455D3-95F9-46D4-836C-C52F426D16EC"
+        },
+        {
+          "defKey": "unread_num",
+          "defName": "群未读消息数量",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "extProps": {},
+          "domain": "CBE2B93C-DD97-4950-86A8-B583971583C8",
+          "id": "0B57A795-8C4D-48AA-B987-A7690B5DB6B7"
+        },
+        {
+          "defKey": "unread_offset_id",
+          "defName": "群未读消息id偏移量(大于等于该id的都未读)",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "extProps": {},
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
+          "id": "EF408842-EAAB-4289-895A-29BFA8781BC2"
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "uiHint": "",
+          "id": "305FC7FE-4303-4363-8FA9-58344D3786DE"
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
       "id": "D1CEE40B-58CE-49B5-A460-139C263B1698",
       "env": {
         "base": {
@@ -2417,7 +2502,7 @@
           "codeRoot": ""
         }
       },
-      "defKey": "im_message_group",
+      "defKey": "im_group_message",
       "defName": "群聊天消息",
       "comment": "",
       "properties": {},
@@ -2500,7 +2585,7 @@
           "notNull": true,
           "autoIncrement": false,
           "defaultValue": "",
-          "hideInGraph": true,
+          "hideInGraph": false,
           "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
           "refDict": "",
           "uiHint": "",
@@ -2518,7 +2603,7 @@
           "notNull": true,
           "autoIncrement": false,
           "defaultValue": "",
-          "hideInGraph": true,
+          "hideInGraph": false,
           "refDict": "",
           "uiHint": "",
           "id": "506450D7-9074-4078-9D42-5F9186672193"
@@ -2531,13 +2616,13 @@
           "len": "",
           "scale": "",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoIncrement": false,
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
           "extProps": {},
-          "domain": "72DD10F8-60AE-4F2A-89E1-D69C51B30849",
+          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
           "id": "3D1C2864-026A-4C9D-A655-1208B4A4AAF5"
         },
         {
@@ -2552,149 +2637,14 @@
           "notNull": false,
           "autoIncrement": false,
           "defaultValue": "",
-          "hideInGraph": true,
+          "hideInGraph": false,
           "refDict": "",
           "uiHint": "",
           "id": "305FC7FE-4303-4363-8FA9-58344D3786DE"
-        }
-      ],
-      "correlations": [],
-      "indexes": []
-    },
-    {
-      "id": "D8AC27A7-7ACB-4124-BE03-DC211D8AA53C",
-      "env": {
-        "base": {
-          "nameSpace": "",
-          "codeRoot": ""
-        }
-      },
-      "defKey": "im_message_group_receive",
-      "defName": "群聊天消息",
-      "comment": "",
-      "properties": {},
-      "nameTemplate": "{defKey}[{defName}]",
-      "headers": [
-        {
-          "refKey": "hideInGraph",
-          "hideInGraph": true
         },
         {
-          "refKey": "defKey",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "defName",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "primaryKey",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "notNull",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "autoIncrement",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "domain",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "type",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "len",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "scale",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "comment",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "refDict",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "defaultValue",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "isStandard",
-          "hideInGraph": false
-        },
-        {
-          "refKey": "uiHint",
-          "hideInGraph": true
-        },
-        {
-          "refKey": "extProps",
-          "hideInGraph": true
-        }
-      ],
-      "fields": [
-        {
-          "defKey": "id",
-          "defName": "id",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": true,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
-          "refDict": "",
-          "uiHint": "",
-          "id": "5F41F42F-AC11-49D2-A266-A060D98F2288"
-        },
-        {
-          "defKey": "receiver",
-          "defName": "接受者id",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "extProps": {},
-          "domain": "72DD10F8-60AE-4F2A-89E1-D69C51B30849",
-          "id": "460016F6-627D-4610-96E2-7F3A292C6E9B"
-        },
-        {
-          "defKey": "group_id",
-          "defName": "群聊id",
-          "comment": "",
-          "domain": "1E5537DF-B204-49BC-AC1D-457BC6DEE707",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "506450D7-9074-4078-9D42-5F9186672193"
-        },
-        {
-          "defKey": "group_msg_id",
-          "defName": "群聊消息id",
+          "defKey": "content",
+          "defName": "消息内容",
           "comment": "",
           "type": "",
           "len": "",
@@ -2704,27 +2654,10 @@
           "autoIncrement": false,
           "defaultValue": "",
           "hideInGraph": false,
+          "domain": "86D1DF8C-CA19-44F2-9F72-14BE303DD752",
           "refDict": "",
           "extProps": {},
-          "domain": "72DD10F8-60AE-4F2A-89E1-D69C51B30849",
-          "id": "9FF9A1B4-6751-449E-AA2F-C734743AC0A2"
-        },
-        {
-          "defKey": "create_time",
-          "defName": "创建时间",
-          "comment": "",
-          "domain": "4E3ADE61-41F4-4E74-8068-C1E543F9095C",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": true,
-          "refDict": "",
-          "uiHint": "",
-          "id": "305FC7FE-4303-4363-8FA9-58344D3786DE"
+          "id": "83D60E98-7A6A-4622-8F64-7CCC9C8DFB7B"
         }
       ],
       "correlations": [],
@@ -3019,127 +2952,6 @@
       "canvasData": {
         "cells": [
           {
-            "id": "c88a6b8d-51c1-41a1-b49e-d53af66078df",
-            "shape": "table",
-            "position": {
-              "x": 740,
-              "y": -371
-            },
-            "count": 0,
-            "originKey": "EBAD8E23-3861-4D61-82E1-0D7AA5FD8DF8"
-          },
-          {
-            "id": "ec6ac74b-352b-4f0b-bc5a-8b50752aed52",
-            "shape": "table",
-            "position": {
-              "x": 740,
-              "y": 250
-            },
-            "count": 0,
-            "originKey": "28786E25-243A-4D50-9524-16CFE8B5379B"
-          },
-          {
-            "id": "f2a5fa0c-0fab-485c-b85e-94c547181e27",
-            "shape": "table",
-            "position": {
-              "x": 740,
-              "y": -54
-            },
-            "count": 0,
-            "originKey": "EE84861E-D381-4596-B895-FD9B91290815"
-          },
-          {
-            "id": "e5c3f06e-19ff-4fe8-99d4-007bfbd9046c",
-            "shape": "table",
-            "position": {
-              "x": -448,
-              "y": 40
-            },
-            "count": 0,
-            "originKey": "03EC19D5-A2B3-4D16-BDBE-E398A57ED86B"
-          },
-          {
-            "id": "dd033551-96d7-40fd-85c5-b4a2b65d5b1b",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "4abdd7cd-87bc-4fb0-a445-ac5b88c4a459",
-              "port": "58F2326B-31BF-4986-8858-28ADD0AEC5E2%out"
-            },
-            "target": {
-              "cell": "5b29c047-cacc-4c24-a4b3-c1578735c26f",
-              "port": "BA550922-0749-41FB-B23D-6738BA5DE665%in"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC"
-          },
-          {
-            "id": "bdb220ff-64d9-463d-bdf0-d48d7e9b82fe",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "e5c3f06e-19ff-4fe8-99d4-007bfbd9046c",
-              "port": "6EC0C0BA-6D83-4B68-B91D-F133E1282DA3%out"
-            },
-            "target": {
-              "cell": "5b29c047-cacc-4c24-a4b3-c1578735c26f",
-              "port": "BA550922-0749-41FB-B23D-6738BA5DE665%in"
-            },
-            "relation": "1:n",
-            "vertices": [],
-            "fillColor": "#ACDAFC"
-          },
-          {
-            "id": "c02bb0f1-399d-4cd9-8c61-5c1f080a937e",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "f2a5fa0c-0fab-485c-b85e-94c547181e27",
-              "port": "B82E4A03-4D7B-4B61-BDC2-ACDE048E3BB6%in"
-            },
-            "target": {
-              "cell": "5b29c047-cacc-4c24-a4b3-c1578735c26f",
-              "port": "BA550922-0749-41FB-B23D-6738BA5DE665%out"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC"
-          },
-          {
-            "id": "c089a78c-6e2d-4f8a-a869-38d966bb94cc",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "c88a6b8d-51c1-41a1-b49e-d53af66078df",
-              "port": "BCAB762D-1D4D-44F8-BF8B-8ADC5737F057%in"
-            },
-            "target": {
-              "cell": "5b29c047-cacc-4c24-a4b3-c1578735c26f",
-              "port": "BA550922-0749-41FB-B23D-6738BA5DE665%out"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC"
-          },
-          {
-            "id": "f8906da8-8b2d-4745-8e11-7eb5d2230ed6",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "ec6ac74b-352b-4f0b-bc5a-8b50752aed52",
-              "port": "8492DC65-9EAA-401C-A416-9C430474910E%in"
-            },
-            "target": {
-              "cell": "5b29c047-cacc-4c24-a4b3-c1578735c26f",
-              "port": "BA550922-0749-41FB-B23D-6738BA5DE665%out"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC"
-          },
-          {
-            "id": "4abdd7cd-87bc-4fb0-a445-ac5b88c4a459",
-            "shape": "table",
-            "position": {
-              "x": -566,
-              "y": -284
-            },
-            "count": 0,
-            "originKey": "C3166434-A5C0-415A-BABE-1FEBB4BB8BD6"
-          },
-          {
             "id": "5b29c047-cacc-4c24-a4b3-c1578735c26f",
             "shape": "table",
             "position": {
@@ -3152,6 +2964,108 @@
         ]
       },
       "id": "2A859C63-E1E5-4778-B413-19FFADDB631B"
+    },
+    {
+      "defKey": "chat_message",
+      "defName": "聊天消息",
+      "relationType": "field",
+      "canvasData": {
+        "cells": [
+          {
+            "id": "ca65430f-e73f-43f7-b106-9329f975e994",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "a5ca0b33-d998-40d6-ab01-ea1ee096addc",
+              "port": "506450D7-9074-4078-9D42-5F9186672193%in"
+            },
+            "target": {
+              "cell": "8ef91289-4bfd-4491-a08b-a912878ef465",
+              "port": "2C9A9472-C178-4CB2-A106-854E4A34EB33%out"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC"
+          },
+          {
+            "id": "4f29e8a8-3d8f-4de6-a7c9-d116897c98d2",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "b152a44b-e977-45db-a68c-e23a45cd76cd",
+              "port": "506450D7-9074-4078-9D42-5F9186672193%in"
+            },
+            "target": {
+              "cell": "8ef91289-4bfd-4491-a08b-a912878ef465",
+              "port": "2C9A9472-C178-4CB2-A106-854E4A34EB33%out"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC"
+          },
+          {
+            "id": "a8d546cb-7149-4a72-80a0-f626878ecc16",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "b152a44b-e977-45db-a68c-e23a45cd76cd",
+              "port": "EF408842-EAAB-4289-895A-29BFA8781BC2%out"
+            },
+            "target": {
+              "cell": "a5ca0b33-d998-40d6-ab01-ea1ee096addc",
+              "port": "5F41F42F-AC11-49D2-A266-A060D98F2288%out"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC"
+          },
+          {
+            "id": "8ef91289-4bfd-4491-a08b-a912878ef465",
+            "shape": "table",
+            "position": {
+              "x": -160,
+              "y": -170
+            },
+            "count": 0,
+            "originKey": "B1ED08AE-B919-4FED-B29D-B55ED6AC5E8B"
+          },
+          {
+            "id": "b152a44b-e977-45db-a68c-e23a45cd76cd",
+            "shape": "table",
+            "position": {
+              "x": 250,
+              "y": 10
+            },
+            "count": 0,
+            "originKey": "88057B50-B0B5-4A2D-B3D3-E60638224625"
+          },
+          {
+            "id": "a5ca0b33-d998-40d6-ab01-ea1ee096addc",
+            "shape": "table",
+            "position": {
+              "x": 250,
+              "y": -160
+            },
+            "count": 0,
+            "originKey": "D1CEE40B-58CE-49B5-A460-139C263B1698"
+          },
+          {
+            "id": "21de8763-a760-4917-bd30-0633730cc0ab",
+            "shape": "table",
+            "position": {
+              "x": 250,
+              "y": -382
+            },
+            "count": 0,
+            "originKey": "2D7374DF-CFF5-46FF-BAB1-CBD3ED793F6D"
+          },
+          {
+            "id": "db0d26c4-22cb-4893-b663-120d4768c837",
+            "shape": "table",
+            "position": {
+              "x": -150.5,
+              "y": -382
+            },
+            "count": 0,
+            "originKey": "853E9034-1796-44AD-9AE8-18434821ECAC"
+          }
+        ]
+      },
+      "id": "1D535DDE-CD37-4D14-95C4-05FD192F424A"
     }
   ],
   "standardFields": []

@@ -1,6 +1,5 @@
 package net.sopod.soim.das.user.api.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -11,34 +10,29 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * ImFriend
- * 好友关系表
+ * ImGroupUser 群聊用户列表
  *
  * @author tmy
- * @date 2022-05-22 23:22
+ * @date 2022-05-28 15:15
  */
 @Data
 @Accessors(chain = true)
-@TableName("im_friend")
-public class ImFriend implements Serializable {
+@TableName("im_group_user")
+public class ImGroupUser implements Serializable {
 
-    private static final long serialVersionUID = -4703347353944742873L;
+    private static final long serialVersionUID = -1236982266782872316L;
 
-    /**  */
-    @TableId(value = "id", type = IdType.INPUT)
+    /** id */
+    @TableId(value = "id")
     private Long id;
+
+    /** 群聊id */
+    @TableField(value = "group_id")
+    private Long groupId;
 
     /** 用户id */
     @TableField(value = "uid")
     private Long uid;
-
-    /** 好友id */
-    @TableField(value = "fid")
-    private Long fid;
-
-    /** 状态:0删除1正常 */
-    @TableField(value = "status")
-    private Integer status;
 
     /** 群未读消息数量 */
     @TableField(value = "unread_num")
