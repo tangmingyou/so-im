@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.sopod.soim.logic.api.segmentid.config.SegmentIdAutoConfiguration
