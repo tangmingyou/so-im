@@ -1,6 +1,7 @@
 package net.sopod.soim.das.user.config;
 
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +18,13 @@ public class RabbitConfig {
     @Bean
     public Queue helloQueue() {
         return new Queue("hello");
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate() {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate();
+        rabbitTemplate.setMessageConverter(null);
+        return null;
     }
 
 }
