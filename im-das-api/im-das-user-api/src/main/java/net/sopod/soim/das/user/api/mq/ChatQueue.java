@@ -6,9 +6,10 @@ package net.sopod.soim.das.user.api.mq;
  * @author tmy
  * @date 2022-05-31 00:05
  */
-public class ChatQueue {
+public interface ChatQueue {
 
-    public static final String IM_MESSAGE_PERSISTENT = "IM_MESSAGE_PERSISTENT";
+    String IM_MESSAGE_PERSISTENT = "IM_MESSAGE_PERSISTENT";
 
-    public static final String IM_GROUP_MESSAGE_PERSISTENT = "IM_GROUP_MESSAGE_PERSISTENT";
+    String IM_GROUP_MESSAGE_PERSISTENT = "IM_GROUP_MESSAGE_PERSISTENT";
+
 }
