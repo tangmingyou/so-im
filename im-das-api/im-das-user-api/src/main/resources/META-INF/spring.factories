@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.sopod.soim.logic.api.segmentid.config.SegmentIdAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.sopod.soim.das.user.api.config.ChatRabbitMQAutoConfiguration

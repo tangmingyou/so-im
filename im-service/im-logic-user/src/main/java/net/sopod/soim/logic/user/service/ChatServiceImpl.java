@@ -1,6 +1,7 @@
 package net.sopod.soim.logic.user.service;
 
 import net.sopod.soim.das.user.api.model.entity.ImUser;
+import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.logic.api.user.service.ChatService;
 import net.sopod.soim.logic.common.model.TextChat;
@@ -26,6 +27,9 @@ public class ChatServiceImpl implements ChatService {
     @DubboReference
     private UserDas userDas;
 
+    @DubboReference
+    private FriendDas friendDas;
+
     @Override
     public Boolean textChat(TextChat textChat) {
         if (textChat.getReceiverUid() == null
@@ -35,6 +39,12 @@ public class ChatServiceImpl implements ChatService {
                 return false;
             }
             textChat.setReceiverUid(receiverUser.getId());
+        }
+        // 查询好友关系
+        Long friendId = friendDas.getFriendId(textChat.getUid(), textChat.getReceiverUid());
+        // 不是好友
+        if (friendId == null) {
+            return false;
         }
         // 设置调用 router 为消息接受者地址
         RpcContextUtil.setContextUid(textChat.getReceiverUid());

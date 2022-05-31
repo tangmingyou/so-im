@@ -54,19 +54,24 @@ public class FriendDasImpl implements FriendDas {
     }
 
     @Override
-    public Boolean isExists(Long uid, Long fid) {
+    public Long getFriendId(Long uid, Long fid) {
         LambdaQueryWrapper<ImFriend> friendQuery = new QueryWrapper<ImFriend>().lambda()
                 .eq(ImFriend::getUid, uid)
                 .eq(ImFriend::getFid, fid)
-                .eq(ImFriend::getStatus, 1);
+                .eq(ImFriend::getStatus, LogicTables.STATUS_NORMAL);
         List<ImFriend> imFriends = friendMapper.selectList(friendQuery);
         if (Collects.isEmpty(imFriends)) {
-            return Boolean.FALSE;
+            return null;
         }
         if (imFriends.size() > 1) {
             logger.warn("重复的好友数据: user={}, friend={}", uid, fid);
         }
-        return Boolean.TRUE;
+        return imFriends.get(0).getId();
+    }
+
+    @Override
+    public Boolean isExists(Long uid, Long fid) {
+        return getFriendId(uid, fid) != null;
     }
 
     @Override
@@ -74,7 +79,7 @@ public class FriendDasImpl implements FriendDas {
         LambdaQueryWrapper<ImFriend> friendQuery = new QueryWrapper<ImFriend>().lambda()
                 .eq(ImFriend::getUid, uid)
                 .eq(ImFriend::getFid, fid)
-                .eq(ImFriend::getStatus, 1);
+                .eq(ImFriend::getStatus, LogicTables.STATUS_NORMAL);
         return friendMapper.update(new ImFriend().setStatus(0), friendQuery);
     }
 
@@ -86,7 +91,7 @@ public class FriendDasImpl implements FriendDas {
         }
         LambdaQueryWrapper<ImUser> userQuery = new QueryWrapper<ImUser>().lambda()
                 .in(ImUser::getId, fids)
-                .eq(ImUser::getStatus, LogicConsts.STATUS_NORMAL);
+                .eq(ImUser::getStatus, LogicTables.STATUS_NORMAL);
         return userMapper.selectList(userQuery);
     }
 

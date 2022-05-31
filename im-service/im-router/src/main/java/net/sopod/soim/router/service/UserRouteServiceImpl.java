@@ -9,6 +9,7 @@ import net.sopod.soim.entry.api.service.OnlineUserService;
 import net.sopod.soim.entry.api.service.TextChatService;
 import net.sopod.soim.logic.common.model.TextChat;
 import net.sopod.soim.logic.common.model.UserInfo;
+import net.sopod.soim.logic.common.util.RpcContextUtil;
 import net.sopod.soim.router.api.model.RegistryRes;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.api.service.UserRouteService;
@@ -45,6 +46,7 @@ public class UserRouteServiceImpl implements UserRouteService {
     @DubboReference
     private OnlineUserService onlineUserService;
 
+
     @Override
     public RegistryRes registryUserEntry(Long uid, String imEntryAddr) {
         ImUser imUser = userDas.getUserById(uid);
@@ -80,16 +82,12 @@ public class UserRouteServiceImpl implements UserRouteService {
      */
     @Override
     public Boolean routeTextChat(TextChat textChat) {
-        // 本服务实例没有存储接收者用户信息，查询其他服务
-//        if (receiverImEntryAddr == null) {
-//            RpcContext.getServiceContext().setAttachment(DubboConstant.CTX_UID, String.valueOf(receiverUid));
-//            receiverImEntryAddr = onlineUserService.getImEntryAddrByUid(receiverUid);
-//            logger.info("other im-router service invoke: {}, {}", receiverUid, receiverImEntryAddr);
-//        }
+        // TODO 消息队列存储
 
+        RpcContextUtil.setContextUid(textChat.getReceiverUid());
         Boolean send = textChatService.sendTextChat(textChat);
         if (!Boolean.TRUE.equals(send)) {
-            // 未送到，消息存储，重发...
+            // TODO 未送到，消息存储，重发...
             logger.info("消息未送达: {}: {}", textChat.getReceiverName(), textChat.getMessage());
         }
         return Boolean.TRUE;

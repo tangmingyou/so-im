@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.sopod.soim.das.user.api.config.LogicTables;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +20,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@TableName("im_friend")
+@TableName(LogicTables.IM_FRIEND)
 public class ImFriend implements Serializable {
 
     private static final long serialVersionUID = -4703347353944742873L;
@@ -36,7 +37,10 @@ public class ImFriend implements Serializable {
     @TableField(value = "fid")
     private Long fid;
 
-    /** 状态:0删除1正常 */
+    /**
+     * 状态:0删除1正常
+     * TODO 2临时好友(群单聊)
+     **/
     @TableField(value = "status")
     private Integer status;
 

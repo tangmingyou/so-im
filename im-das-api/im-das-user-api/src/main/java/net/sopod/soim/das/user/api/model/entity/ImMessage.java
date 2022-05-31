@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import net.sopod.soim.das.user.api.config.LogicTables;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +18,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@TableName("im_message")
+@TableName(LogicTables.IM_MESSAGE)
 public class ImMessage implements Serializable {
 
     private static final long serialVersionUID = 7374196343496533922L;

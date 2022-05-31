@@ -21,6 +21,8 @@ public interface FriendDas {
      */
     int insert(Long uid, Long fid);
 
+    Long getFriendId(Long uid, Long fid);
+
     /**
      * 好友是否存在
      *
