@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -15,15 +16,14 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
 /**
- * ChatRabbitMQAutoConfiguration
+ * ChatPersistentRabbitMQConfiguration
  * RabbitMQ的配置类，用来配置队列、交换器、路由等高级信息
  *
  * @author tmy
  * @date 2022-05-30 23:14
  */
-@Import(ChatRabbitMQAutoConfiguration.class)
 @Configuration
-public class ChatRabbitMQAutoConfiguration implements ImportBeanDefinitionRegistrar {
+public class ChatPersistentRabbitMQConfiguration implements ImportBeanDefinitionRegistrar {
 
     /**
      * direct直连模式, 按照routingkey分发到指定队列

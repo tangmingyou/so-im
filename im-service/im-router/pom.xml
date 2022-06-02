@@ -24,6 +24,11 @@
         </dependency>
         <dependency>
             <groupId>net.sopod</groupId>
+            <artifactId>im-segment-id-api</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sopod</groupId>
             <artifactId>im-das-user-api</artifactId>
             <version>${soim.version}</version>
         </dependency>

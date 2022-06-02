@@ -1,5 +1,8 @@
 package net.sopod.soim.logic.user.service;
 
+import net.sopod.soim.common.dubbo.exception.LogicException;
+import net.sopod.soim.common.dubbo.exception.ServiceException;
+import net.sopod.soim.common.dubbo.exception.SoimException;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
@@ -9,6 +12,8 @@ import net.sopod.soim.logic.common.util.RpcContextUtil;
 import net.sopod.soim.router.api.service.UserRouteService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -20,6 +25,8 @@ import java.util.Objects;
  */
 @DubboService
 public class ChatServiceImpl implements ChatService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     @DubboReference
     private UserRouteService userRouteService;
@@ -36,7 +43,8 @@ public class ChatServiceImpl implements ChatService {
                 || Objects.equals(textChat.getReceiverUid(), 0L)) {
             ImUser receiverUser = userDas.getNormalUserByAccount(textChat.getReceiverName());
             if (receiverUser == null) {
-                return false;
+                // TODO receiverUid 由客户端传递
+                throw new LogicException("聊天对象不存在");
             }
             textChat.setReceiverUid(receiverUser.getId());
         }
@@ -44,11 +52,11 @@ public class ChatServiceImpl implements ChatService {
         Long friendId = friendDas.getFriendId(textChat.getUid(), textChat.getReceiverUid());
         // 不是好友
         if (friendId == null) {
-            return false;
+            throw new LogicException("请添加好友后发送消息");
         }
         // 设置调用 router 为消息接受者地址
         RpcContextUtil.setContextUid(textChat.getReceiverUid());
-        return userRouteService.routeTextChat(textChat);
+        return userRouteService.routeTextChat(friendId, textChat);
     }
 
 }

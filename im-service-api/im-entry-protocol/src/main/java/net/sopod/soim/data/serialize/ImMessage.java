@@ -1,5 +1,6 @@
 package net.sopod.soim.data.serialize;
 
+import com.google.protobuf.MessageLite;
 import io.netty.buffer.ByteBuf;
 
 import java.util.Random;
@@ -54,6 +55,8 @@ public class ImMessage {
     private int platformNo;
 
     private byte[] body;
+
+    private transient MessageLite decodeBody;
 
     /**
      * 从 bytebuf 流读取
@@ -157,6 +160,15 @@ public class ImMessage {
 
     public int byteLength() {
         return MESSAGE_HEAD_LEN + body.length;
+    }
+
+    public MessageLite getDecodeBody() {
+        return decodeBody;
+    }
+
+    public ImMessage setDecodeBody(MessageLite decodeBody) {
+        this.decodeBody = decodeBody;
+        return this;
     }
 
 }

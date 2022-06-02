@@ -1,12 +1,19 @@
 package net.sopod.soim.router.service;
 
 import net.sopod.soim.common.constant.DubboConstant;
+import net.sopod.soim.common.dubbo.exception.ServiceException;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.StringUtil;
+import net.sopod.soim.das.user.api.config.LogicTables;
+import net.sopod.soim.das.user.api.model.entity.ImMessage;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
+import net.sopod.soim.das.user.api.mq.ChatQueue;
+import net.sopod.soim.das.user.api.mq.ChatQueueType;
+import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.entry.api.service.OnlineUserService;
 import net.sopod.soim.entry.api.service.TextChatService;
+import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
 import net.sopod.soim.logic.common.model.TextChat;
 import net.sopod.soim.logic.common.model.UserInfo;
 import net.sopod.soim.logic.common.util.RpcContextUtil;
@@ -20,7 +27,9 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +41,7 @@ import java.util.stream.Stream;
  * @author tmy
  * @date 2022-04-28 9:47
  */
-@DubboService()
+@DubboService
 public class UserRouteServiceImpl implements UserRouteService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserRouteServiceImpl.class);
@@ -41,11 +50,19 @@ public class UserRouteServiceImpl implements UserRouteService {
     private UserDas userDas;
 
     @DubboReference
+    private FriendDas friendDas;
+
+    @DubboReference
     private TextChatService textChatService;
 
     @DubboReference
     private OnlineUserService onlineUserService;
 
+    @Resource
+    private SegmentIdGenerator segmentIdGenerator;
+
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public RegistryRes registryUserEntry(Long uid, String imEntryAddr) {
@@ -81,8 +98,16 @@ public class UserRouteServiceImpl implements UserRouteService {
      * 调用该方法时，将到 im-router 服务的路由 uid 设置为消息接受者的 uid
      */
     @Override
-    public Boolean routeTextChat(TextChat textChat) {
-        // TODO 消息队列存储
+    public Boolean routeTextChat(Long friendId, TextChat textChat) {
+        // 通过消息队列持久化存储到db
+        ImMessage imMessage = new ImMessage()
+                .setFriendId(friendId)
+                .setId(segmentIdGenerator.nextId(LogicTables.IM_MESSAGE))
+                .setContent(textChat.getMessage())
+                .setSender(textChat.getUid())
+                .setReceiver(textChat.getReceiverUid())
+                .setCreateTime(ImClock.date());
+        rabbitTemplate.convertAndSend(ChatQueueType.IM_MESSAGE.getQueueName(), imMessage);
 
         RpcContextUtil.setContextUid(textChat.getReceiverUid());
         Boolean send = textChatService.sendTextChat(textChat);

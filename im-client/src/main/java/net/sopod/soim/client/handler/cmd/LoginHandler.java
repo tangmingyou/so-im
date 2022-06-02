@@ -50,7 +50,7 @@ public class LoginHandler implements CmdHandler<ArgsLogin> {
                 .setUid(loginRes.getUid())
                 .setToken(loginRes.getAuthToken())
                 .build();
-        soImSession.connect(clientConfig.getHost(), clientConfig.getPort(), reqTokenAuth);
+        soImSession.connect(clientConfig.getHost(), clientConfig.getPort(), reqTokenAuth, args.getAccount());
     }
 
 }

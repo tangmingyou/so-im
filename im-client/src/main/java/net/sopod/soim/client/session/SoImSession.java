@@ -10,12 +10,14 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import net.sopod.soim.client.logger.Logger;
+import net.sopod.soim.common.res.R;
 import net.sopod.soim.common.util.netty.Varint32FrameCodec;
 import net.sopod.soim.data.serialize.ImMessageCodec;
 import net.sopod.soim.data.msg.auth.Auth;
 import net.sopod.soim.data.msg.chat.Chat;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -39,12 +41,14 @@ public class SoImSession {
 
     private Long uid;
 
+    private String account;
+
     @Inject
     public SoImSession(MessageDispatcher messageDispatcher) {
         this.messageDispatcher = messageDispatcher;
     }
 
-    public void connect(String host, Integer port, Auth.ReqTokenAuth tokenAuth) {
+    public void connect(String host, Integer port, Auth.ReqTokenAuth tokenAuth, String account) {
         // 关闭旧连接
         this.close();
 
@@ -57,7 +61,9 @@ public class SoImSession {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
                             .addLast(new Varint32FrameCodec())
-                            .addLast(new ImMessageCodec())
+                            .addLast(new ImMessageCodec.ProtoMsg2ImMessageEncoder())
+                            .addLast(new ImMessageCodec.ImMessage2ByteEncoder())
+                            .addLast(new ImMessageCodec.ImMessageDecoder())
                             .addLast(messageDispatcher);
                     }
                 });
@@ -66,6 +72,7 @@ public class SoImSession {
             clientChannel = b.connect(host, port).await().channel();
             // 连接后立即发送认证消息，10s未认证连接关闭
             clientChannel.writeAndFlush(tokenAuth);
+            this.account = account;
         } catch (Exception e) {
             Logger.error("连接服务器失败: {}", e.getMessage());
         }
@@ -88,17 +95,18 @@ public class SoImSession {
     /**
      * 发送消息
      */
-    public void send(MessageLite message) {
+    public <T> CompletableFuture<T> send(MessageLite message) {
         if (!auth.get()) {
             Logger.error("请先登录");
-            return;
+            return null;
         }
         if (clientChannel == null
             || !clientChannel.isActive()) {
             Logger.error("连接已关闭");
-            return;
+            return null;
         }
         clientChannel.writeAndFlush(message);
+        return new CompletableFuture<>();
     }
 
     public void textChat(String receiverName, String message) {
@@ -112,6 +120,14 @@ public class SoImSession {
 
     public void textChat(Chat.TextChat textChat) {
         this.send(textChat);
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public String getAccount() {
+        return account;
     }
 
     /**

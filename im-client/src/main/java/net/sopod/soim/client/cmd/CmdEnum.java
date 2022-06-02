@@ -31,6 +31,8 @@ public enum CmdEnum {
 
     friends(FriendsHandler.class),
 
+    me(MeHandler.class),
+
     help,
 
     /** 退出 */

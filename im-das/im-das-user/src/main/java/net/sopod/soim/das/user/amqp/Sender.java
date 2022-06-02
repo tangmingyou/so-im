@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @author tmy
  * @date 2022-05-28 16:23
  */
-//@Component
+@Component
 @AllArgsConstructor
 public class Sender implements ApplicationListener<ApplicationReadyEvent> {
 

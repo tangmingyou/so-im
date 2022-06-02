@@ -11,6 +11,11 @@ spring:
         max-idle: 100
         max-wait: 1000
         min-idle: 2
+  rabbitmq:
+    host: 124.222.131.236
+    port: 3672
+    username: soim
+    password: sopod@rabbit#
 
 dubbo:
   application:
@@ -31,3 +36,5 @@ dubbo:
     retries: 0 # 这里服务重试时会路由到非uid所在对应im-router
     timeout: 2000
     register: false # 不自动注册，数据初始化后注册
+    filter: soimExceptionFilter,-exception
+

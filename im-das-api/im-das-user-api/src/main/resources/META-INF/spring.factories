@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.sopod.soim.das.user.api.config.ChatRabbitMQAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.sopod.soim.das.user.api.config.ChatMQAutoConfiguration

@@ -53,6 +53,9 @@ public class FriendDasImpl implements FriendDas {
         return friendMapper.insert(imFriend);
     }
 
+    /**
+     * TODO cache
+     */
     @Override
     public Long getFriendId(Long uid, Long fid) {
         LambdaQueryWrapper<ImFriend> friendQuery = new QueryWrapper<ImFriend>().lambda()
