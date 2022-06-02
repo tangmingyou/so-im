@@ -70,4 +70,14 @@ public enum ChatQueueType {
         throw exceptionProvider.apply(ordinal);
     }
 
+    public static ChatQueueType getMQType(String queueName, Function<String, RuntimeException> exceptionProvider) {
+        ChatQueueType[] values = values();
+        for (ChatQueueType queueType : values) {
+            if (queueType.getQueueName().equals(queueName)) {
+                return queueType;
+            }
+        }
+        throw exceptionProvider.apply(queueName);
+    }
+
 }

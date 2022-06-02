@@ -2,16 +2,15 @@ package net.sopod.soim.das.user.api.config;
 
 import net.sopod.soim.das.user.api.mq.ChatMQMessageConverter;
 import net.sopod.soim.das.user.api.mq.ChatQueueType;
+import net.sopod.soim.das.user.api.service.DasMQPersistentService;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
@@ -51,6 +50,11 @@ public class ChatPersistentRabbitMQConfiguration implements ImportBeanDefinition
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(messageConverter);
         return rabbitTemplate;
+    }
+
+    @Bean
+    public DasMQPersistentService dasPersistentService(RabbitTemplate rabbitTemplate) {
+        return new DasMQPersistentService(rabbitTemplate);
     }
 
 }

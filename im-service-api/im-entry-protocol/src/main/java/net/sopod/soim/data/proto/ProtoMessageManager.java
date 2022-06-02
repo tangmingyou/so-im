@@ -60,7 +60,7 @@ public class ProtoMessageManager {
     }
 
     @Nullable
-    public static MessageLite getProtoInstance(Integer serialNo) {
+    public static MessageLite getDefaultInstance(Integer serialNo) {
         String clazz = serialNoTypeMap.get(serialNo);
         if (clazz == null) {
             logger.error("protoMsgDict serialNo proto class not found: {}", serialNo);

@@ -1,11 +1,19 @@
 package net.sopod.soim.entry.server.session;
 
+import com.google.protobuf.MessageLite;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
+import net.sopod.soim.data.serialize.ImMessage;
+import net.sopod.soim.data.serialize.ImMessageCodec;
+import net.sopod.soim.entry.server.handler.ImContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.ref.WeakReference;
 
 public class NetUser {
+
+    private static final Logger logger = LoggerFactory.getLogger(NetUser.class);
 
     /** channel 绑定 netUser 对象 */
     public static final AttributeKey<NetUser> NET_USER_KEY = AttributeKey.valueOf(NetUser.class, "NET_USER");
@@ -39,24 +47,24 @@ public class NetUser {
         }
     }
 
-    public void write(Object message) {
-        write(message, false);
+    public void writeNow(MessageLite message) {
+        write0(null, message);
     }
 
-    public void writeNow(Object message) {
-        write(message, true);
+    public void writeNow(ImContext ctx, MessageLite message) {
+        write0(ctx.getSerialNo(), message);
     }
 
-    private void write(Object message, boolean now) {
+    private void write0(Integer serialNo, MessageLite message) {
         Channel channel = this.channel.get();
         if (channel == null) {
+            logger.error("channel closed drop message: {}, {}", serialNo, message);
             return;
         }
-        if (now) {
-            channel.writeAndFlush(message);
-        } else {
-            channel.write(message);
-        }
+        // 构建 ImMessage
+        ImMessage imMessage = ImMessageCodec.encodeImProto(message);
+        imMessage.setSerialNo(serialNo == null ? -1 : serialNo);
+        channel.writeAndFlush(imMessage);
     }
 
     @Override

@@ -27,7 +27,8 @@ public class ImEntryInitializer extends ChannelInitializer<SocketChannel> {
         ChannelPipeline pipeline = socketChannel.pipeline();
         pipeline.addLast(new LoggingHandler(logLevel))
                 .addLast(new Varint32FrameCodec())
-                .addLast(new ImMessageCodec())
+                .addLast(new ImMessageCodec.ImMessageDecoder())
+                .addLast(new ImMessageCodec.ImMessage2ByteEncoder())
                 .addLast(new InboundImMessageHandler());
     }
 

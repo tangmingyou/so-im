@@ -1,11 +1,12 @@
 package net.sopod.soim.entry.server;
 
-import com.google.protobuf.MessageLite;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.Attribute;
 import net.sopod.soim.common.util.ImClock;
+import net.sopod.soim.data.serialize.ImMessage;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.NetUser;
 import net.sopod.soim.data.msg.task.Tasks;
 import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author tmy
  * @date 2022-04-10 22:40
  */
-public class InboundImMessageHandler extends SimpleChannelInboundHandler<MessageLite> {
+public class InboundImMessageHandler extends SimpleChannelInboundHandler<ImMessage> {
 
     /**
      * channel 建立连接，设置初始属性
@@ -50,11 +51,12 @@ public class InboundImMessageHandler extends SimpleChannelInboundHandler<Message
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MessageLite messageLite) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, ImMessage imMessage) throws Exception {
         Attribute<NetUser> netUserAttr = ctx.channel().attr(NetUser.NET_USER_KEY);
         NetUser netUser = netUserAttr.get();
+        ImContext execCtx = new ImContext(imMessage.getSerialNo());
         // TODO dispatcher
-        ProtoMessageDispatcher.dispatch(netUser, messageLite);
+        ProtoMessageDispatcher.dispatch(execCtx, netUser, imMessage.getDecodeBody());
     }
 
 }

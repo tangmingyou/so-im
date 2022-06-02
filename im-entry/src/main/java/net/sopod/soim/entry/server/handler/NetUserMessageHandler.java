@@ -12,10 +12,10 @@ import net.sopod.soim.entry.server.session.NetUser;
 public abstract class NetUserMessageHandler<T> implements MessageHandler<T> {
 
     @Override
-    public final void exec(NetUser netUser, T msg) {
+    public final void exec(ImContext ctx, NetUser netUser, T msg) {
         MessageLite res = handle(netUser, msg);
         if (res != null) {
-            netUser.writeNow(res);
+            netUser.writeNow(ctx, res);
         }
     }
 

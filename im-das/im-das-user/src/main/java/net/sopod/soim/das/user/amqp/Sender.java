@@ -7,14 +7,11 @@ import net.sopod.soim.das.user.api.model.entity.ImGroupMessage;
 import net.sopod.soim.das.user.api.model.entity.ImMessage;
 import net.sopod.soim.das.user.api.mq.ChatQueueType;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author tmy
  * @date 2022-05-28 16:23
  */
-@Component
+//@Component
 @AllArgsConstructor
 public class Sender implements ApplicationListener<ApplicationReadyEvent> {
 

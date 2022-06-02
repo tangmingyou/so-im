@@ -10,6 +10,6 @@ import net.sopod.soim.entry.server.session.NetUser;
  */
 public interface MessageHandler<T> {
 
-    void exec(NetUser netUser, T msg);
+    void exec(ImContext ctx, NetUser netUser, T msg);
 
 }

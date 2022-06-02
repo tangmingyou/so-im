@@ -41,7 +41,7 @@ public class NetUserDelayTaskManager {
                     if (netUser.isActive()) {
                         // 延时任务执行时 NetUser 可能已升级为 Account
                         NetUser curNetUser = netUser.channel().attr(NetUser.NET_USER_KEY).get();
-                        ProtoMessageDispatcher.dispatch(curNetUser, delayTask.getTaskMsg());
+                        ProtoMessageDispatcher.dispatch(null, curNetUser, delayTask.getTaskMsg());
                     } else {
                         logger.info("delayTask netUser inactive, task cancel!");
                     }

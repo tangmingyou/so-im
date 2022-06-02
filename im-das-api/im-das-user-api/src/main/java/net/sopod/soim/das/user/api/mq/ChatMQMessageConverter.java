@@ -60,8 +60,12 @@ public class ChatMQMessageConverter extends AbstractMessageConverter {
         MessageProperties messageProperties = message.getMessageProperties();
         Object ordinal = messageProperties.getHeaders().get(MQ_MSG_TYPE);
         Object isSnappy = messageProperties.getHeaders().get(MQ_MSG_IS_SNAPPY);
-        ChatQueueType chatQueueType = ChatQueueType.getMQType(Converter.toInt(ordinal),
-                ori -> new MessageConversionException(String.format("没有ordinal为%d的消息类型,在MQType添加", ori)));
+        String consumerQueue = messageProperties.getConsumerQueue();
+        // 获取mq消息类型
+        ChatQueueType chatQueueType = ordinal == null
+                ? ChatQueueType.getMQType(consumerQueue, queue -> new MessageConversionException(String.format("没有队列为%s的消息类型,在MQType添加", queue)))
+                :  ChatQueueType.getMQType(Converter.toInt(ordinal), ori -> new MessageConversionException(String.format("没有ordinal为%d的消息类型,在MQType添加", ori)));
+        // 反序列化字节数据
         byte[] body = message.getBody();
         if (Boolean.TRUE.equals(isSnappy)) {
             try {

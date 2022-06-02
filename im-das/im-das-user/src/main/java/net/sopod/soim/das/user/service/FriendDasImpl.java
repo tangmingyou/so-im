@@ -3,7 +3,6 @@ package net.sopod.soim.das.user.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
-import net.sopod.soim.common.constant.LogicConsts;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.das.user.api.config.LogicTables;

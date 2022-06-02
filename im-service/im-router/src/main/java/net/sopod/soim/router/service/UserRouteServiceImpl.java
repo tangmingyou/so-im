@@ -1,14 +1,12 @@
 package net.sopod.soim.router.service;
 
 import net.sopod.soim.common.constant.DubboConstant;
-import net.sopod.soim.common.dubbo.exception.ServiceException;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.StringUtil;
 import net.sopod.soim.das.user.api.config.LogicTables;
 import net.sopod.soim.das.user.api.model.entity.ImMessage;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.user.api.mq.ChatQueue;
-import net.sopod.soim.das.user.api.mq.ChatQueueType;
+import net.sopod.soim.das.user.api.service.DasMQPersistentService;
 import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.entry.api.service.OnlineUserService;
@@ -27,7 +25,6 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -62,7 +59,7 @@ public class UserRouteServiceImpl implements UserRouteService {
     private SegmentIdGenerator segmentIdGenerator;
 
     @Resource
-    private RabbitTemplate rabbitTemplate;
+    private DasMQPersistentService dasMQPersistentService;
 
     @Override
     public RegistryRes registryUserEntry(Long uid, String imEntryAddr) {
@@ -107,7 +104,7 @@ public class UserRouteServiceImpl implements UserRouteService {
                 .setSender(textChat.getUid())
                 .setReceiver(textChat.getReceiverUid())
                 .setCreateTime(ImClock.date());
-        rabbitTemplate.convertAndSend(ChatQueueType.IM_MESSAGE.getQueueName(), imMessage);
+        dasMQPersistentService.saveImMessage(imMessage);
 
         RpcContextUtil.setContextUid(textChat.getReceiverUid());
         Boolean send = textChatService.sendTextChat(textChat);
