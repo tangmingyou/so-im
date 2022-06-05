@@ -2,6 +2,7 @@ package net.sopod.soim.entry.handlers.user;
 
 import com.google.protobuf.MessageLite;
 import net.sopod.soim.data.msg.user.UserMsg;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.data.msg.user.UserGroup;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
@@ -30,7 +31,7 @@ public class ReqOnlineUserListHandler extends AccountMessageHandler<UserGroup.Re
     private UserBizService userBizService;
 
     @Override
-    public MessageLite handle(Account account, UserGroup.ReqOnlineUserList msg) {
+    public MessageLite handle(ImContext ctx, Account account, UserGroup.ReqOnlineUserList msg) {
         List<UserInfo> userInfos = userBizService.onlineUserList(msg.getKeyword());
 
         List<UserMsg.UserInfo> resUserInfos = userInfos.stream().map(user -> UserMsg.UserInfo.newBuilder()

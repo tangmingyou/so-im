@@ -4,8 +4,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.sopod.soim.client.cmd.args.ArgsUsers;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
+import net.sopod.soim.client.logger.Console;
 import net.sopod.soim.client.session.SoImSession;
 import net.sopod.soim.data.msg.user.UserGroup;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * UsersHandler
@@ -29,7 +34,13 @@ public class UsersHandler implements CmdHandler<ArgsUsers> {
         UserGroup.ReqOnlineUserList req = UserGroup.ReqOnlineUserList.newBuilder()
                 .setKeyword(args.getKeyword() != null ? args.getKeyword() : "")
                 .build();
-        soImSession.send(req);
+        CompletableFuture<UserGroup.ResOnlineUserList> future = soImSession.send(req);
+
+        UserGroup.ResOnlineUserList res = future.join();
+        List<String> userLines = res.getUsersList().stream()
+                .map(user -> user.getUid() + " | " + user.getAccount())
+                .collect(Collectors.toList());
+        Console.logList("在线用户", userLines);
     }
 
 }

@@ -1,6 +1,7 @@
 package net.sopod.soim.entry.handlers.task;
 
 import com.google.protobuf.MessageLite;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.handler.NetUserMessageHandler;
 import net.sopod.soim.entry.server.session.NetUser;
 import net.sopod.soim.data.msg.task.Tasks;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class NetUserDelayCloseHandler extends NetUserMessageHandler<Tasks.NetUserDelayCloseTask> {
 
     @Override
-    public MessageLite handle(NetUser netUser, Tasks.NetUserDelayCloseTask msg) {
+    public MessageLite handle(ImContext ctx, NetUser netUser, Tasks.NetUserDelayCloseTask msg) {
         if (netUser.isAccount()) {
             return null;
         }

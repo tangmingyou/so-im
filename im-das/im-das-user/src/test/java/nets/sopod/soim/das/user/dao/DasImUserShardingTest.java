@@ -2,9 +2,9 @@ package nets.sopod.soim.das.user.dao;
 
 import com.google.common.base.Preconditions;
 import net.sopod.soim.common.util.ImClock;
+import net.sopod.soim.das.common.config.LogicTables;
 import net.sopod.soim.das.user.DasUserApplication;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.user.api.config.LogicTables;
 import net.sopod.soim.das.user.dao.UserMapper;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
 import org.junit.Test;

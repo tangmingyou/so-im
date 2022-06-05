@@ -1,8 +1,6 @@
 package net.sopod.soim.logic.user.service;
 
 import net.sopod.soim.common.dubbo.exception.LogicException;
-import net.sopod.soim.common.dubbo.exception.ServiceException;
-import net.sopod.soim.common.dubbo.exception.SoimException;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
@@ -49,14 +47,14 @@ public class ChatServiceImpl implements ChatService {
             textChat.setReceiverUid(receiverUser.getId());
         }
         // 查询好友关系
-        Long friendId = friendDas.getFriendId(textChat.getUid(), textChat.getReceiverUid());
+        Long relationId = friendDas.getRelationId(textChat.getUid(), textChat.getReceiverUid());
         // 不是好友
-        if (friendId == null) {
+        if (relationId == null) {
             throw new LogicException("请添加好友后发送消息");
         }
         // 设置调用 router 为消息接受者地址
         RpcContextUtil.setContextUid(textChat.getReceiverUid());
-        return userRouteService.routeTextChat(friendId, textChat);
+        return userRouteService.routeTextChat(relationId, textChat);
     }
 
 }

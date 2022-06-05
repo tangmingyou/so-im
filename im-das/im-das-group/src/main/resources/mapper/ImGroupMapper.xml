@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.sopod.soim.das.group.dao.ImGroupMapper">
+
+    <select id="selectExistsGroupByName" resultType="long">
+        select id from im_group where group_name = #{groupName} limit 1
+    </select>
+
+</mapper>

@@ -19,9 +19,12 @@ public interface FriendDas {
      * @param fid 好友id
      * @return 影响行数
      */
-    int insert(Long uid, Long fid);
+    int saveFriendRelation(Long uid, Long fid);
 
-    Long getFriendId(Long uid, Long fid);
+    /**
+     * 获取好友关系id
+     */
+    Long getRelationId(Long uid, Long fid);
 
     /**
      * 好友是否存在

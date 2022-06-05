@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sopod.soim.data.msg.user.Friend;
 import net.sopod.soim.data.msg.user.UserMsg;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.entry.worker.FutureExecutor;
 import net.sopod.soim.logic.api.user.service.FriendService;
@@ -31,7 +32,7 @@ public class ReqFriendListHandler extends AccountMessageHandler<Friend.ReqFriend
     private FriendService friendService;
 
     @Override
-    public MessageLite handle(Account account, Friend.ReqFriendList req) {
+    public MessageLite handle(ImContext ctx, Account account, Friend.ReqFriendList req) {
         CompletableFuture<List<UserInfo>> future = friendService.listFriend(account.getUid());
         future.whenCompleteAsync((friends, err) -> {
             List<UserMsg.UserInfo> userInfos = friends.stream().map(acc -> UserMsg.UserInfo.newBuilder()
@@ -42,7 +43,7 @@ public class ReqFriendListHandler extends AccountMessageHandler<Friend.ReqFriend
                     .build()
             ).collect(Collectors.toList());
             Friend.ResFriendList res = Friend.ResFriendList.newBuilder().addAllFriends(userInfos).build();
-            account.writeNow(res);
+            account.writeNow(ctx, res);
         }, FutureExecutor.getInstance())
                 .exceptionally(err -> {
                     log.error("好友列表查询失败", err);

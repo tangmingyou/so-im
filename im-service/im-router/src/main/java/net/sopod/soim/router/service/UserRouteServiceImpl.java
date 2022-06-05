@@ -3,10 +3,10 @@ package net.sopod.soim.router.service;
 import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.StringUtil;
-import net.sopod.soim.das.user.api.config.LogicTables;
-import net.sopod.soim.das.user.api.model.entity.ImMessage;
+import net.sopod.soim.das.common.config.LogicTables;
+import net.sopod.soim.das.message.api.entity.ImMessage;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.user.api.service.DasMQPersistentService;
+import net.sopod.soim.das.message.api.service.DasMQMessagePersistentService;
 import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.entry.api.service.OnlineUserService;
@@ -59,7 +59,7 @@ public class UserRouteServiceImpl implements UserRouteService {
     private SegmentIdGenerator segmentIdGenerator;
 
     @Resource
-    private DasMQPersistentService dasMQPersistentService;
+    private DasMQMessagePersistentService dasMQMessagePersistentService;
 
     @Override
     public RegistryRes registryUserEntry(Long uid, String imEntryAddr) {
@@ -95,16 +95,16 @@ public class UserRouteServiceImpl implements UserRouteService {
      * 调用该方法时，将到 im-router 服务的路由 uid 设置为消息接受者的 uid
      */
     @Override
-    public Boolean routeTextChat(Long friendId, TextChat textChat) {
+    public Boolean routeTextChat(Long relationId, TextChat textChat) {
         // 通过消息队列持久化存储到db
         ImMessage imMessage = new ImMessage()
-                .setFriendId(friendId)
+                .setRelationId(relationId)
                 .setId(segmentIdGenerator.nextId(LogicTables.IM_MESSAGE))
                 .setContent(textChat.getMessage())
                 .setSender(textChat.getUid())
                 .setReceiver(textChat.getReceiverUid())
                 .setCreateTime(ImClock.date());
-        dasMQPersistentService.saveImMessage(imMessage);
+        dasMQMessagePersistentService.saveImMessage(imMessage);
 
         RpcContextUtil.setContextUid(textChat.getReceiverUid());
         Boolean send = textChatService.sendTextChat(textChat);

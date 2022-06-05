@@ -1,0 +1,79 @@
+syntax="proto3";
+
+option java_multiple_files = false;
+option java_outer_classname = "Group";
+
+package net.sopod.soim.data.msg.group;
+
+message GroupInfo {
+  int64 gid = 1;
+  string groupName = 2;
+  int32 userLimit = 3;
+  int32 userNum = 4;
+  int64 createTime = 5;
+}
+
+message UserInfo {
+  int64 uid = 1;
+  string account = 2;
+  string nickname = 3;
+  bool online = 4;
+  // 最后活跃时间
+  int64 lastActive = 5;
+}
+
+message ReqCreateGroup {
+  // 群名称
+  string groupName = 1;
+}
+
+//message ResCreateGroup {
+//
+//}
+
+message ReqSearchGroup {
+  // 群名称模糊搜素
+  string groupName = 1;
+}
+
+message ResSearchGroup {
+  repeated GroupInfo groups = 3;
+}
+
+message ReqJoinGroup {
+  int64 gid = 1;
+  int64 uid = 2;
+}
+
+//message ResAddGroup {
+//
+//}
+
+message ReqGroupUsers {
+  int64 gid = 1;
+}
+
+message ResGroupUsers {
+    repeated UserInfo users = 3;
+}
+
+// 文本聊天消息
+message ReqGroupMessage {
+  // 发送者uid
+  int64 sender = 1;
+  // 群聊id
+  int64 gid = 2;
+  // 文本消息内容
+  string message = 3;
+  // 发送时间
+  int64 time = 4;
+}
+
+message ResGroupMessage {
+  // 是否发送成功
+  bool success = 1;
+  // 失败原因
+  string message = 2;
+  // 消息id
+  int64 msgId = 3;
+}

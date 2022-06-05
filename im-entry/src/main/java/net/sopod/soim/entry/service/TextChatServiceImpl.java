@@ -41,7 +41,7 @@ public class TextChatServiceImpl implements TextChatService {
                 .setMessage(chat.getMessage())
                 .setTime(chat.getTime())
                 .build();
-        account.channel().writeAndFlush(resTextChat);
+        account.writeNow(resTextChat);
         logger.info("write client msg: {}", resTextChat);
         return Boolean.TRUE;
     }

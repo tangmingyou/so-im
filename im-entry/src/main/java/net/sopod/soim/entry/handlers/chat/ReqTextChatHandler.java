@@ -2,6 +2,7 @@ package net.sopod.soim.entry.handlers.chat;
 
 import com.google.protobuf.MessageLite;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.data.msg.chat.Chat;
 import net.sopod.soim.logic.common.model.TextChat;
@@ -26,7 +27,7 @@ public class ReqTextChatHandler extends AccountMessageHandler<Chat.TextChat> {
     private ChatService chatService;
 
     @Override
-    public MessageLite handle(Account account, Chat.TextChat msg) {
+    public MessageLite handle(ImContext ctx, Account account, Chat.TextChat msg) {
         TextChat textChat = new TextChat()
                 .setUid(msg.getSender())
                 .setReceiverUid(msg.getReceiver())

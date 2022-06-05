@@ -10,6 +10,7 @@ import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.das.user.dao.UserMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -47,6 +48,11 @@ public class UserDasImpl implements UserDas {
                 .likeRight(ImUser::getAccount, keyword);
         Page<ImUser> imUserPage = userMapper.selectPage(page, userQuery);
         return imUserPage.getRecords();
+    }
+
+    @Override
+    public List<ImUser> listUsers(Collection<Long> uids) {
+        return userMapper.selectBatchIds(uids);
     }
 
 

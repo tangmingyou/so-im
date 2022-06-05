@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
-import net.sopod.soim.client.logger.Logger;
+import net.sopod.soim.client.logger.Console;
 import net.sopod.soim.common.util.StringUtil;
 
 /**
@@ -45,7 +45,7 @@ public class CmdDispatcher {
         }
         CmdEnum cmdEnum = CmdEnum.getValue(cmd);
         if (cmdEnum == null) {
-            Logger.error("未知指令: {}", cmd);
+            Console.error("未知指令: {}", cmd);
             return;
         }
         Class<? extends CmdHandler<?>> handlerClass = cmdEnum.getHandlerClass();
@@ -65,7 +65,7 @@ public class CmdDispatcher {
     }
 
     private void parseParameterExceptionMessage(String message) {
-        Logger.error(message);
+        Console.error(message);
     }
 
 }

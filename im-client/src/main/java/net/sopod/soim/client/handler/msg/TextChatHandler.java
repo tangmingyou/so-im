@@ -1,7 +1,7 @@
 package net.sopod.soim.client.handler.msg;
 
 import com.google.inject.Singleton;
-import net.sopod.soim.client.logger.Logger;
+import net.sopod.soim.client.logger.Console;
 import net.sopod.soim.client.session.MessageHandler;
 import net.sopod.soim.data.msg.chat.Chat;
 
@@ -16,7 +16,7 @@ public class TextChatHandler implements MessageHandler<Chat.TextChat> {
 
     @Override
     public void handleMsg(Chat.TextChat res) {
-        Logger.info("{}: {}", res.getSender(), res.getMessage());
+        Console.info("{}: {}", res.getSender(), res.getMessage());
     }
 
 }

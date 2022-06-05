@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import net.sopod.soim.das.user.api.config.LogicTables;
+import net.sopod.soim.das.common.config.LogicTables;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,6 +28,10 @@ public class ImFriend implements Serializable {
     /**  */
     @TableId(value = "id", type = IdType.INPUT)
     private Long id;
+
+    /** 关系id(消息存储路由分片) */
+    @TableField(value = "relation_id")
+    private Long relationId;
 
     /** 用户id */
     @TableField(value = "uid")

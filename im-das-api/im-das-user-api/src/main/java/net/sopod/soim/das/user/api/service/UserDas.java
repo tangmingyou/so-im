@@ -2,6 +2,7 @@ package net.sopod.soim.das.user.api.service;
 
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,5 +18,7 @@ public interface UserDas {
     ImUser getNormalUserByAccount(String account);
 
     List<ImUser> searchImUser(String keyword, Integer limit);
+
+    List<ImUser> listUsers(Collection<Long> uids);
 
 }

@@ -1,6 +1,7 @@
 package net.sopod.soim.entry.handlers.user;
 
 import com.google.protobuf.MessageLite;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.data.msg.hello.HelloPB;
 import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
@@ -36,7 +37,7 @@ public class HelloHandler extends AccountMessageHandler<HelloPB.Hello> {
     private SegmentIdGenerator segmentIdGenerator;
 
     @Override
-    public MessageLite handle(Account account, HelloPB.Hello msg) {
+    public MessageLite handle(ImContext ctx, Account account, HelloPB.Hello msg) {
         logger.info("get hello message: {}", segmentIdGenerator.nextId("im-entry-hello"));
         logger.info("msg={}, {}", msg.getId(), msg.getStr());
         CompletableFuture<String> hi = userBizService.sayHi("黄绿");

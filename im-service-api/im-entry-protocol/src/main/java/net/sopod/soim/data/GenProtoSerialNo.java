@@ -48,5 +48,4 @@ public class GenProtoSerialNo {
         fileWriter.close();
     }
 
-
 }

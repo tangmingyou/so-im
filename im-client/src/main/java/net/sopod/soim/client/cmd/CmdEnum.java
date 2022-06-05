@@ -1,5 +1,6 @@
 package net.sopod.soim.client.cmd;
 
+import net.sopod.soim.client.cmd.args.ArgsGroup;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.handler.cmd.*;
 
@@ -21,7 +22,7 @@ public enum CmdEnum {
     users(UsersHandler.class),
 
     /** 用户分组列表 */
-    groups,
+    group(GroupHandler.class),
 
     /** 用户搜索 */
     search(SearchHandler.class),

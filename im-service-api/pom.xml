@@ -19,7 +19,8 @@
         <module>im-segment-id-api</module>
         <module>im-router-api</module>
         <module>im-logic-user-api</module>
-        <module>im-logic-friend-api</module>
+        <module>im-logic-group-api</module>
+        <module>im-logic-message-api</module>
     </modules>
 
     <dependencies>

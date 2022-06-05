@@ -11,5 +11,23 @@
 
     <artifactId>im-das-group-api</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-das-common</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-common</artifactId>
+            <version>${soim.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

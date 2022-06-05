@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: im-logic-group
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://124.222.131.236:3848
+    group: so-im
+  protocol:
+    port: 3006
+  consumer:
+    check: false
+  provider:
+    retries: 0
+    timeout: 2000
+    filter: soimExceptionFilter,-exception

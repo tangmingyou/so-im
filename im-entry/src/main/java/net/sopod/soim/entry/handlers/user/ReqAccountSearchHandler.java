@@ -5,6 +5,7 @@ import net.sopod.soim.data.msg.user.AccountSearch;
 import net.sopod.soim.data.msg.user.UserGroup;
 import net.sopod.soim.data.msg.user.UserMsg;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.logic.api.user.service.AccountService;
 import net.sopod.soim.logic.common.model.UserInfo;
@@ -28,7 +29,7 @@ public class ReqAccountSearchHandler extends AccountMessageHandler<AccountSearch
     private AccountService accountService;
 
     @Override
-    public MessageLite handle(Account account, AccountSearch.ReqAccountSearch msg) {
+    public MessageLite handle(ImContext ctx, Account account, AccountSearch.ReqAccountSearch msg) {
         CompletableFuture<List<UserInfo>> future = accountService.searchAccountLikely(msg.getKeyword());
         future.thenAccept(userInfos -> {
             List<UserMsg.UserInfo> infos = userInfos.stream().map(
@@ -41,7 +42,7 @@ public class ReqAccountSearchHandler extends AccountMessageHandler<AccountSearch
             AccountSearch.ResAccountSearch resSearch = AccountSearch.ResAccountSearch
                     .newBuilder()
                     .addAllUsers(infos).build();
-            account.writeNow(resSearch);
+            account.writeNow(ctx, resSearch);
         });
         return null;
     }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.common.util.ImClock;
-import net.sopod.soim.das.user.api.config.LogicTables;
+import net.sopod.soim.das.common.config.LogicTables;
 import net.sopod.soim.das.user.api.model.entity.ImFriend;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.FriendDas;
@@ -37,27 +37,40 @@ public class FriendDasImpl implements FriendDas {
 
     private UserMapper userMapper;
 
-
     @Override
-    public int insert(Long uid, Long fid) {
+    public int saveFriendRelation(Long uid, Long fid) {
         long id = segmentIdGenerator.nextId(LogicTables.IM_FRIEND);
+        long relationId = segmentIdGenerator.nextId(LogicTables.IM_FRIEND_RELATION);
         ImFriend imFriend = new ImFriend()
                 .setId(id)
+                .setRelationId(relationId)
                 .setUid(uid)
                 .setFid(fid)
                 .setStatus(1)
                 .setUnreadNum(0)
                 .setUnreadOffsetId(0L)
                 .setCreateTime(ImClock.date());
-        return friendMapper.insert(imFriend);
+        // 相互添加好友
+        ImFriend imFriend2 = new ImFriend()
+                .setId(id)
+                .setRelationId(relationId)
+                .setUid(fid)
+                .setFid(uid)
+                .setStatus(1)
+                .setUnreadNum(0)
+                .setUnreadOffsetId(0L)
+                .setCreateTime(ImClock.date());
+        friendMapper.insert(imFriend);
+        return friendMapper.insert(imFriend2);
     }
 
     /**
      * TODO cache
      */
     @Override
-    public Long getFriendId(Long uid, Long fid) {
+    public Long getRelationId(Long uid, Long fid) {
         LambdaQueryWrapper<ImFriend> friendQuery = new QueryWrapper<ImFriend>().lambda()
+                .select(ImFriend::getId, ImFriend::getRelationId)
                 .eq(ImFriend::getUid, uid)
                 .eq(ImFriend::getFid, fid)
                 .eq(ImFriend::getStatus, LogicTables.STATUS_NORMAL);
@@ -68,12 +81,12 @@ public class FriendDasImpl implements FriendDas {
         if (imFriends.size() > 1) {
             logger.warn("重复的好友数据: user={}, friend={}", uid, fid);
         }
-        return imFriends.get(0).getId();
+        return imFriends.get(0).getRelationId();
     }
 
     @Override
     public Boolean isExists(Long uid, Long fid) {
-        return getFriendId(uid, fid) != null;
+        return getRelationId(uid, fid) != null;
     }
 
     @Override

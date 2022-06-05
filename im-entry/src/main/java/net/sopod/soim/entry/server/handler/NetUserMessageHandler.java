@@ -13,12 +13,12 @@ public abstract class NetUserMessageHandler<T> implements MessageHandler<T> {
 
     @Override
     public final void exec(ImContext ctx, NetUser netUser, T msg) {
-        MessageLite res = handle(netUser, msg);
+        MessageLite res = handle(ctx, netUser, msg);
         if (res != null) {
             netUser.writeNow(ctx, res);
         }
     }
 
-    public abstract MessageLite handle(NetUser netUser, T msg);
+    public abstract MessageLite handle(ImContext ctx, NetUser netUser, T msg);
 
 }

@@ -1,0 +1,15 @@
+syntax="proto3";
+
+option java_multiple_files = false;
+option java_outer_classname = "Res";
+
+package net.sopod.soim.data.msg.common;
+
+message ResState {
+  // 是否成功
+  bool success = 1;
+  // 失败消息
+  string message = 2;
+  // 成功通知
+  string notice = 3;
+}

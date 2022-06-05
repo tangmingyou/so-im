@@ -2,7 +2,7 @@ package net.sopod.soim.client.cmd;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.sopod.soim.client.logger.Logger;
+import net.sopod.soim.client.logger.Console;
 
 import java.util.Scanner;
 
@@ -28,20 +28,20 @@ public class CmdStarter {
     public void start() {
         this.close();
         this.scanner = new Scanner(System.in);
-        Logger.pre("【client】: ");
+        Console.pre("【client】: ");
         while(this.scanner.hasNextLine()) {
             String cmd = this.scanner.nextLine();
             try {
                 this.cmdDispatcher.dispatchCmd(cmd);
             } catch (Exception e) {
-                Logger.error("cmd error: ", e.getMessage());
+                Console.error("cmd error: ", e.getMessage());
             }
             // 退出
             if (CmdEnum.exit.name().equals(cmd.split("[ \t]+")[0])) {
-                Logger.info("bye bye");
+                Console.info("bye bye");
                 break;
             }
-            Logger.pre("【client】: ");
+            Console.pre("【client】: ");
         }
     }
 
@@ -52,7 +52,7 @@ public class CmdStarter {
     }
 
     public static void printPre() {
-        Logger.pre("【client】: ");
+        Console.pre("【client】: ");
     }
 
 }

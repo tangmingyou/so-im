@@ -14,6 +14,8 @@
     <modules>
         <module>im-das-user-api</module>
         <module>im-das-group-api</module>
+        <module>im-das-common</module>
+        <module>im-das-message-api</module>
     </modules>
 
 

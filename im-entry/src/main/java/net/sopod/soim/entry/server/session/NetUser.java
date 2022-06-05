@@ -47,10 +47,16 @@ public class NetUser {
         }
     }
 
+    /**
+     * 客户端通过 dispatcher 消费
+     */
     public void writeNow(MessageLite message) {
         write0(null, message);
     }
 
+    /**
+     * 客户端可同步消费，根据请求id对应响应
+     */
     public void writeNow(ImContext ctx, MessageLite message) {
         write0(ctx.getSerialNo(), message);
     }

@@ -1,6 +1,7 @@
 package net.sopod.soim.entry.server.handler;
 
 import com.google.protobuf.MessageLite;
+import net.sopod.soim.common.dubbo.exception.SoimException;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.entry.server.session.NetUser;
 
@@ -16,14 +17,14 @@ public abstract class AccountMessageHandler<T> implements MessageHandler<T> {
     @Override
     public final void exec(ImContext ctx, NetUser netUser, T req) {
         if (!netUser.isAccount()) {
-            throw new IllegalStateException("NetUser is not account!" + netUser);
+            throw new SoimException("NetUser is not account!" + netUser);
         }
-        MessageLite res = handle((Account) netUser, req);
+        MessageLite res = handle(ctx, (Account) netUser, req);
         if (res != null) {
             netUser.writeNow(ctx, res);
         }
     }
 
-    public abstract MessageLite handle(Account account, T req);
+    public abstract MessageLite handle(ImContext ctx, Account account, T req);
 
 }

@@ -4,6 +4,7 @@ import com.google.protobuf.MessageLite;
 import net.sopod.soim.common.util.netty.FastThreadLocalThreadFactory;
 import net.sopod.soim.data.msg.user.Friend;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
+import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.entry.worker.FutureExecutor;
 import net.sopod.soim.entry.worker.WorkerGroup;
@@ -32,7 +33,7 @@ public class ReqAddFriendHandler extends AccountMessageHandler<Friend.ReqAddFrie
     private FriendService friendService;
 
     @Override
-    public MessageLite handle(Account account, Friend.ReqAddFriend req) {
+    public MessageLite handle(ImContext ctx, Account account, Friend.ReqAddFriend req) {
         // 好友id
         long fid = req.getFid();
         long uid = account.getUid();
@@ -48,7 +49,7 @@ public class ReqAddFriendHandler extends AccountMessageHandler<Friend.ReqAddFrie
             if (msg != null) {
                 builder.setMsg(msg);
             }
-            account.writeNow(builder.build());
+            account.writeNow(ctx, builder.build());
             logger.info("添加好友成功");
         }, FutureExecutor.getInstance())
                 .exceptionally(err -> {
