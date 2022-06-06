@@ -53,6 +53,12 @@ public final class Group {
      * @return The createTime.
      */
     long getCreateTime();
+
+    /**
+     * <code>int64 masterUid = 6;</code>
+     * @return The masterUid.
+     */
+    long getMasterUid();
   }
   /**
    * Protobuf type {@code net.sopod.soim.data.msg.group.GroupInfo}
@@ -124,6 +130,11 @@ public final class Group {
             case 40: {
 
               createTime_ = input.readInt64();
+              break;
+            }
+            case 48: {
+
+              masterUid_ = input.readInt64();
               break;
             }
             default: {
@@ -240,6 +251,17 @@ public final class Group {
       return createTime_;
     }
 
+    public static final int MASTERUID_FIELD_NUMBER = 6;
+    private long masterUid_;
+    /**
+     * <code>int64 masterUid = 6;</code>
+     * @return The masterUid.
+     */
+    @java.lang.Override
+    public long getMasterUid() {
+      return masterUid_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -269,6 +291,9 @@ public final class Group {
       if (createTime_ != 0L) {
         output.writeInt64(5, createTime_);
       }
+      if (masterUid_ != 0L) {
+        output.writeInt64(6, masterUid_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -297,6 +322,10 @@ public final class Group {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, createTime_);
       }
+      if (masterUid_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(6, masterUid_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -322,6 +351,8 @@ public final class Group {
           != other.getUserNum()) return false;
       if (getCreateTime()
           != other.getCreateTime()) return false;
+      if (getMasterUid()
+          != other.getMasterUid()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -345,6 +376,9 @@ public final class Group {
       hash = (37 * hash) + CREATETIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCreateTime());
+      hash = (37 * hash) + MASTERUID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getMasterUid());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -488,6 +522,8 @@ public final class Group {
 
         createTime_ = 0L;
 
+        masterUid_ = 0L;
+
         return this;
       }
 
@@ -519,6 +555,7 @@ public final class Group {
         result.userLimit_ = userLimit_;
         result.userNum_ = userNum_;
         result.createTime_ = createTime_;
+        result.masterUid_ = masterUid_;
         onBuilt();
         return result;
       }
@@ -582,6 +619,9 @@ public final class Group {
         }
         if (other.getCreateTime() != 0L) {
           setCreateTime(other.getCreateTime());
+        }
+        if (other.getMasterUid() != 0L) {
+          setMasterUid(other.getMasterUid());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -808,6 +848,37 @@ public final class Group {
       public Builder clearCreateTime() {
         
         createTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long masterUid_ ;
+      /**
+       * <code>int64 masterUid = 6;</code>
+       * @return The masterUid.
+       */
+      @java.lang.Override
+      public long getMasterUid() {
+        return masterUid_;
+      }
+      /**
+       * <code>int64 masterUid = 6;</code>
+       * @param value The masterUid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMasterUid(long value) {
+        
+        masterUid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 masterUid = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMasterUid() {
+        
+        masterUid_ = 0L;
         onChanged();
         return this;
       }
@@ -1810,6 +1881,1217 @@ public final class Group {
 
     @java.lang.Override
     public net.sopod.soim.data.msg.group.Group.UserInfo getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ReqUserGroupsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:net.sopod.soim.data.msg.group.ReqUserGroups)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code net.sopod.soim.data.msg.group.ReqUserGroups}
+   */
+  public static final class ReqUserGroups extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:net.sopod.soim.data.msg.group.ReqUserGroups)
+      ReqUserGroupsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ReqUserGroups.newBuilder() to construct.
+    private ReqUserGroups(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ReqUserGroups() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReqUserGroups();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ReqUserGroups(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.sopod.soim.data.msg.group.Group.ReqUserGroups.class, net.sopod.soim.data.msg.group.Group.ReqUserGroups.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.sopod.soim.data.msg.group.Group.ReqUserGroups)) {
+        return super.equals(obj);
+      }
+      net.sopod.soim.data.msg.group.Group.ReqUserGroups other = (net.sopod.soim.data.msg.group.Group.ReqUserGroups) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.sopod.soim.data.msg.group.Group.ReqUserGroups prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code net.sopod.soim.data.msg.group.ReqUserGroups}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:net.sopod.soim.data.msg.group.ReqUserGroups)
+        net.sopod.soim.data.msg.group.Group.ReqUserGroupsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.sopod.soim.data.msg.group.Group.ReqUserGroups.class, net.sopod.soim.data.msg.group.Group.ReqUserGroups.Builder.class);
+      }
+
+      // Construct using net.sopod.soim.data.msg.group.Group.ReqUserGroups.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_descriptor;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.group.Group.ReqUserGroups getDefaultInstanceForType() {
+        return net.sopod.soim.data.msg.group.Group.ReqUserGroups.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.group.Group.ReqUserGroups build() {
+        net.sopod.soim.data.msg.group.Group.ReqUserGroups result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.group.Group.ReqUserGroups buildPartial() {
+        net.sopod.soim.data.msg.group.Group.ReqUserGroups result = new net.sopod.soim.data.msg.group.Group.ReqUserGroups(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.sopod.soim.data.msg.group.Group.ReqUserGroups) {
+          return mergeFrom((net.sopod.soim.data.msg.group.Group.ReqUserGroups)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.sopod.soim.data.msg.group.Group.ReqUserGroups other) {
+        if (other == net.sopod.soim.data.msg.group.Group.ReqUserGroups.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.sopod.soim.data.msg.group.Group.ReqUserGroups parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.sopod.soim.data.msg.group.Group.ReqUserGroups) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:net.sopod.soim.data.msg.group.ReqUserGroups)
+    }
+
+    // @@protoc_insertion_point(class_scope:net.sopod.soim.data.msg.group.ReqUserGroups)
+    private static final net.sopod.soim.data.msg.group.Group.ReqUserGroups DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.sopod.soim.data.msg.group.Group.ReqUserGroups();
+    }
+
+    public static net.sopod.soim.data.msg.group.Group.ReqUserGroups getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ReqUserGroups>
+        PARSER = new com.google.protobuf.AbstractParser<ReqUserGroups>() {
+      @java.lang.Override
+      public ReqUserGroups parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ReqUserGroups(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ReqUserGroups> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ReqUserGroups> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public net.sopod.soim.data.msg.group.Group.ReqUserGroups getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ResUserGroupsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:net.sopod.soim.data.msg.group.ResUserGroups)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    java.util.List<net.sopod.soim.data.msg.group.Group.GroupInfo> 
+        getGroupsList();
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    net.sopod.soim.data.msg.group.Group.GroupInfo getGroups(int index);
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    int getGroupsCount();
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    java.util.List<? extends net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder> 
+        getGroupsOrBuilderList();
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder getGroupsOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code net.sopod.soim.data.msg.group.ResUserGroups}
+   */
+  public static final class ResUserGroups extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:net.sopod.soim.data.msg.group.ResUserGroups)
+      ResUserGroupsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ResUserGroups.newBuilder() to construct.
+    private ResUserGroups(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ResUserGroups() {
+      groups_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResUserGroups();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResUserGroups(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                groups_ = new java.util.ArrayList<net.sopod.soim.data.msg.group.Group.GroupInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              groups_.add(
+                  input.readMessage(net.sopod.soim.data.msg.group.Group.GroupInfo.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          groups_ = java.util.Collections.unmodifiableList(groups_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ResUserGroups_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ResUserGroups_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.sopod.soim.data.msg.group.Group.ResUserGroups.class, net.sopod.soim.data.msg.group.Group.ResUserGroups.Builder.class);
+    }
+
+    public static final int GROUPS_FIELD_NUMBER = 1;
+    private java.util.List<net.sopod.soim.data.msg.group.Group.GroupInfo> groups_;
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<net.sopod.soim.data.msg.group.Group.GroupInfo> getGroupsList() {
+      return groups_;
+    }
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder> 
+        getGroupsOrBuilderList() {
+      return groups_;
+    }
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    @java.lang.Override
+    public int getGroupsCount() {
+      return groups_.size();
+    }
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    @java.lang.Override
+    public net.sopod.soim.data.msg.group.Group.GroupInfo getGroups(int index) {
+      return groups_.get(index);
+    }
+    /**
+     * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+     */
+    @java.lang.Override
+    public net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder getGroupsOrBuilder(
+        int index) {
+      return groups_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < groups_.size(); i++) {
+        output.writeMessage(1, groups_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < groups_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, groups_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.sopod.soim.data.msg.group.Group.ResUserGroups)) {
+        return super.equals(obj);
+      }
+      net.sopod.soim.data.msg.group.Group.ResUserGroups other = (net.sopod.soim.data.msg.group.Group.ResUserGroups) obj;
+
+      if (!getGroupsList()
+          .equals(other.getGroupsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getGroupsCount() > 0) {
+        hash = (37 * hash) + GROUPS_FIELD_NUMBER;
+        hash = (53 * hash) + getGroupsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.sopod.soim.data.msg.group.Group.ResUserGroups prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code net.sopod.soim.data.msg.group.ResUserGroups}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:net.sopod.soim.data.msg.group.ResUserGroups)
+        net.sopod.soim.data.msg.group.Group.ResUserGroupsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ResUserGroups_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ResUserGroups_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.sopod.soim.data.msg.group.Group.ResUserGroups.class, net.sopod.soim.data.msg.group.Group.ResUserGroups.Builder.class);
+      }
+
+      // Construct using net.sopod.soim.data.msg.group.Group.ResUserGroups.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getGroupsFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (groupsBuilder_ == null) {
+          groups_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          groupsBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ResUserGroups_descriptor;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.group.Group.ResUserGroups getDefaultInstanceForType() {
+        return net.sopod.soim.data.msg.group.Group.ResUserGroups.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.group.Group.ResUserGroups build() {
+        net.sopod.soim.data.msg.group.Group.ResUserGroups result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public net.sopod.soim.data.msg.group.Group.ResUserGroups buildPartial() {
+        net.sopod.soim.data.msg.group.Group.ResUserGroups result = new net.sopod.soim.data.msg.group.Group.ResUserGroups(this);
+        int from_bitField0_ = bitField0_;
+        if (groupsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            groups_ = java.util.Collections.unmodifiableList(groups_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.groups_ = groups_;
+        } else {
+          result.groups_ = groupsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.sopod.soim.data.msg.group.Group.ResUserGroups) {
+          return mergeFrom((net.sopod.soim.data.msg.group.Group.ResUserGroups)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.sopod.soim.data.msg.group.Group.ResUserGroups other) {
+        if (other == net.sopod.soim.data.msg.group.Group.ResUserGroups.getDefaultInstance()) return this;
+        if (groupsBuilder_ == null) {
+          if (!other.groups_.isEmpty()) {
+            if (groups_.isEmpty()) {
+              groups_ = other.groups_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureGroupsIsMutable();
+              groups_.addAll(other.groups_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.groups_.isEmpty()) {
+            if (groupsBuilder_.isEmpty()) {
+              groupsBuilder_.dispose();
+              groupsBuilder_ = null;
+              groups_ = other.groups_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              groupsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getGroupsFieldBuilder() : null;
+            } else {
+              groupsBuilder_.addAllMessages(other.groups_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.sopod.soim.data.msg.group.Group.ResUserGroups parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.sopod.soim.data.msg.group.Group.ResUserGroups) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<net.sopod.soim.data.msg.group.Group.GroupInfo> groups_ =
+        java.util.Collections.emptyList();
+      private void ensureGroupsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          groups_ = new java.util.ArrayList<net.sopod.soim.data.msg.group.Group.GroupInfo>(groups_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          net.sopod.soim.data.msg.group.Group.GroupInfo, net.sopod.soim.data.msg.group.Group.GroupInfo.Builder, net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder> groupsBuilder_;
+
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public java.util.List<net.sopod.soim.data.msg.group.Group.GroupInfo> getGroupsList() {
+        if (groupsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(groups_);
+        } else {
+          return groupsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public int getGroupsCount() {
+        if (groupsBuilder_ == null) {
+          return groups_.size();
+        } else {
+          return groupsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public net.sopod.soim.data.msg.group.Group.GroupInfo getGroups(int index) {
+        if (groupsBuilder_ == null) {
+          return groups_.get(index);
+        } else {
+          return groupsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder setGroups(
+          int index, net.sopod.soim.data.msg.group.Group.GroupInfo value) {
+        if (groupsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGroupsIsMutable();
+          groups_.set(index, value);
+          onChanged();
+        } else {
+          groupsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder setGroups(
+          int index, net.sopod.soim.data.msg.group.Group.GroupInfo.Builder builderForValue) {
+        if (groupsBuilder_ == null) {
+          ensureGroupsIsMutable();
+          groups_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          groupsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder addGroups(net.sopod.soim.data.msg.group.Group.GroupInfo value) {
+        if (groupsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGroupsIsMutable();
+          groups_.add(value);
+          onChanged();
+        } else {
+          groupsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder addGroups(
+          int index, net.sopod.soim.data.msg.group.Group.GroupInfo value) {
+        if (groupsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGroupsIsMutable();
+          groups_.add(index, value);
+          onChanged();
+        } else {
+          groupsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder addGroups(
+          net.sopod.soim.data.msg.group.Group.GroupInfo.Builder builderForValue) {
+        if (groupsBuilder_ == null) {
+          ensureGroupsIsMutable();
+          groups_.add(builderForValue.build());
+          onChanged();
+        } else {
+          groupsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder addGroups(
+          int index, net.sopod.soim.data.msg.group.Group.GroupInfo.Builder builderForValue) {
+        if (groupsBuilder_ == null) {
+          ensureGroupsIsMutable();
+          groups_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          groupsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder addAllGroups(
+          java.lang.Iterable<? extends net.sopod.soim.data.msg.group.Group.GroupInfo> values) {
+        if (groupsBuilder_ == null) {
+          ensureGroupsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, groups_);
+          onChanged();
+        } else {
+          groupsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder clearGroups() {
+        if (groupsBuilder_ == null) {
+          groups_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          groupsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public Builder removeGroups(int index) {
+        if (groupsBuilder_ == null) {
+          ensureGroupsIsMutable();
+          groups_.remove(index);
+          onChanged();
+        } else {
+          groupsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public net.sopod.soim.data.msg.group.Group.GroupInfo.Builder getGroupsBuilder(
+          int index) {
+        return getGroupsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder getGroupsOrBuilder(
+          int index) {
+        if (groupsBuilder_ == null) {
+          return groups_.get(index);  } else {
+          return groupsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public java.util.List<? extends net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder> 
+           getGroupsOrBuilderList() {
+        if (groupsBuilder_ != null) {
+          return groupsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(groups_);
+        }
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public net.sopod.soim.data.msg.group.Group.GroupInfo.Builder addGroupsBuilder() {
+        return getGroupsFieldBuilder().addBuilder(
+            net.sopod.soim.data.msg.group.Group.GroupInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public net.sopod.soim.data.msg.group.Group.GroupInfo.Builder addGroupsBuilder(
+          int index) {
+        return getGroupsFieldBuilder().addBuilder(
+            index, net.sopod.soim.data.msg.group.Group.GroupInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .net.sopod.soim.data.msg.group.GroupInfo groups = 1;</code>
+       */
+      public java.util.List<net.sopod.soim.data.msg.group.Group.GroupInfo.Builder> 
+           getGroupsBuilderList() {
+        return getGroupsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          net.sopod.soim.data.msg.group.Group.GroupInfo, net.sopod.soim.data.msg.group.Group.GroupInfo.Builder, net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder> 
+          getGroupsFieldBuilder() {
+        if (groupsBuilder_ == null) {
+          groupsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              net.sopod.soim.data.msg.group.Group.GroupInfo, net.sopod.soim.data.msg.group.Group.GroupInfo.Builder, net.sopod.soim.data.msg.group.Group.GroupInfoOrBuilder>(
+                  groups_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          groups_ = null;
+        }
+        return groupsBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:net.sopod.soim.data.msg.group.ResUserGroups)
+    }
+
+    // @@protoc_insertion_point(class_scope:net.sopod.soim.data.msg.group.ResUserGroups)
+    private static final net.sopod.soim.data.msg.group.Group.ResUserGroups DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.sopod.soim.data.msg.group.Group.ResUserGroups();
+    }
+
+    public static net.sopod.soim.data.msg.group.Group.ResUserGroups getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ResUserGroups>
+        PARSER = new com.google.protobuf.AbstractParser<ResUserGroups>() {
+      @java.lang.Override
+      public ResUserGroups parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResUserGroups(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResUserGroups> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResUserGroups> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public net.sopod.soim.data.msg.group.Group.ResUserGroups getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -5674,13 +6956,13 @@ public final class Group {
 
     /**
      * <pre>
-     * 接收者uid
+     * 群聊id
      * </pre>
      *
-     * <code>int64 receiver = 2;</code>
-     * @return The receiver.
+     * <code>int64 gid = 2;</code>
+     * @return The gid.
      */
-    long getReceiver();
+    long getGid();
 
     /**
      * <pre>
@@ -5711,26 +6993,6 @@ public final class Group {
      * @return The time.
      */
     long getTime();
-
-    /**
-     * <pre>
-     * 接收者账号
-     * </pre>
-     *
-     * <code>string receiverAccount = 5;</code>
-     * @return The receiverAccount.
-     */
-    java.lang.String getReceiverAccount();
-    /**
-     * <pre>
-     * 接收者账号
-     * </pre>
-     *
-     * <code>string receiverAccount = 5;</code>
-     * @return The bytes for receiverAccount.
-     */
-    com.google.protobuf.ByteString
-        getReceiverAccountBytes();
   }
   /**
    * <pre>
@@ -5750,7 +7012,6 @@ public final class Group {
     }
     private ReqGroupMessage() {
       message_ = "";
-      receiverAccount_ = "";
     }
 
     @java.lang.Override
@@ -5790,7 +7051,7 @@ public final class Group {
             }
             case 16: {
 
-              receiver_ = input.readInt64();
+              gid_ = input.readInt64();
               break;
             }
             case 26: {
@@ -5802,12 +7063,6 @@ public final class Group {
             case 32: {
 
               time_ = input.readInt64();
-              break;
-            }
-            case 42: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              receiverAccount_ = s;
               break;
             }
             default: {
@@ -5857,19 +7112,19 @@ public final class Group {
       return sender_;
     }
 
-    public static final int RECEIVER_FIELD_NUMBER = 2;
-    private long receiver_;
+    public static final int GID_FIELD_NUMBER = 2;
+    private long gid_;
     /**
      * <pre>
-     * 接收者uid
+     * 群聊id
      * </pre>
      *
-     * <code>int64 receiver = 2;</code>
-     * @return The receiver.
+     * <code>int64 gid = 2;</code>
+     * @return The gid.
      */
     @java.lang.Override
-    public long getReceiver() {
-      return receiver_;
+    public long getGid() {
+      return gid_;
     }
 
     public static final int MESSAGE_FIELD_NUMBER = 3;
@@ -5933,52 +7188,6 @@ public final class Group {
       return time_;
     }
 
-    public static final int RECEIVERACCOUNT_FIELD_NUMBER = 5;
-    private volatile java.lang.Object receiverAccount_;
-    /**
-     * <pre>
-     * 接收者账号
-     * </pre>
-     *
-     * <code>string receiverAccount = 5;</code>
-     * @return The receiverAccount.
-     */
-    @java.lang.Override
-    public java.lang.String getReceiverAccount() {
-      java.lang.Object ref = receiverAccount_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        receiverAccount_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     * 接收者账号
-     * </pre>
-     *
-     * <code>string receiverAccount = 5;</code>
-     * @return The bytes for receiverAccount.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getReceiverAccountBytes() {
-      java.lang.Object ref = receiverAccount_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        receiverAccount_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -5996,17 +7205,14 @@ public final class Group {
       if (sender_ != 0L) {
         output.writeInt64(1, sender_);
       }
-      if (receiver_ != 0L) {
-        output.writeInt64(2, receiver_);
+      if (gid_ != 0L) {
+        output.writeInt64(2, gid_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, message_);
       }
       if (time_ != 0L) {
         output.writeInt64(4, time_);
-      }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(receiverAccount_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, receiverAccount_);
       }
       unknownFields.writeTo(output);
     }
@@ -6021,9 +7227,9 @@ public final class Group {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, sender_);
       }
-      if (receiver_ != 0L) {
+      if (gid_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, receiver_);
+          .computeInt64Size(2, gid_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, message_);
@@ -6031,9 +7237,6 @@ public final class Group {
       if (time_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, time_);
-      }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(receiverAccount_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, receiverAccount_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6052,14 +7255,12 @@ public final class Group {
 
       if (getSender()
           != other.getSender()) return false;
-      if (getReceiver()
-          != other.getReceiver()) return false;
+      if (getGid()
+          != other.getGid()) return false;
       if (!getMessage()
           .equals(other.getMessage())) return false;
       if (getTime()
           != other.getTime()) return false;
-      if (!getReceiverAccount()
-          .equals(other.getReceiverAccount())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6074,16 +7275,14 @@ public final class Group {
       hash = (37 * hash) + SENDER_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getSender());
-      hash = (37 * hash) + RECEIVER_FIELD_NUMBER;
+      hash = (37 * hash) + GID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getReceiver());
+          getGid());
       hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
       hash = (53 * hash) + getMessage().hashCode();
       hash = (37 * hash) + TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTime());
-      hash = (37 * hash) + RECEIVERACCOUNT_FIELD_NUMBER;
-      hash = (53 * hash) + getReceiverAccount().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6223,13 +7422,11 @@ public final class Group {
         super.clear();
         sender_ = 0L;
 
-        receiver_ = 0L;
+        gid_ = 0L;
 
         message_ = "";
 
         time_ = 0L;
-
-        receiverAccount_ = "";
 
         return this;
       }
@@ -6258,10 +7455,9 @@ public final class Group {
       public net.sopod.soim.data.msg.group.Group.ReqGroupMessage buildPartial() {
         net.sopod.soim.data.msg.group.Group.ReqGroupMessage result = new net.sopod.soim.data.msg.group.Group.ReqGroupMessage(this);
         result.sender_ = sender_;
-        result.receiver_ = receiver_;
+        result.gid_ = gid_;
         result.message_ = message_;
         result.time_ = time_;
-        result.receiverAccount_ = receiverAccount_;
         onBuilt();
         return result;
       }
@@ -6313,8 +7509,8 @@ public final class Group {
         if (other.getSender() != 0L) {
           setSender(other.getSender());
         }
-        if (other.getReceiver() != 0L) {
-          setReceiver(other.getReceiver());
+        if (other.getGid() != 0L) {
+          setGid(other.getGid());
         }
         if (!other.getMessage().isEmpty()) {
           message_ = other.message_;
@@ -6322,10 +7518,6 @@ public final class Group {
         }
         if (other.getTime() != 0L) {
           setTime(other.getTime());
-        }
-        if (!other.getReceiverAccount().isEmpty()) {
-          receiverAccount_ = other.receiverAccount_;
-          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6399,45 +7591,45 @@ public final class Group {
         return this;
       }
 
-      private long receiver_ ;
+      private long gid_ ;
       /**
        * <pre>
-       * 接收者uid
+       * 群聊id
        * </pre>
        *
-       * <code>int64 receiver = 2;</code>
-       * @return The receiver.
+       * <code>int64 gid = 2;</code>
+       * @return The gid.
        */
       @java.lang.Override
-      public long getReceiver() {
-        return receiver_;
+      public long getGid() {
+        return gid_;
       }
       /**
        * <pre>
-       * 接收者uid
+       * 群聊id
        * </pre>
        *
-       * <code>int64 receiver = 2;</code>
-       * @param value The receiver to set.
+       * <code>int64 gid = 2;</code>
+       * @param value The gid to set.
        * @return This builder for chaining.
        */
-      public Builder setReceiver(long value) {
+      public Builder setGid(long value) {
         
-        receiver_ = value;
+        gid_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * 接收者uid
+       * 群聊id
        * </pre>
        *
-       * <code>int64 receiver = 2;</code>
+       * <code>int64 gid = 2;</code>
        * @return This builder for chaining.
        */
-      public Builder clearReceiver() {
+      public Builder clearGid() {
         
-        receiver_ = 0L;
+        gid_ = 0L;
         onChanged();
         return this;
       }
@@ -6577,102 +7769,6 @@ public final class Group {
       public Builder clearTime() {
         
         time_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object receiverAccount_ = "";
-      /**
-       * <pre>
-       * 接收者账号
-       * </pre>
-       *
-       * <code>string receiverAccount = 5;</code>
-       * @return The receiverAccount.
-       */
-      public java.lang.String getReceiverAccount() {
-        java.lang.Object ref = receiverAccount_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          receiverAccount_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <pre>
-       * 接收者账号
-       * </pre>
-       *
-       * <code>string receiverAccount = 5;</code>
-       * @return The bytes for receiverAccount.
-       */
-      public com.google.protobuf.ByteString
-          getReceiverAccountBytes() {
-        java.lang.Object ref = receiverAccount_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          receiverAccount_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       * 接收者账号
-       * </pre>
-       *
-       * <code>string receiverAccount = 5;</code>
-       * @param value The receiverAccount to set.
-       * @return This builder for chaining.
-       */
-      public Builder setReceiverAccount(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        receiverAccount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 接收者账号
-       * </pre>
-       *
-       * <code>string receiverAccount = 5;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearReceiverAccount() {
-        
-        receiverAccount_ = getDefaultInstance().getReceiverAccount();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 接收者账号
-       * </pre>
-       *
-       * <code>string receiverAccount = 5;</code>
-       * @param value The bytes for receiverAccount to set.
-       * @return This builder for chaining.
-       */
-      public Builder setReceiverAccountBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        receiverAccount_ = value;
         onChanged();
         return this;
       }
@@ -7526,6 +8622,16 @@ public final class Group {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_net_sopod_soim_data_msg_group_UserInfo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_net_sopod_soim_data_msg_group_ResUserGroups_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_net_sopod_soim_data_msg_group_ResUserGroups_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_net_sopod_soim_data_msg_group_ReqCreateGroup_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -7575,24 +8681,26 @@ public final class Group {
   static {
     java.lang.String[] descriptorData = {
       "\n\027proto/group/Group.proto\022\035net.sopod.soi" +
-      "m.data.msg.group\"c\n\tGroupInfo\022\013\n\003gid\030\001 \001" +
+      "m.data.msg.group\"v\n\tGroupInfo\022\013\n\003gid\030\001 \001" +
       "(\003\022\021\n\tgroupName\030\002 \001(\t\022\021\n\tuserLimit\030\003 \001(\005" +
-      "\022\017\n\007userNum\030\004 \001(\005\022\022\n\ncreateTime\030\005 \001(\003\"^\n" +
-      "\010UserInfo\022\013\n\003uid\030\001 \001(\003\022\017\n\007account\030\002 \001(\t\022" +
-      "\020\n\010nickname\030\003 \001(\t\022\016\n\006online\030\004 \001(\010\022\022\n\nlas" +
-      "tActive\030\005 \001(\003\"#\n\016ReqCreateGroup\022\021\n\tgroup" +
-      "Name\030\001 \001(\t\"#\n\016ReqSearchGroup\022\021\n\tgroupNam" +
-      "e\030\001 \001(\t\"J\n\016ResSearchGroup\0228\n\006groups\030\003 \003(" +
-      "\0132(.net.sopod.soim.data.msg.group.GroupI" +
-      "nfo\"(\n\014ReqJoinGroup\022\013\n\003gid\030\001 \001(\003\022\013\n\003uid\030" +
-      "\002 \001(\003\"\034\n\rReqGroupUsers\022\013\n\003gid\030\001 \001(\003\"G\n\rR" +
-      "esGroupUsers\0226\n\005users\030\003 \003(\0132\'.net.sopod." +
-      "soim.data.msg.group.UserInfo\"k\n\017ReqGroup" +
-      "Message\022\016\n\006sender\030\001 \001(\003\022\020\n\010receiver\030\002 \001(" +
-      "\003\022\017\n\007message\030\003 \001(\t\022\014\n\004time\030\004 \001(\003\022\027\n\017rece" +
-      "iverAccount\030\005 \001(\t\"B\n\017ResGroupMessage\022\017\n\007" +
-      "success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\r\n\005msgId\030" +
-      "\003 \001(\003B\tB\005GroupP\000b\006proto3"
+      "\022\017\n\007userNum\030\004 \001(\005\022\022\n\ncreateTime\030\005 \001(\003\022\021\n" +
+      "\tmasterUid\030\006 \001(\003\"^\n\010UserInfo\022\013\n\003uid\030\001 \001(" +
+      "\003\022\017\n\007account\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\t\022\016\n\006" +
+      "online\030\004 \001(\010\022\022\n\nlastActive\030\005 \001(\003\"\017\n\rReqU" +
+      "serGroups\"I\n\rResUserGroups\0228\n\006groups\030\001 \003" +
+      "(\0132(.net.sopod.soim.data.msg.group.Group" +
+      "Info\"#\n\016ReqCreateGroup\022\021\n\tgroupName\030\001 \001(" +
+      "\t\"#\n\016ReqSearchGroup\022\021\n\tgroupName\030\001 \001(\t\"J" +
+      "\n\016ResSearchGroup\0228\n\006groups\030\003 \003(\0132(.net.s" +
+      "opod.soim.data.msg.group.GroupInfo\"(\n\014Re" +
+      "qJoinGroup\022\013\n\003gid\030\001 \001(\003\022\013\n\003uid\030\002 \001(\003\"\034\n\r" +
+      "ReqGroupUsers\022\013\n\003gid\030\001 \001(\003\"G\n\rResGroupUs" +
+      "ers\0226\n\005users\030\003 \003(\0132\'.net.sopod.soim.data" +
+      ".msg.group.UserInfo\"M\n\017ReqGroupMessage\022\016" +
+      "\n\006sender\030\001 \001(\003\022\013\n\003gid\030\002 \001(\003\022\017\n\007message\030\003" +
+      " \001(\t\022\014\n\004time\030\004 \001(\003\"B\n\017ResGroupMessage\022\017\n" +
+      "\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\r\n\005msgId" +
+      "\030\003 \001(\003B\tB\005GroupP\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7603,57 +8711,69 @@ public final class Group {
     internal_static_net_sopod_soim_data_msg_group_GroupInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_GroupInfo_descriptor,
-        new java.lang.String[] { "Gid", "GroupName", "UserLimit", "UserNum", "CreateTime", });
+        new java.lang.String[] { "Gid", "GroupName", "UserLimit", "UserNum", "CreateTime", "MasterUid", });
     internal_static_net_sopod_soim_data_msg_group_UserInfo_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_net_sopod_soim_data_msg_group_UserInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_UserInfo_descriptor,
         new java.lang.String[] { "Uid", "Account", "Nickname", "Online", "LastActive", });
-    internal_static_net_sopod_soim_data_msg_group_ReqCreateGroup_descriptor =
+    internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_descriptor =
       getDescriptor().getMessageTypes().get(2);
+    internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_net_sopod_soim_data_msg_group_ReqUserGroups_descriptor,
+        new java.lang.String[] { });
+    internal_static_net_sopod_soim_data_msg_group_ResUserGroups_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_net_sopod_soim_data_msg_group_ResUserGroups_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_net_sopod_soim_data_msg_group_ResUserGroups_descriptor,
+        new java.lang.String[] { "Groups", });
+    internal_static_net_sopod_soim_data_msg_group_ReqCreateGroup_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_net_sopod_soim_data_msg_group_ReqCreateGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ReqCreateGroup_descriptor,
         new java.lang.String[] { "GroupName", });
     internal_static_net_sopod_soim_data_msg_group_ReqSearchGroup_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_net_sopod_soim_data_msg_group_ReqSearchGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ReqSearchGroup_descriptor,
         new java.lang.String[] { "GroupName", });
     internal_static_net_sopod_soim_data_msg_group_ResSearchGroup_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_net_sopod_soim_data_msg_group_ResSearchGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ResSearchGroup_descriptor,
         new java.lang.String[] { "Groups", });
     internal_static_net_sopod_soim_data_msg_group_ReqJoinGroup_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_net_sopod_soim_data_msg_group_ReqJoinGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ReqJoinGroup_descriptor,
         new java.lang.String[] { "Gid", "Uid", });
     internal_static_net_sopod_soim_data_msg_group_ReqGroupUsers_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_net_sopod_soim_data_msg_group_ReqGroupUsers_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ReqGroupUsers_descriptor,
         new java.lang.String[] { "Gid", });
     internal_static_net_sopod_soim_data_msg_group_ResGroupUsers_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_net_sopod_soim_data_msg_group_ResGroupUsers_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ResGroupUsers_descriptor,
         new java.lang.String[] { "Users", });
     internal_static_net_sopod_soim_data_msg_group_ReqGroupMessage_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_net_sopod_soim_data_msg_group_ReqGroupMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ReqGroupMessage_descriptor,
-        new java.lang.String[] { "Sender", "Receiver", "Message", "Time", "ReceiverAccount", });
+        new java.lang.String[] { "Sender", "Gid", "Message", "Time", });
     internal_static_net_sopod_soim_data_msg_group_ResGroupMessage_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_net_sopod_soim_data_msg_group_ResGroupMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ResGroupMessage_descriptor,

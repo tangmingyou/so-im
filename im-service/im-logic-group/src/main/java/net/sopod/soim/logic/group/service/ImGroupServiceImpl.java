@@ -4,6 +4,7 @@ import net.sopod.soim.common.dubbo.exception.LogicException;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.common.util.StringUtil;
 import net.sopod.soim.das.group.api.model.dto.GroupUser_0;
+import net.sopod.soim.das.group.api.model.dto.GroupView;
 import net.sopod.soim.das.group.api.model.entity.ImGroup;
 import net.sopod.soim.das.group.api.service.DasGroupService;
 import net.sopod.soim.das.group.api.service.DasGroupUserService;
@@ -58,7 +59,7 @@ public class ImGroupServiceImpl implements ImGroupService {
 
     @Override
     public List<ImGroup> searchGroup(String groupNameLike) {
-        return dasGroupService.listGroup(groupNameLike);
+        return dasGroupService.searchGroup(groupNameLike);
     }
 
     @Override
@@ -68,6 +69,11 @@ public class ImGroupServiceImpl implements ImGroupService {
             throw new LogicException("你已加入该群聊");
         }
         return dasGroupUserService.insert(groupId, uid);
+    }
+
+    @Override
+    public List<GroupView> listUserGroups(Long uid) {
+        return dasGroupService.listUserGroup(uid);
     }
 
     @Override

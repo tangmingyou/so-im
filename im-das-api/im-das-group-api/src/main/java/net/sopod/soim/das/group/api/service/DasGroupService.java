@@ -1,5 +1,6 @@
 package net.sopod.soim.das.group.api.service;
 
+import net.sopod.soim.das.group.api.model.dto.GroupView;
 import net.sopod.soim.das.group.api.model.entity.ImGroup;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public interface DasGroupService {
 
     Long saveGroup(ImGroup imGroup);
 
-    List<ImGroup> listGroup(String groupNameLike);
+    List<ImGroup> searchGroup(String groupNameLike);
+
+    List<GroupView> listUserGroup(Long uid);
 
 }

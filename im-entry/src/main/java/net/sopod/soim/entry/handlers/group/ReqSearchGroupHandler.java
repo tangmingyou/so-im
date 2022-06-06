@@ -34,6 +34,7 @@ public class ReqSearchGroupHandler extends AccountMessageHandler<Group.ReqSearch
                 .setGroupName(imGroup.getGroupName())
                 .setUserLimit(imGroup.getUserLimit())
                 .setUserNum(imGroup.getUserNum())
+                .setMasterUid(imGroup.getMasterUid())
                 .setCreateTime(imGroup.getCreateTime().getTime())
                 .build()
         ).collect(Collectors.toList());

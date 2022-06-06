@@ -45,6 +45,8 @@ public class GroupHandler implements CmdHandler<ArgsGroup> {
 
         } else if (args.getUsersGroupId() != null) {
             this.handleGroupUsers(args.getUsersGroupId());
+        } else {
+            this.handleUserGroups();
         }
     }
 
@@ -81,7 +83,11 @@ public class GroupHandler implements CmdHandler<ArgsGroup> {
         List<Group.GroupInfo> groupsList = res.getGroupsList();
 
         List<String> userLines = groupsList.stream()
-                .map(g -> g.getGid() + "|" + g.getGroupName() + "|" + g.getUserLimit() + "|" + g.getUserNum() + "|" + ImClock.millis2time(g.getCreateTime()))
+                .map(g -> g.getGid() + " | " +
+                        g.getGroupName() + " | " +
+                        g.getUserLimit() + " | " +
+                        g.getUserNum() + " | " +
+                        ImClock.millis2time(g.getCreateTime()))
                 .collect(Collectors.toList());
         Console.logList("群聊搜索结果", userLines);
     }
@@ -118,6 +124,23 @@ public class GroupHandler implements CmdHandler<ArgsGroup> {
                         ImClock.millis2time(u.getLastActive())
                 ).collect(Collectors.toList());
         Console.logList("群用户列表", userLines);
+    }
+
+    private void handleUserGroups() {
+        Group.ReqUserGroups req = Group.ReqUserGroups.newBuilder().build();
+        CompletableFuture<Group.ResUserGroups> future = soImSession.send(req);
+        Group.ResUserGroups res = future.join();
+        List<Group.GroupInfo> groupsList = res.getGroupsList();
+        List<String> userLines = groupsList.stream()
+                .map(g -> g.getGid() + " | " +
+                        g.getGroupName() + " | " +
+                        g.getUserLimit() + " | " +
+                        g.getUserNum() + "/" +
+                        g.getUserLimit() + " | " +
+                        g.getMasterUid() + " | " +
+                        ImClock.millis2time(g.getCreateTime()))
+                .collect(Collectors.toList());
+        Console.logList("我的群聊", userLines);
     }
 
 }

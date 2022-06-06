@@ -11,6 +11,7 @@ message GroupInfo {
   int32 userLimit = 3;
   int32 userNum = 4;
   int64 createTime = 5;
+  int64 masterUid = 6;
 }
 
 message UserInfo {
@@ -20,6 +21,14 @@ message UserInfo {
   bool online = 4;
   // 最后活跃时间
   int64 lastActive = 5;
+}
+
+message ReqUserGroups {
+
+}
+
+message ResUserGroups {
+  repeated GroupInfo groups = 1;
 }
 
 message ReqCreateGroup {

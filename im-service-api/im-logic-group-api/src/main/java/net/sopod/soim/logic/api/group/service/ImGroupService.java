@@ -1,5 +1,6 @@
 package net.sopod.soim.logic.api.group.service;
 
+import net.sopod.soim.das.group.api.model.dto.GroupView;
 import net.sopod.soim.das.group.api.model.entity.ImGroup;
 import net.sopod.soim.logic.api.group.model.dto.GroupUserInfo;
 
@@ -18,6 +19,8 @@ public interface ImGroupService {
     List<ImGroup> searchGroup(String groupNameLike);
 
     Long joinGroup(Long groupId, Long uid);
+
+    List<GroupView> listUserGroups(Long uid);
 
     List<GroupUserInfo> listGroupUsers(Long groupId);
 
