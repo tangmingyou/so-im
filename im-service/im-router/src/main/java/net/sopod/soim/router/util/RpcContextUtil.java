@@ -13,6 +13,7 @@ import java.util.Objects;
  * @author tmy
  * @date 2022-05-02 22:27
  */
+@Deprecated
 public class RpcContextUtil {
 
     public static boolean setImEntryRouteServerAddrByUid(Long uid) {
