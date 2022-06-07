@@ -17,7 +17,10 @@ public class ArgsSend {
     @Parameter
     private List<String> parameters;
 
-    @Parameter(names = {"-u",  "-account"}, required = true, description = "接收者")
+    @Parameter(names = {"-u",  "account"}, required = false, description = "接收者")
     private String account;
+
+    @Parameter(names = {"-g", "group"}, required = false, description = "接收者")
+    private Long groupId;
 
 }

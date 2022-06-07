@@ -8,4 +8,8 @@ package net.sopod.soim.common.util;
  */
 public class Func {
 
+    public static <T> T nullSo(T data, T so) {
+        return data == null ? data : so;
+    }
+
 }

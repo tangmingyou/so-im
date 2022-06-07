@@ -25,12 +25,13 @@ public class RouterUserService {
     }
 
     public Boolean routeGroupMessage(RouterUser receiverUser, String message) {
-        RpcContextUtil.setContextUid(receiverUser.getUid());
         TextChat textChat = new TextChat()
+                .setUid(receiverUser.getUid()) // TODO 群消息优化
                 .setReceiverUid(receiverUser.getUid())
                 .setMessage(message)
                 .setTime(ImClock.millis())
                 .setReceiverName(receiverUser.getAccount());
+        RpcContextUtil.setContextUid(receiverUser.getUid());
         return textChatService.sendTextChat(textChat);
     }
 

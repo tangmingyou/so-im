@@ -25,7 +25,7 @@ dubbo:
     group: so-im
   protocol:
     name: dubbo
-    port: 3034
+    port: 3035
     # serialization: protobuf
   consumer:
     check: false

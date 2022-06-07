@@ -68,8 +68,6 @@ message ResGroupUsers {
 
 // 文本聊天消息
 message ReqGroupMessage {
-  // 发送者uid
-  int64 sender = 1;
   // 群聊id
   int64 gid = 2;
   // 文本消息内容

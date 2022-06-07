@@ -1,6 +1,11 @@
 spring:
   application:
     name: im-logic-message
+  rabbitmq:
+    host: 124.222.131.236
+    port: 3672
+    username: soim
+    password: sopod@rabbit#
 
 dubbo:
   application:

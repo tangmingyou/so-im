@@ -1,6 +1,7 @@
 package net.sopod.soim.logic.api.message.mode;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @date 2022-06-05 11:10
  */
 @Data
+@Accessors(chain = true)
 public class GroupMessage implements Serializable {
 
     private static final long serialVersionUID = 237146829521854337L;

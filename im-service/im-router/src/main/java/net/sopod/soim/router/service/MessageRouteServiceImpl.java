@@ -1,6 +1,7 @@
 package net.sopod.soim.router.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sopod.soim.router.api.service.MessageRouteService;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.RouterUserStorage;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 @DubboService
 @AllArgsConstructor
+@Slf4j
 public class MessageRouteServiceImpl implements MessageRouteService {
 
     private RouterUserService routerUserService;
@@ -27,15 +29,15 @@ public class MessageRouteServiceImpl implements MessageRouteService {
     public List<Boolean> routeGroupMessage(List<Long> uids, String message) {
         RouterUserStorage storage = RouterUserStorage.getInstance();
         List<Boolean> results = new ArrayList<>(uids.size());
-        Iterator<Long> iterator = uids.iterator();
-        for (int i = 0; iterator.hasNext(); i++) {
-            RouterUser routerUser = storage.get(iterator.next());
+        for (Long uid : uids) {
+            RouterUser routerUser = storage.get(uid);
+            log.info("route group msg: {}, {}", uid, routerUser);
             if (routerUser == null) {
-                results.set(i, false);
+                results.add(false);
                 continue;
             }
             Boolean success = routerUserService.routeGroupMessage(routerUser, message);
-            results.set(i, Boolean.TRUE.equals(success));
+            results.add(Boolean.TRUE.equals(success));
         }
         return results;
     }

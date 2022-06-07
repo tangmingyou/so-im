@@ -7,8 +7,12 @@ import net.sopod.soim.client.cmd.args.ArgsSend;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.logger.Console;
 import net.sopod.soim.client.session.SoImSession;
+import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.StringUtil;
 import net.sopod.soim.data.msg.chat.Chat;
+import net.sopod.soim.data.msg.group.Group;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * SendHandler
@@ -34,12 +38,27 @@ public class SendHandler implements CmdHandler<ArgsSend> {
             Console.info("请输入要发送的内容");
             return;
         }
-        Chat.TextChat textChat = Chat.TextChat.newBuilder()
-                .setMessage(message)
-                .setReceiverAccount(args.getAccount())
-                .setSender(soImSession.getUid())
-                .build();
-        soImSession.justSend(textChat);
+        if (args.getAccount() != null) {
+            Chat.TextChat textChat = Chat.TextChat.newBuilder()
+                    .setMessage(message)
+                    .setReceiverAccount(args.getAccount())
+                    .setSender(soImSession.getUid())
+                    .build();
+            soImSession.justSend(textChat);
+        } else if (args.getGroupId() != null) {
+            Group.ReqGroupMessage req = Group.ReqGroupMessage.newBuilder()
+                    .setGid(args.getGroupId())
+                    .setMessage(message)
+                    .setTime(ImClock.millis())
+                    .build();
+            CompletableFuture<Group.ResGroupMessage> future = soImSession.send(req);
+            Group.ResGroupMessage res = future.join();
+            if (!res.getSuccess()) {
+                Console.info("发送失败: {}", res.getMessage());
+            } else {
+                Console.info("发送成功: {}", res.getMessage());
+            }
+        }
     }
 
 }
