@@ -25,12 +25,6 @@ public interface UserRouteService {
      */
     List<UserInfo> onlineUserList(String keyword);
 
-    /**
-     * @param relationId 好友关系id
-     * @param textChat 聊天内容
-     */
-    Boolean routeTextChat(Long relationId, TextChat textChat);
-
     List<Boolean> isOnlineUsers(List<Long> userIds);
 
 }

@@ -29,6 +29,11 @@
         </dependency>
         <dependency>
             <groupId>net.sopod</groupId>
+            <artifactId>im-das-user-api</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sopod</groupId>
             <artifactId>im-segment-id-api</artifactId>
             <version>${soim.version}</version>
         </dependency>
@@ -73,18 +78,6 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-registry-nacos</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.msgpack</groupId>
-            <artifactId>jackson-dataformat-msgpack</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
         </dependency>
 
         <dependency>

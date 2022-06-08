@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.common.model;
+package net.sopod.soim.logic.common.model.message;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -6,16 +6,16 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * TextChat
+ * UserMessage
  *
  * @author tmy
- * @date 2022-04-28 14:25
+ * @date 2022-06-08 16:53
  */
 @Data
 @Accessors(chain = true)
-public class TextChat implements Serializable {
+public class UserMessage implements Serializable {
 
-    private static final long serialVersionUID = -3994628221046563769L;
+    private static final long serialVersionUID = -572323953445204089L;
 
     private Long senderUid;
 

@@ -1,6 +1,6 @@
 package net.sopod.soim.logic.api.message.service;
 
-import net.sopod.soim.logic.api.message.mode.GroupMessage;
+import net.sopod.soim.logic.common.model.message.GroupMessage;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -7,7 +7,7 @@ import net.sopod.soim.data.msg.group.Group;
 import net.sopod.soim.entry.server.handler.AccountMessageHandler;
 import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.session.Account;
-import net.sopod.soim.logic.api.message.mode.GroupMessage;
+import net.sopod.soim.logic.common.model.message.GroupMessage;
 import net.sopod.soim.logic.api.message.service.ImGroupChatService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;

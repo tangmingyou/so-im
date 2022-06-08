@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>im-logic-message-api</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>net.sopod</groupId>
+            <artifactId>im-logic-common</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

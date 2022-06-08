@@ -8,9 +8,9 @@ import net.sopod.soim.das.group.api.model.dto.GroupUser_0;
 import net.sopod.soim.das.group.api.service.DasGroupUserService;
 import net.sopod.soim.das.message.api.entity.ImGroupMessage;
 import net.sopod.soim.das.message.api.service.DasMQMessagePersistentService;
-import net.sopod.soim.logic.api.message.mode.GroupMessage;
 import net.sopod.soim.logic.api.message.service.ImGroupChatService;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
+import net.sopod.soim.logic.common.model.message.GroupMessage;
 import net.sopod.soim.logic.common.util.RpcContextUtil;
 import net.sopod.soim.router.api.route.UidConsistentHashSelector;
 import net.sopod.soim.router.api.service.MessageRouteService;
@@ -69,7 +69,7 @@ public class ImGroupChatServiceImpl implements ImGroupChatService {
         UidConsistentHashSelector<?> uidSelector = UidConsistentHashSelector.getCurrent();
         if (uidSelector == null) {
             List<Long> uidList = groupUsers.stream().map(GroupUser_0::getUid).collect(Collectors.toList());
-            List<Boolean> results = messageRouteService.routeGroupMessage(uidList, msg.getMessage());
+            List<Boolean> results = messageRouteService.routeGroupMessage(msg.getSender(), uidList, msg.getMessage());
             // TODO 更新未读消息数据偏移量，未读消息条数
             return CompletableFuture.completedFuture("OK");
         }
@@ -81,7 +81,7 @@ public class ImGroupChatServiceImpl implements ImGroupChatService {
         // 批量路由消息到对应的 router
         for (List<Long> uidGroup : uidGroups.values()) {
             RpcContextUtil.setContextUid(uidGroup.get(0));
-            List<Boolean> results = messageRouteService.routeGroupMessage(uidGroup, msg.getMessage());
+            List<Boolean> results = messageRouteService.routeGroupMessage(msg.getSender(), uidGroup, msg.getMessage());
             Iterator<Long> iterator = uidGroup.iterator();
             for (int i = 0; iterator.hasNext(); i++) {
                 GroupUser_0 gUser = groupUserMap.get(iterator.next());

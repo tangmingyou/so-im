@@ -31,12 +31,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.msgpack</groupId>
             <artifactId>jackson-dataformat-msgpack</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.xerial.snappy</groupId>

@@ -20,18 +20,26 @@ public class RouterUserService {
     @DubboReference
     private TextChatService textChatService;
 
-    public void routeChatMessage(RouterUser routerUser, String message) {
-
+    public Boolean routeChatMessage(Long sender, RouterUser receiverUser, String message) {
+        RpcContextUtil.setContextUid(receiverUser.getUid());
+        TextChat textChat = new TextChat()
+                .setSenderUid(sender)
+                .setReceiverUid(receiverUser.getUid())
+                .setMessage(message)
+                .setTime(ImClock.millis())
+                .setReceiverName(receiverUser.getAccount());
+        return textChatService.sendTextChat(textChat);
     }
 
-    public Boolean routeGroupMessage(RouterUser receiverUser, String message) {
+    public Boolean routeGroupMessage(Long sender, RouterUser receiverUser, String message) {
         TextChat textChat = new TextChat()
-                .setUid(receiverUser.getUid()) // TODO 群消息优化
+                .setSenderUid(sender)
                 .setReceiverUid(receiverUser.getUid())
                 .setMessage(message)
                 .setTime(ImClock.millis())
                 .setReceiverName(receiverUser.getAccount());
         RpcContextUtil.setContextUid(receiverUser.getUid());
+        // TODO 单独群消息接口
         return textChatService.sendTextChat(textChat);
     }
 

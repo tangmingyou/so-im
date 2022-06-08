@@ -1,4 +1,4 @@
-package net.sopod.soim.logic.api.message.mode;
+package net.sopod.soim.logic.common.model.message;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

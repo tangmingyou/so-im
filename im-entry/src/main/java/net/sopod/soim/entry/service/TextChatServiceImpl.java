@@ -35,7 +35,7 @@ public class TextChatServiceImpl implements TextChatService {
             return Boolean.FALSE;
         }
         Chat.TextChat resTextChat = Chat.TextChat.newBuilder()
-                .setSender(chat.getUid())
+                .setSender(chat.getSenderUid())
                 .setReceiver(chat.getReceiverUid())
                 .setReceiverAccount(chat.getReceiverName())
                 .setMessage(chat.getMessage())

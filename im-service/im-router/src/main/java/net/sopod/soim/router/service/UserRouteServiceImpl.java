@@ -91,29 +91,6 @@ public class UserRouteServiceImpl implements UserRouteService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 调用该方法时，将到 im-router 服务的路由 uid 设置为消息接受者的 uid
-     */
-    @Override
-    public Boolean routeTextChat(Long relationId, TextChat textChat) {
-        // 通过消息队列持久化存储到db
-        ImMessage imMessage = new ImMessage()
-                .setRelationId(relationId)
-                .setId(segmentIdGenerator.nextId(LogicTables.IM_MESSAGE))
-                .setContent(textChat.getMessage())
-                .setSender(textChat.getUid())
-                .setReceiver(textChat.getReceiverUid())
-                .setCreateTime(ImClock.date());
-        dasMQMessagePersistentService.saveImMessage(imMessage);
-
-        RpcContextUtil.setContextUid(textChat.getReceiverUid());
-        Boolean send = textChatService.sendTextChat(textChat);
-        if (!Boolean.TRUE.equals(send)) {
-            // TODO 未送到，消息存储，重发...
-            logger.info("消息未送达: {}: {}", textChat.getReceiverName(), textChat.getMessage());
-        }
-        return Boolean.TRUE;
-    }
 
     @Override
     public List<Boolean> isOnlineUsers(List<Long> userIds) {

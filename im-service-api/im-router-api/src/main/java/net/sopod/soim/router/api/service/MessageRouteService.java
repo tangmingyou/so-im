@@ -1,5 +1,7 @@
 package net.sopod.soim.router.api.service;
 
+import net.sopod.soim.logic.common.model.message.UserMessage;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,11 @@ import java.util.List;
  */
 public interface MessageRouteService {
 
-    List<Boolean> routeGroupMessage(List<Long> uids, String message);
+    List<Boolean> routeGroupMessage(Long sender, List<Long> uids, String message);
+
+    /**
+     * @param textChat 聊天内容
+     */
+    Boolean routeUserMessage(UserMessage textChat);
 
 }
