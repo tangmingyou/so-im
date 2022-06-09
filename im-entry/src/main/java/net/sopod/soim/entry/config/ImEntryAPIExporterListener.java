@@ -23,9 +23,9 @@ public class ImEntryAPIExporterListener implements ExporterListener {
     public void exported(Exporter<?> exporter) throws RpcException {
         URL invokerUrl = exporter.getInvoker().getUrl();
         if (!InjvmProtocol.NAME.equals(invokerUrl.getProtocol())) {
-            if (ImEntryAppContextHolder.getDubboAppServiceAddr() == null) {
-                ImEntryAppContextHolder.setDubboAppServiceAddr(invokerUrl.getAddress());
-                logger.info("im-entry registry serverAddr: {}", invokerUrl.getAddress());
+            if (ImEntryAppContext.getEntryAppAddr() == null) {
+                ImEntryAppContext.setAppServiceAddr(invokerUrl.getHost(), invokerUrl.getPort());
+                logger.info("im-entry dubbo service addr: {}", invokerUrl.getAddress());
             }
         }
     }

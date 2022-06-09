@@ -5,7 +5,6 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import net.sopod.soim.common.constant.AppConstant;
-import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.router.api.route.UidConsistentHashSelector;
 import net.sopod.soim.router.cache.RouterUser;
@@ -14,7 +13,6 @@ import net.sopod.soim.router.datasync.SyncLogMigrateService;
 import net.sopod.soim.router.datasync.server.session.SyncServerSession;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.dubbo.common.URL;
 import org.apache.dubbo.registry.Registry;
 import org.apache.dubbo.registry.support.RegistryManager;
 import org.apache.dubbo.rpc.model.ApplicationModel;
@@ -29,7 +27,6 @@ import org.springframework.core.Ordered;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -45,14 +42,12 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
 
     private static final Logger logger = LoggerFactory.getLogger(ImRouterAppOnReady.class);
 
-    private static final int SYNC_SERVER_PORT_OFFSET = 1000;
-
     /**
      * 同步一致性hash临近节点数据
      */
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        AppContextHolder.setApplicationContext(event.getApplicationContext());
+        ImRouterAppContext.setApplicationContext(event.getApplicationContext());
         this.init();
 
         // 启动数据同步服务
@@ -65,7 +60,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
         // 服务已可用立即进行注册
         if (registryNow) {
             // this.createMockData();
-            AppContextHolder.doRegistry();
+            ImRouterAppContext.doRegistry();
         }
     }
 
@@ -108,20 +103,20 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
                 if (registry.isAvailable()
                         && registry.isServiceDiscovery()) {
                     String discoveryAddr = registry.getUrl().getAddress();
-                    AppContextHolder.setServiceDiscoveryRegistryAddr(discoveryAddr);
+                    ImRouterAppContext.setServiceDiscoveryRegistryAddr(discoveryAddr);
                     logger.info("service discovery registry addr: {}", discoveryAddr);
                     break;
                 }
             }
         }
-        if (AppContextHolder.getDiscoveryAddr() == null) {
+        if (ImRouterAppContext.getDiscoveryAddr() == null) {
             logger.info("未解析到服务注册中心: 将直接启动不进行数据迁移");
         }
     }
 
     private void startSyncServer() {
         SyncServerSession.getInstance()
-                .start(AppContextHolder.getAppPort() + SYNC_SERVER_PORT_OFFSET);
+                .start(ImRouterAppContext.getAppPort() + AppConstant.IM_ROUTER_SYNC_SERVER_OFFSET);
     }
 
 
@@ -137,7 +132,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
     public boolean checkClusterEnvironment(SyncLogMigrateService syncLogMigrateService) {
         // TODO 加分布式锁，同一时间单一节点进行数据同步
 
-        List<Instance> clusterImEntryInstance = AppContextHolder.getClusterImRouterInstance();
+        List<Instance> clusterImEntryInstance = ImRouterAppContext.getClusterImRouterInstance();
         if (Collects.isEmpty(clusterImEntryInstance)) {
             logger.info("当前集群无{}节点，直接启动", AppConstant.APP_IM_ROUTER_NAME);
             return true;
@@ -153,7 +148,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
                 new HashMap<>(Collects.mapCapacity(clusterImEntryInstance.size()))
         );
         UidConsistentHashSelector<Instance> selector = new UidConsistentHashSelector<>(addrInstanceMap, addrInstanceMap.hashCode());
-        Set<Instance> migrateNodes = selector.selectMigrateNodes(AppContextHolder.getAppAddr());
+        Set<Instance> migrateNodes = selector.selectMigrateNodes(ImRouterAppContext.getAppAddr());
         logger.info("需迁移数据{}节点: {} of {}",
                 AppConstant.APP_IM_ROUTER_NAME,
                 migrateNodes.size(),
@@ -163,7 +158,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
         }
         // 发起客户端连接，开始同步数据
         List<Pair<String, Integer>> migrateHosts = migrateNodes.stream()
-                .map(instance -> ImmutablePair.of(instance.getIp(), instance.getPort() + SYNC_SERVER_PORT_OFFSET))
+                .map(instance -> ImmutablePair.of(instance.getIp(), instance.getPort() + AppConstant.IM_ROUTER_SYNC_SERVER_OFFSET))
                 .collect(Collectors.toList());
         // 开始同步数据
         syncLogMigrateService.migrateSyncLog(migrateHosts);
@@ -186,6 +181,7 @@ public class ImRouterAppOnReady implements ApplicationListener<ApplicationReadyE
      *
      * 关闭时检查默认有备份注册备份，无备份推送尝试数据到其他节点
      */
+    @Deprecated
     private void nameServerTestCode() {
         String serverAddr = "124.222.131.236:3848";
         Properties properties = new Properties();

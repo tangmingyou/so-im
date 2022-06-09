@@ -5,7 +5,7 @@ import net.sopod.soim.common.constant.AppConstant;
 import net.sopod.soim.common.util.Jackson;
 import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.RouterUserStorage;
-import net.sopod.soim.router.config.AppContextHolder;
+import net.sopod.soim.router.config.ImRouterAppContext;
 import net.sopod.soim.router.datasync.server.SyncClient;
 import net.sopod.soim.router.datasync.server.data.SyncCmd;
 import org.apache.commons.lang3.tuple.Pair;
@@ -64,7 +64,7 @@ public class SyncLogMigrateService {
         try {
             this.curClient = new SyncClient();
             this.curClient.connect(nextHost.getLeft(), nextHost.getRight());
-            this.curClient.syncLogByHash(AppContextHolder.getAppAddr());
+            this.curClient.syncLogByHash(ImRouterAppContext.getAppAddr());
         } catch (InterruptedException e) {
             logger.error("节点{}:{}连接失败, 跳过!", nextHost.getLeft(), nextHost.getRight(), e);
             // 同步下一个节点
@@ -92,7 +92,7 @@ public class SyncLogMigrateService {
      */
     private void allHostSyncFinish() {
         logger.info("所有节点数据同步完成：执行注册服务....");
-        AppContextHolder.doRegistry();
+        ImRouterAppContext.doRegistry();
         logger.info("注册服务成功");
         // 通知服务端同步结束，关闭服务端连接
         for (SyncClient migrateClient : migrateClients) {

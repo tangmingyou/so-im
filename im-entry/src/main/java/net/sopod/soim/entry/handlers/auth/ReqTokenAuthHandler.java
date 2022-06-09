@@ -1,7 +1,7 @@
 package net.sopod.soim.entry.handlers.auth;
 
 import com.google.protobuf.MessageLite;
-import net.sopod.soim.entry.config.ImEntryAppContextHolder;
+import net.sopod.soim.entry.config.ImEntryAppContext;
 import net.sopod.soim.entry.server.handler.ImContext;
 import net.sopod.soim.entry.server.handler.NetUserMessageHandler;
 import net.sopod.soim.entry.server.session.Account;
@@ -49,7 +49,7 @@ public class ReqTokenAuthHandler extends NetUserMessageHandler<Auth.ReqTokenAuth
         // 校验 token，
         // TODO 更新 router 状态成功后再升级为 account，主动关闭时发送一个消息到客户端，校验错误/超时
         String imRouterId = userAuthService.validateToken(msg.getToken(),
-                ImEntryAppContextHolder.getDubboAppServiceAddr());
+                ImEntryAppContext.getEntryAppAddr());
 
         if (imRouterId == null) {
             return Auth.ResTokenAuth.newBuilder()

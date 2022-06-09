@@ -32,9 +32,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author tmy
  * @date 2022-05-04 09:21
  */
-public class AppContextHolder {
+public class ImRouterAppContext {
 
-    private static final Logger logger = LoggerFactory.getLogger(AppContextHolder.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImRouterAppContext.class);
 
     private static ApplicationContext applicationContext;
 
@@ -55,7 +55,7 @@ public class AppContextHolder {
     }
 
     public static void setApplicationContext(ApplicationContext applicationContext) {
-        AppContextHolder.applicationContext = applicationContext;
+        ImRouterAppContext.applicationContext = applicationContext;
     }
 
     public static <T> T getBean(Class<T> type) {
@@ -71,13 +71,13 @@ public class AppContextHolder {
     }
 
     public static void setAppServiceAddr(String host, int port) {
-        AppContextHolder.appAddr = host + ":" + port;
-        AppContextHolder.appHost = host;
-        AppContextHolder.appPort = port;
+        ImRouterAppContext.appAddr = host + ":" + port;
+        ImRouterAppContext.appHost = host;
+        ImRouterAppContext.appPort = port;
     }
 
     public static void setServiceDiscoveryRegistryAddr(String discoveryAddr) {
-        AppContextHolder.discoveryAddr = discoveryAddr;
+        ImRouterAppContext.discoveryAddr = discoveryAddr;
     }
 
     public static String getDiscoveryAddr() {
@@ -104,11 +104,11 @@ public class AppContextHolder {
      */
     public static List<Instance> getClusterImRouterInstance() {
         String discoveryAddr;
-        if (null == (discoveryAddr = AppContextHolder.getDiscoveryAddr())) {
+        if (null == (discoveryAddr = ImRouterAppContext.getDiscoveryAddr())) {
             return Collections.emptyList();
         }
         if (namingService == null) {
-            synchronized (AppContextHolder.class) {
+            synchronized (ImRouterAppContext.class) {
                 if (namingService == null) {
                     Properties properties = new Properties();
                     properties.put("serverAddr", discoveryAddr);
@@ -143,7 +143,7 @@ public class AppContextHolder {
         RegistryManager registryManager = ApplicationModel.defaultModel().getBeanFactory()
                 .getBean(RegistryManager.class);
         Collection<Registry> registries = registryManager.getRegistries();
-        List<URL> registryInvokerUrls = AppContextHolder.getRegistryInvokerUrls();
+        List<URL> registryInvokerUrls = ImRouterAppContext.getRegistryInvokerUrls();
         if (Collects.isNotEmpty(registries)
                 && Collects.isNotEmpty(registryInvokerUrls)) {
             for (Registry registry : registries) {
@@ -151,7 +151,7 @@ public class AppContextHolder {
                     // 添加 im-router 服务id参数，生成新的 url
                     URL url = invokerUrl.addParameter(
                             DubboConstant.IM_ROUTER_ID_KEY,
-                            AppContextHolder.IM_ROUTER_ID
+                            ImRouterAppContext.IM_ROUTER_ID
                     );
                     registry.register(url);
                 }

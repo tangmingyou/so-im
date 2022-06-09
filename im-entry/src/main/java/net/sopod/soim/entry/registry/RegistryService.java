@@ -32,6 +32,7 @@ public class RegistryService {
 
     private NamingService namingService;
 
+    @Deprecated
     public void registryImEntry() throws NacosException {
         Properties properties = new Properties();
         properties.put("serverAddr", entryServerConfig.getNacosAddr());

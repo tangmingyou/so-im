@@ -3,23 +3,18 @@ package net.sopod.soim.router.service;
 import net.sopod.soim.common.constant.DubboConstant;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.common.util.StringUtil;
-import net.sopod.soim.das.common.config.LogicTables;
-import net.sopod.soim.das.message.api.entity.ImMessage;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
-import net.sopod.soim.das.message.api.service.DasMQMessagePersistentService;
 import net.sopod.soim.das.user.api.service.FriendDas;
 import net.sopod.soim.das.user.api.service.UserDas;
 import net.sopod.soim.entry.api.service.OnlineUserService;
 import net.sopod.soim.entry.api.service.TextChatService;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
-import net.sopod.soim.logic.common.model.TextChat;
 import net.sopod.soim.logic.common.model.UserInfo;
-import net.sopod.soim.logic.common.util.RpcContextUtil;
 import net.sopod.soim.router.api.model.RegistryRes;
-import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.api.service.UserRouteService;
+import net.sopod.soim.router.cache.RouterUser;
 import net.sopod.soim.router.cache.RouterUserStorage;
-import net.sopod.soim.router.config.AppContextHolder;
+import net.sopod.soim.router.config.ImRouterAppContext;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -58,9 +53,6 @@ public class UserRouteServiceImpl implements UserRouteService {
     @Resource
     private SegmentIdGenerator segmentIdGenerator;
 
-    @Resource
-    private DasMQMessagePersistentService dasMQMessagePersistentService;
-
     @Override
     public RegistryRes registryUserEntry(Long uid, String imEntryAddr) {
         ImUser imUser = userDas.getUserById(uid);
@@ -74,7 +66,7 @@ public class UserRouteServiceImpl implements UserRouteService {
         // 接口返回 im_router_id，后续调用 im-router 负载均衡指向当前router服务
         return new RegistryRes()
                 .setSuccess(true)
-                .setImRouterId(AppContextHolder.IM_ROUTER_ID);
+                .setImRouterId(ImRouterAppContext.IM_ROUTER_ID);
     }
 
     @Override

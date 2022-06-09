@@ -20,4 +20,14 @@ public interface AppConstant {
     String APP_IM_HTTP_ENTRY_NAME = "im-http-entry";
     String APP_IM_DAS_USER_NAME = "im-das-user";
 
+    /**
+     * im-entry 端口偏移量
+     */
+    int IM_ENTRY_SERVER_OFFSET = 1000;
+
+    /**
+     * im-router 端口偏移量
+     */
+    int IM_ROUTER_SYNC_SERVER_OFFSET = 1000;
+
 }

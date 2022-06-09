@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
  * @author tmy
  * @date 2022-03-29 00:22
  */
-@Component
+// @Component
+@Deprecated
 public class EntryServerRunner implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(EntryServerRunner.class);
 

@@ -23,6 +23,10 @@ public class EntryServerConfig {
     /** entry 所在服务器 ip */
     private String ip = "127.0.0.1";
 
+    /**
+     * 使用dubbo服务端口偏移量
+     */
+    @Deprecated
     private Integer port = 8088;
 
     private String nacosAddr;

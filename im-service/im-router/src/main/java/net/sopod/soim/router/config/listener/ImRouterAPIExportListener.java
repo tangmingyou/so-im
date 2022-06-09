@@ -1,6 +1,6 @@
 package net.sopod.soim.router.config.listener;
 
-import net.sopod.soim.router.config.AppContextHolder;
+import net.sopod.soim.router.config.ImRouterAppContext;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.rpc.Exporter;
 import org.apache.dubbo.rpc.ExporterListener;
@@ -24,10 +24,10 @@ public class ImRouterAPIExportListener implements ExporterListener {
     public void exported(Exporter<?> exporter) throws RpcException {
         URL invokerUrl = exporter.getInvoker().getUrl();
         if (!InjvmProtocol.NAME.equals(invokerUrl.getProtocol())) {
-            AppContextHolder.addRegistryInvokerUrl(invokerUrl);
-            if (AppContextHolder.getAppAddr() == null) {
+            ImRouterAppContext.addRegistryInvokerUrl(invokerUrl);
+            if (ImRouterAppContext.getAppAddr() == null) {
                 // 保存服务注册地址
-                AppContextHolder.setAppServiceAddr(invokerUrl.getHost(), invokerUrl.getPort());
+                ImRouterAppContext.setAppServiceAddr(invokerUrl.getHost(), invokerUrl.getPort());
                 logger.info("im-router registry serverAddr: {}:{}", invokerUrl.getHost(), invokerUrl.getPort());
             }
         }

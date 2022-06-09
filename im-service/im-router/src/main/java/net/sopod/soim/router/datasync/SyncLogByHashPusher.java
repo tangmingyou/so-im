@@ -4,7 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import net.sopod.soim.common.util.Collects;
 import net.sopod.soim.router.api.route.UidConsistentHashSelector;
-import net.sopod.soim.router.config.AppContextHolder;
+import net.sopod.soim.router.config.ImRouterAppContext;
 import net.sopod.soim.router.datasync.server.data.SyncCmd;
 import net.sopod.soim.router.datasync.server.data.SyncLog;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class SyncLogByHashPusher extends DataChangeTrigger.DataKeySyncLogSubscri
         // 构建hash环匹配要迁移的数据
         Map<String, String> twoNodes = new HashMap<>();
         twoNodes.put(newNodeAddr, newNodeAddr);
-        twoNodes.put(AppContextHolder.getAppAddr(), AppContextHolder.getAppAddr());
+        twoNodes.put(ImRouterAppContext.getAppAddr(), ImRouterAppContext.getAppAddr());
         selector = new UidConsistentHashSelector<>(twoNodes, twoNodes.hashCode());
 
         // 添加数据变化监听

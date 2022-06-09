@@ -2,7 +2,7 @@ package net.sopod.soim.router.datasync.server.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import net.sopod.soim.router.config.AppContextHolder;
+import net.sopod.soim.router.config.ImRouterAppContext;
 import net.sopod.soim.router.datasync.SyncLogMigrateService;
 import net.sopod.soim.router.datasync.server.data.SyncCmd;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class SyncCmdClientHandler extends SimpleChannelInboundHandler<SyncCmd> {
 
     private void handleSyncEnd(ChannelHandlerContext ctx, SyncCmd syncCmd) {
         logger.info("sync end: {}", ctx.channel());
-        SyncLogMigrateService migrateService = AppContextHolder.getBean(SyncLogMigrateService.class);
+        SyncLogMigrateService migrateService = ImRouterAppContext.getBean(SyncLogMigrateService.class);
         migrateService.curHostSyncEnd();
     }
 

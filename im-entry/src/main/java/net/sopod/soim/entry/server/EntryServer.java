@@ -85,4 +85,12 @@ public class EntryServer {
         logger.info("netty reactor group already shutdown!");
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
 }
