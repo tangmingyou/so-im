@@ -1,31 +1,10 @@
 spring:
   application:
     name: segment-id
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://cd-cdb-mrz9fw80.sql.tencentcdb.com:61843/soim_db?serverTimezone=GMT%2B8
-    username: root
-    password: sopod@2347#
-    hikari:
-      minimum-idle: 1
-      maximum-pool-size: 8
-      connection-timeout: 2000
-      idle-timeout: 300000 # 5分钟空闲关闭
-      max-lifetime: 600000 # 10分钟最大存活时间
-      validation-timeout: 2000
-      connection-init-sql: select 1
-      keepalive-time: 30000 # 连接存活时间，小于maxLifetime, 最小30秒, 空闲30秒后移除连接测试通过再添加回池
-  redis:
-    host: 124.222.131.236
-    port: 3379
-    password: sopod@redis#
 
 dubbo:
   application:
     name: ${spring.application.name}
-  registry:
-    address: nacos://124.222.131.236:3848
-    group: so-im
   protocol:
     port: 3001
 

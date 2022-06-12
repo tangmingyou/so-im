@@ -25,7 +25,7 @@ public class WorkerGroup {
         }
         WORKERS = new Worker[coreSize];
         for (int i = 0; i < coreSize; i++) {
-            WORKERS[i] = new Worker("group-worker-" + i);
+            WORKERS[i] = new Worker("group-worker-%d" + i);
         }
         counter = new AtomicInteger(-1);
         logger.info("worker group initialed, worker size {}", coreSize);

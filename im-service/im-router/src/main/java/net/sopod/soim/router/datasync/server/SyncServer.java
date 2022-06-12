@@ -46,13 +46,12 @@ public class SyncServer {
                 .childHandler(new ChannelInitializer<>() {
                     @Override
                     protected void initChannel(Channel channel) {
-                        LogLevel logLevel = logger.isDebugEnabled() ? LogLevel.DEBUG
-                                : logger.isInfoEnabled() ? LogLevel.INFO
-                                : logger.isWarnEnabled() ? LogLevel.WARN
-                                : logger.isErrorEnabled() ? LogLevel.ERROR : LogLevel.INFO;
-
+//                        LogLevel logLevel = logger.isDebugEnabled() ? LogLevel.DEBUG
+//                                : logger.isInfoEnabled() ? LogLevel.INFO
+//                                : logger.isWarnEnabled() ? LogLevel.WARN
+//                                : logger.isErrorEnabled() ? LogLevel.ERROR : LogLevel.INFO;
                         ChannelPipeline pipeline = channel.pipeline();
-                        pipeline.addLast(new LoggingHandler(logLevel))
+                        pipeline.addLast(new LoggingHandler(LogLevel.WARN))
                                 // 接收字节可能会分段到达，添加帧编解码器
                                 .addLast(new Varint32FrameCodec())
                                 .addLast(new SyncCmdCodec())

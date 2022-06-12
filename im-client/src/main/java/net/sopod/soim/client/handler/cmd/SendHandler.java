@@ -38,10 +38,11 @@ public class SendHandler implements CmdHandler<ArgsSend> {
             Console.info("请输入要发送的内容");
             return;
         }
-        if (args.getAccount() != null) {
+        if (args.getReceiverUid() != null) {
             Chat.TextChat textChat = Chat.TextChat.newBuilder()
                     .setMessage(message)
-                    .setReceiverAccount(args.getAccount())
+                    .setReceiver(args.getReceiverUid())
+                    //.setReceiverAccount(args.get())
                     .setSender(soImSession.getUid())
                     .build();
             soImSession.justSend(textChat);

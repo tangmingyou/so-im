@@ -18,7 +18,7 @@ public class NetUserDelayCloseHandler extends NetUserMessageHandler<Tasks.NetUse
 
     @Override
     public MessageLite handle(ImContext ctx, NetUser netUser, Tasks.NetUserDelayCloseTask msg) {
-        if (netUser.isAccount()) {
+        if (netUser.isAccount() || netUser.isMonitor()) {
             return null;
         }
         // 用户还未登录关闭连接

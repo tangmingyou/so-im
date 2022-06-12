@@ -1,7 +1,7 @@
 package net.sopod.soim.das.message;
 
+import net.sopod.soim.launcher.SoimApplication;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DasMessageApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DasMessageApplication.class);
+        SoimApplication.run(DasMessageApplication.class, args);
     }
 
 }

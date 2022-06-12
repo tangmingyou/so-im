@@ -41,7 +41,7 @@ public class ReqGroupMessageHandler extends AccountMessageHandler<Group.ReqGroup
         future.whenComplete((res, err) -> {
             Group.ResGroupMessage.Builder reqBuilder = Group.ResGroupMessage.newBuilder();
             if (err != null) {
-                logger.error("群消息发送失败: {}, {}, {}", req.getGid(), req.getSender(), req.getMessage(), err);
+                logger.error("群消息发送失败: {}, {}, {}", req.getGid(), account.getUid(), req.getMessage(), err);
                 account.writeNow(ctx, reqBuilder.setSuccess(false)
                         .setMessage(Func.nullSo(err.getMessage(), ""))
                         .build());

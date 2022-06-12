@@ -9,6 +9,7 @@ import net.sopod.soim.das.common.config.LogicTables;
 import net.sopod.soim.das.user.api.model.entity.ImFriend;
 import net.sopod.soim.das.user.api.model.entity.ImUser;
 import net.sopod.soim.das.user.api.service.FriendDas;
+import net.sopod.soim.das.user.cache.FriendRelationCache;
 import net.sopod.soim.das.user.dao.FriendMapper;
 import net.sopod.soim.das.user.dao.UserMapper;
 import net.sopod.soim.logic.api.segmentid.core.SegmentIdGenerator;
@@ -31,11 +32,13 @@ public class FriendDasImpl implements FriendDas {
 
     private static Logger logger = LoggerFactory.getLogger(FriendDasImpl.class);
 
-    SegmentIdGenerator segmentIdGenerator;
+    private SegmentIdGenerator segmentIdGenerator;
 
     private FriendMapper friendMapper;
 
     private UserMapper userMapper;
+
+    private FriendRelationCache friendRelationCache;
 
     @Override
     public int saveFriendRelation(Long uid, Long fid) {
@@ -69,19 +72,21 @@ public class FriendDasImpl implements FriendDas {
      */
     @Override
     public Long getRelationId(Long uid, Long fid) {
-        LambdaQueryWrapper<ImFriend> friendQuery = new QueryWrapper<ImFriend>().lambda()
-                .select(ImFriend::getId, ImFriend::getRelationId)
-                .eq(ImFriend::getUid, uid)
-                .eq(ImFriend::getFid, fid)
-                .eq(ImFriend::getStatus, LogicTables.STATUS_NORMAL);
-        List<ImFriend> imFriends = friendMapper.selectList(friendQuery);
-        if (Collects.isEmpty(imFriends)) {
-            return null;
-        }
-        if (imFriends.size() > 1) {
-            logger.warn("重复的好友数据: user={}, friend={}", uid, fid);
-        }
-        return imFriends.get(0).getRelationId();
+        return friendRelationCache.computeIfAbsent(uid, fid, (userId, friendId) -> {
+            LambdaQueryWrapper<ImFriend> friendQuery = new QueryWrapper<ImFriend>().lambda()
+                    .select(ImFriend::getId, ImFriend::getRelationId)
+                    .eq(ImFriend::getUid, userId)
+                    .eq(ImFriend::getFid, friendId)
+                    .eq(ImFriend::getStatus, LogicTables.STATUS_NORMAL);
+            List<ImFriend> imFriends = friendMapper.selectList(friendQuery);
+            if (Collects.isEmpty(imFriends)) {
+                return null;
+            }
+            if (imFriends.size() > 1) {
+                logger.warn("重复的好友数据: user={}, friend={}", userId, friendId);
+            }
+            return imFriends.get(0).getRelationId();
+        });
     }
 
     @Override

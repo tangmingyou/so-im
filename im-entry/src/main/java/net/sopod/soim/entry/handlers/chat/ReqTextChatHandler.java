@@ -34,11 +34,10 @@ public class ReqTextChatHandler extends AccountMessageHandler<Chat.TextChat> {
         UserMessage textChat = new UserMessage()
                 .setSenderUid(msg.getSender())
                 .setReceiverUid(msg.getReceiver())
-                .setReceiverName(msg.getReceiverAccount())
                 .setTime(msg.getTime())
                 .setMessage(msg.getMessage());
-        CompletableFuture<String> stringCompletableFuture = imUserChatService.userMessage(textChat);
-        stringCompletableFuture.whenCompleteAsync((res, e) -> {
+        CompletableFuture<String> future = imUserChatService.userMessage(textChat);
+        future.whenCompleteAsync((res, e) -> {
             if (e != null) {
                 logger.error("发送失败:", e);
                 return;

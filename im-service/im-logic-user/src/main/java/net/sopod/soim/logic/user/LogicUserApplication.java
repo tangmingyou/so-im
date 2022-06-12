@@ -1,7 +1,7 @@
 package net.sopod.soim.logic.user;
 
+import net.sopod.soim.launcher.SoimApplication;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
@@ -17,7 +17,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class LogicUserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LogicUserApplication.class, args);
+        SoimApplication.run(LogicUserApplication.class, args);
     }
 
 }

@@ -13,10 +13,6 @@ import lombok.Data;
 @Data
 public class ClientConfig {
 
-    private String loginUrl = "http://localhost:3021/auth/pwdAuth";
-
-    private String host = "127.0.0.1";
-
-    private Integer port = 8089;
+    private String entryHttpHost = "http://localhost:3021";
 
 }

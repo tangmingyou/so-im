@@ -22,9 +22,9 @@ public class ImEntryInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel socketChannel) {
-        LogLevel logLevel = logger.isDebugEnabled() ? LogLevel.DEBUG : LogLevel.INFO;
+        // LogLevel logLevel = logger.isDebugEnabled() ? LogLevel.DEBUG : LogLevel.INFO;
         ChannelPipeline pipeline = socketChannel.pipeline();
-        pipeline.addLast(new LoggingHandler(logLevel))
+        pipeline//.addLast(new LoggingHandler(LogLevel.WARN))
                 .addLast(new Varint32FrameCodec())
                 .addLast(new ImMessageCodec.ImMessageDecoder())
                 .addLast(new ImMessageCodec.ImMessage2ByteEncoder())

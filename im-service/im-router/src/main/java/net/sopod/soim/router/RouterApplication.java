@@ -1,7 +1,7 @@
 package net.sopod.soim.router;
 
+import net.sopod.soim.launcher.SoimApplication;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RouterApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RouterApplication.class, args);
+        SoimApplication.run(RouterApplication.class, args);
     }
 
 }

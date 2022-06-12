@@ -1,6 +1,5 @@
 package net.sopod.soim.client.cmd;
 
-import net.sopod.soim.client.cmd.args.ArgsGroup;
 import net.sopod.soim.client.cmd.handler.CmdHandler;
 import net.sopod.soim.client.handler.cmd.*;
 

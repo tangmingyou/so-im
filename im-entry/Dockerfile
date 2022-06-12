@@ -1,0 +1,5 @@
+FROM openjdk:11
+ARG JAR_FILE
+ENV JAR_FILE ${JAR_FILE}
+ADD target/${JAR_FILE} /
+CMD java -jar $JAVA_OPTS /${JAR_FILE}

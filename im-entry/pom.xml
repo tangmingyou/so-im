@@ -18,6 +18,11 @@
     <dependencies>
         <dependency>
             <groupId>net.sopod</groupId>
+            <artifactId>im-launcher</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sopod</groupId>
             <artifactId>im-entry-api</artifactId>
             <version>${soim.version}</version>
         </dependency>

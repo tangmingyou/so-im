@@ -1,8 +1,8 @@
 package net.sopod.soim.logic.segmentid;
 
+import net.sopod.soim.launcher.SoimApplication;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SegmentIdApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SegmentIdApplication.class);
+        SoimApplication.run(SegmentIdApplication.class);
     }
 
 }

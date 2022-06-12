@@ -17,7 +17,7 @@ public abstract class AccountMessageHandler<T> implements MessageHandler<T> {
     @Override
     public final void exec(ImContext ctx, NetUser netUser, T req) {
         if (!netUser.isAccount()) {
-            throw new SoimException("NetUser is not account!" + netUser);
+            throw new SoimException("NetUser is not Account!" + netUser);
         }
         MessageLite res = handle(ctx, (Account) netUser, req);
         if (res != null) {

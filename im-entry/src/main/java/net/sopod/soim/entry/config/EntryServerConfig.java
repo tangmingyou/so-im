@@ -18,9 +18,8 @@ import org.springframework.stereotype.Component;
 @Data
 public class EntryServerConfig {
 
-    private String name = AppConstant.APP_IM_ENTRY_NAME;
-
     /** entry 所在服务器 ip */
+    @Deprecated
     private String ip = "127.0.0.1";
 
     /**
@@ -29,6 +28,7 @@ public class EntryServerConfig {
     @Deprecated
     private Integer port = 8088;
 
+    @Deprecated
     private String nacosAddr;
 
     /** 消息消费者线程数 */

@@ -30,4 +30,6 @@ public interface AppConstant {
      */
     int IM_ROUTER_SYNC_SERVER_OFFSET = 1000;
 
+    String IM_ENTRY_MONITOR_SECURITY = "b699d74ae95011ec8373bc97e1e99320";
+
 }

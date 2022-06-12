@@ -1,31 +1,13 @@
 spring:
   application:
     name: im-router
-  redis:
-    host: 124.222.131.236
-    port: 3379
-    password: sopod@redis#
-    lettuce:
-      pool:
-        max-active: 100
-        max-idle: 100
-        max-wait: 1000
-        min-idle: 2
-  rabbitmq:
-    host: 124.222.131.236
-    port: 3672
-    username: soim
-    password: sopod@rabbit#
 
 dubbo:
   application:
     name: ${spring.application.name}
-  registry:
-    address: nacos://124.222.131.236:3848
-    group: so-im
   protocol:
     name: dubbo
-    port: 3035
+    port: 3036
     # serialization: protobuf
   consumer:
     check: false

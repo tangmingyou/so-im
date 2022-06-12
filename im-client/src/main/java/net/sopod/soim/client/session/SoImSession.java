@@ -123,6 +123,7 @@ public class SoImSession {
         }
         if (clientChannel == null
                 || !clientChannel.isActive()) {
+            // TODO 尝试重连
             throw new ClientException("连接已关闭");
         }
         ImMessage imMessage = ImMessageCodec.encodeImProto(message);

@@ -1,12 +1,9 @@
 package net.sopod.soim.das.user;
 
+import net.sopod.soim.launcher.SoimApplication;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * DasUserApplication
@@ -20,7 +17,7 @@ import java.util.Map;
 public class DasUserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DasUserApplication.class, args);
+        SoimApplication.run(DasUserApplication.class, args);
     }
 
 }

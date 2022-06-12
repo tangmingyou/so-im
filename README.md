@@ -1,121 +1,86 @@
+## 基本介绍
+
+`so-im` 是一款简单的可水平扩展的 `IM(即时通讯)`系统。
+
+客户端和TCP接入层通过 netty+protobuf 通信。
+
+后端服务通过 dubbo 服务间调用。
 
 
-### 开发计划
 
-- (05-08~05-11)router 一致性 hash，新增、删除、(备份处理)[滞后]
-  - 数据同步删除后，保留id一段时间，有请求进行重定向/转发
-  - 新增：重算hash，发起数据同步，接收其他节点推送数据及数据更改日志，注册服务，其他节点删除数据
-  - 正常删除节点：重算 hash，数据和更改日志推送给其他节点，取消注册，关闭服务
-  - 宕机：备份服务接收全量同步数据和更改日志，服务探测到主服务不可用，注册到注册中心提供服务
-- (05-12~05-12) 备用计划：router 层 id 号段负载均衡
-- (05-13~05-14) dubbo 服务异步处理
-- 功能开发：
-  - entry-http entry 节点获取功能(05-13~05-13)
-  - (05-13~05-13) 用户注册功能
-  - (05-14~05-14) 好友列表(在线状态:批量uid一致性hash, router查询)
-    - 用户查询
-    - 添加好友
-    - 好友在线状态列表
-  - (05-15~05-15) 消息群发(im-router群消息路由,批量uid一致性哈希路由)
-    - 创群：
-    - 加群：发送申请，推送申请，推送回复
-    - 删群
-    - 群列表
-  - (05-16~05-16) 聊天记录查询
-- (05-17~05-18) das 部分接口消息队列异步写
-- (05-19~05-20) 集群部署：docker swarm
-- 监控：log4j2完善 + prometheus + grafana + loki + arthas
-  - (05-21~05-21) prometheus 服务发现，exporter(服务发现) 开发
-  - (05-22~05-22) 容器监控，主机监控，数据库监控，日志收集
-  - (05-23~05-24) 应用监控
-    - (Dubbo线程池监控)[https://cloud.tencent.com/developer/article/1800906]
-    - 通讯指标监控，请求量，吞吐量，延时，请求节点分布，链路追踪
-    - 数据库连接池监控
-- (05-25~05-25) 压测：压测开发
-- (05-26~05-26) client:  控制台完善，grallvm 打包
-- 后续：
-  - 通讯加密，服务链路SSL
-  - websocket 网关
-  - web 页面开发
-  - 异/同设备，多地登录
+## 功能演示
+
+好友、群、单聊、群聊、内置命令
+
+![](doc/image/README/soim.gif)
 
 
-### 资料
-一致性hash算法能否解决数据迁移的问题？
-https://www.zhihu.com/question/521159623
 
-dubbo + protobuf 兼容到 2.7.15
-
-### TODO
-
-- router -> entry 负载均衡
-- router 新增节点顺时针相邻节点数据一致性哈希迁移
-- router 冗余节点存储数据不提供服务
-- dubbo 服务异步处理提升吞吐量
-- das 消息队列异步写
-- entry 监控，http 查询 entry 地址返回接口
-- 功能开发：
-    - 消息群发(im-router 群消息路由,批量uid一致性哈希路由)
-    - 好友列表(在线状态:批量uid一致性hash, router查询)
-    - 聊天记录查询
-    - 异/同设备，多地登录
-- 集群部署, docker swarm, k8s, jenkens
-- 服务监控
-- websocket 网关
-- 考虑 dubbo 使用 grpc service
+<video id="video" controls="" preload="none" poster="doc/image/README/soim.jpg">
+      <source id="mp4" src="doc/image/README/soim.mp4" type="video/mp4">
+</videos>
 
 
-模块列表
-- 接入层 entry
-- 逻辑层 logic
-- 内存存储层 router
-- 固化存储层 das
 
-功能组件：
-1.0
+## 消息转发流程
 
-- IOC: guice
-- 通信层: netty
-- 序列化: protobuf
-- 内存存储: 
-    - Caffeine
-    - Memcache
-- 分布式缓存：redis
-- 注册中心：etcd、直连
-- 处理队列：disruptor
-- 持久化：
-    - mysql 存储全量历史消息
-    - mongodb 存储直接拉取的未读消息
-- 日志：log4j2
-- 监控：prometheus、grafana
-
-- ID生成器
-
-2.0
-
-- quarkus
-
-集群负载均衡：
-子网1，子网2，公网
-子网1和2不相通
-
-dubbo native image
-https://dubbo.apache.org/zh/docs/references/graalvm/support-graalvm/
+![image-20220612152931599](doc/image/README/image-20220612152931599.png)
 
 
-entry <--> client 通信
-- serviceId --> paramClass --> serviceHandler
 
-entry <--> logic dubbo service
-client jconsle cmd
+## 内置命令
 
-router <--> cache
-das <--> db
-router <--> das
+| 命令    | 选项                                                         | 描述                                                 |
+| ------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| login   | -u 账号<br />-p 密码                                         | 登录并连接tcp接入层                                  |
+| send    | -u 好友id 单聊消息<br />-g 群id 群消息                       | 发送消息                                             |
+| users   |                                                              | 在线用户列表                                         |
+| friends |                                                              | 我的好友列表                                         |
+| group   |                                                              | 查询我的群聊列表                                     |
+| group   | create 群聊名称<br />search 群聊名称(右模糊)<br />join 群聊id<br />users | 创建群聊<br />搜索群聊<br />加入群聊<br />群用户列表 |
+| search  | -u 用户账号(右模糊)                                          | 搜索用户                                             |
+| add     | -u 用户id                                                    | 添加好友                                             |
+| me      |                                                              | 我的信息                                             |
+| exit    |                                                              | 退出客户端                                           |
 
 
-das shardingjdbc
-table struct, sharding roles
-logic biz
 
-请求响应消息队列异步处理，减少线程 cpu 占用, dubbo async
+## TODO LIST
+
+- [x] 好友、基础单聊
+- [x] 群搜索、添加、列表、基础群聊
+- [x] 消息通过MQ持久化到MySQL分表库
+- [x] 启动路由层新节点根据一致性hash迁移其他节点内存数据
+- [x] 接入层负载均衡
+- [x] 分布式分段id生成服务
+- [ ] 聊天记录查询
+- [ ] 优化命令行客户端打印输出
+- [ ] 群聊,单聊 消息已读确认
+- [ ] 未读离线消息推送
+- [ ] 客户端接入层消息加密
+- [ ] dubbo service SSL 加密
+- [ ] 路由层状态服务冗余节点备份，自动切换
+
+
+
+
+
+## 启动步骤
+
+### 创建数据库
+
+![image-20220612153031702](doc/image/README/image-20220612153031702.png)
+
+
+
+### 中间件配置
+
+配置 nacos、mysql、rabbitmq、redis 服务地址
+
+![image-20220612150740804](doc/image/README/image-20220612150740804.png)
+
+
+
+### 启动如下服务
+
+![image-20220612130234826](doc/image/README/image-20220612130234826.png)

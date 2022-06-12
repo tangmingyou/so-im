@@ -4,10 +4,9 @@ import net.sopod.soim.entry.http.model.ao.PwdAuthAO;
 import net.sopod.soim.logic.api.user.auth.model.ImAuth;
 import net.sopod.soim.logic.api.user.auth.service.UserAuthService;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * AuthController

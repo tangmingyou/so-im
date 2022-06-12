@@ -14,6 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>net.sopod</groupId>
+            <artifactId>im-launcher</artifactId>
+            <version>${soim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sopod</groupId>
             <artifactId>im-router-api</artifactId>
             <version>${soim.version}</version>
         </dependency>
@@ -85,22 +90,14 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.msgpack</groupId>-->
-<!--            <artifactId>jackson-dataformat-msgpack</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>jackson-dataformat-msgpack</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.xerial.snappy</groupId>
             <artifactId>snappy-java</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-amqp</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.mybatis</groupId>-->
-<!--            <artifactId>mybatis</artifactId>-->
-<!--        </dependency>-->
     </dependencies>
 
 </project>

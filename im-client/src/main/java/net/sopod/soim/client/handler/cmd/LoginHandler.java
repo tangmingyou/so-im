@@ -11,6 +11,7 @@ import net.sopod.soim.client.session.SoImSession;
 import net.sopod.soim.client.util.HttpClient;
 import net.sopod.soim.data.msg.auth.Auth;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -39,18 +40,20 @@ public class LoginHandler implements CmdHandler<ArgsLogin> {
         params.put("account", args.getAccount());
         params.put("password", args.getPassword());
         Console.info("登录中...");
-        LoginResDTO loginRes = HttpClient.restPost(clientConfig.getLoginUrl(), params, LoginResDTO.class);
+        LoginResDTO loginRes = HttpClient.restPost(clientConfig.getEntryHttpHost() + "/auth/pwdAuth", params, LoginResDTO.class);
         if (!Boolean.TRUE.equals(loginRes.getSuccess())) {
             Console.error("登录失败: {}", loginRes.getMessage());
             return;
         }
-        Console.info("登录成功: {}", loginRes.getUid());
-
         Auth.ReqTokenAuth reqTokenAuth = Auth.ReqTokenAuth.newBuilder()
                 .setUid(loginRes.getUid())
                 .setToken(loginRes.getAuthToken())
                 .build();
-        soImSession.connect(clientConfig.getHost(), clientConfig.getPort(), reqTokenAuth, args.getAccount());
+        // 获取 im-entry host
+        String entryHost = HttpClient.restGet(clientConfig.getEntryHttpHost() + "/monitor/entryHost", String.class);
+        Console.info("登录成功: uid={}, entryHost={}", loginRes.getUid(), entryHost);
+        String[] hostPort = entryHost.split(":");
+        soImSession.connect(hostPort[0], Integer.parseInt(hostPort[1]), reqTokenAuth, args.getAccount());
     }
 
 }

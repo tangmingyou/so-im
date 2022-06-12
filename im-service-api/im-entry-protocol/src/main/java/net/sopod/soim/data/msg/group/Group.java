@@ -6946,16 +6946,6 @@ public final class Group {
 
     /**
      * <pre>
-     * 发送者uid
-     * </pre>
-     *
-     * <code>int64 sender = 1;</code>
-     * @return The sender.
-     */
-    long getSender();
-
-    /**
-     * <pre>
      * 群聊id
      * </pre>
      *
@@ -7044,11 +7034,6 @@ public final class Group {
             case 0:
               done = true;
               break;
-            case 8: {
-
-              sender_ = input.readInt64();
-              break;
-            }
             case 16: {
 
               gid_ = input.readInt64();
@@ -7095,21 +7080,6 @@ public final class Group {
       return net.sopod.soim.data.msg.group.Group.internal_static_net_sopod_soim_data_msg_group_ReqGroupMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               net.sopod.soim.data.msg.group.Group.ReqGroupMessage.class, net.sopod.soim.data.msg.group.Group.ReqGroupMessage.Builder.class);
-    }
-
-    public static final int SENDER_FIELD_NUMBER = 1;
-    private long sender_;
-    /**
-     * <pre>
-     * 发送者uid
-     * </pre>
-     *
-     * <code>int64 sender = 1;</code>
-     * @return The sender.
-     */
-    @java.lang.Override
-    public long getSender() {
-      return sender_;
     }
 
     public static final int GID_FIELD_NUMBER = 2;
@@ -7202,9 +7172,6 @@ public final class Group {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (sender_ != 0L) {
-        output.writeInt64(1, sender_);
-      }
       if (gid_ != 0L) {
         output.writeInt64(2, gid_);
       }
@@ -7223,10 +7190,6 @@ public final class Group {
       if (size != -1) return size;
 
       size = 0;
-      if (sender_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, sender_);
-      }
       if (gid_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, gid_);
@@ -7253,8 +7216,6 @@ public final class Group {
       }
       net.sopod.soim.data.msg.group.Group.ReqGroupMessage other = (net.sopod.soim.data.msg.group.Group.ReqGroupMessage) obj;
 
-      if (getSender()
-          != other.getSender()) return false;
       if (getGid()
           != other.getGid()) return false;
       if (!getMessage()
@@ -7272,9 +7233,6 @@ public final class Group {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + SENDER_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getSender());
       hash = (37 * hash) + GID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getGid());
@@ -7420,8 +7378,6 @@ public final class Group {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        sender_ = 0L;
-
         gid_ = 0L;
 
         message_ = "";
@@ -7454,7 +7410,6 @@ public final class Group {
       @java.lang.Override
       public net.sopod.soim.data.msg.group.Group.ReqGroupMessage buildPartial() {
         net.sopod.soim.data.msg.group.Group.ReqGroupMessage result = new net.sopod.soim.data.msg.group.Group.ReqGroupMessage(this);
-        result.sender_ = sender_;
         result.gid_ = gid_;
         result.message_ = message_;
         result.time_ = time_;
@@ -7506,9 +7461,6 @@ public final class Group {
 
       public Builder mergeFrom(net.sopod.soim.data.msg.group.Group.ReqGroupMessage other) {
         if (other == net.sopod.soim.data.msg.group.Group.ReqGroupMessage.getDefaultInstance()) return this;
-        if (other.getSender() != 0L) {
-          setSender(other.getSender());
-        }
         if (other.getGid() != 0L) {
           setGid(other.getGid());
         }
@@ -7545,49 +7497,6 @@ public final class Group {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private long sender_ ;
-      /**
-       * <pre>
-       * 发送者uid
-       * </pre>
-       *
-       * <code>int64 sender = 1;</code>
-       * @return The sender.
-       */
-      @java.lang.Override
-      public long getSender() {
-        return sender_;
-      }
-      /**
-       * <pre>
-       * 发送者uid
-       * </pre>
-       *
-       * <code>int64 sender = 1;</code>
-       * @param value The sender to set.
-       * @return This builder for chaining.
-       */
-      public Builder setSender(long value) {
-        
-        sender_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 发送者uid
-       * </pre>
-       *
-       * <code>int64 sender = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearSender() {
-        
-        sender_ = 0L;
-        onChanged();
         return this;
       }
 
@@ -8696,11 +8605,11 @@ public final class Group {
       "qJoinGroup\022\013\n\003gid\030\001 \001(\003\022\013\n\003uid\030\002 \001(\003\"\034\n\r" +
       "ReqGroupUsers\022\013\n\003gid\030\001 \001(\003\"G\n\rResGroupUs" +
       "ers\0226\n\005users\030\003 \003(\0132\'.net.sopod.soim.data" +
-      ".msg.group.UserInfo\"M\n\017ReqGroupMessage\022\016" +
-      "\n\006sender\030\001 \001(\003\022\013\n\003gid\030\002 \001(\003\022\017\n\007message\030\003" +
-      " \001(\t\022\014\n\004time\030\004 \001(\003\"B\n\017ResGroupMessage\022\017\n" +
-      "\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\r\n\005msgId" +
-      "\030\003 \001(\003B\tB\005GroupP\000b\006proto3"
+      ".msg.group.UserInfo\"=\n\017ReqGroupMessage\022\013" +
+      "\n\003gid\030\002 \001(\003\022\017\n\007message\030\003 \001(\t\022\014\n\004time\030\004 \001" +
+      "(\003\"B\n\017ResGroupMessage\022\017\n\007success\030\001 \001(\010\022\017" +
+      "\n\007message\030\002 \001(\t\022\r\n\005msgId\030\003 \001(\003B\tB\005GroupP" +
+      "\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -8771,7 +8680,7 @@ public final class Group {
     internal_static_net_sopod_soim_data_msg_group_ReqGroupMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_net_sopod_soim_data_msg_group_ReqGroupMessage_descriptor,
-        new java.lang.String[] { "Sender", "Gid", "Message", "Time", });
+        new java.lang.String[] { "Gid", "Message", "Time", });
     internal_static_net_sopod_soim_data_msg_group_ResGroupMessage_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_net_sopod_soim_data_msg_group_ResGroupMessage_fieldAccessorTable = new

@@ -30,4 +30,15 @@ public class AccountRegistry {
         return accounts.get(uid);
     }
 
+    public void remove(Long uid) {
+        Account account = accounts.remove(uid);
+        if (account != null) {
+            logger.info("remove account: {}", account);
+        }
+    }
+
+    public int getRegistryAccountSize() {
+        return accounts.size();
+    }
+
 }

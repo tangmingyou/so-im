@@ -32,7 +32,7 @@ public class ImEntryAppOnReady implements ApplicationListener<ApplicationReadyEv
         EntryServerConfig config = ImEntryAppContext.getBean(EntryServerConfig.class);
 
         EntryServer entryServer = new EntryServer(
-                config.getName(),
+                AppConstant.APP_IM_ENTRY_NAME,
                 // 使用dubbo 服务端口偏移量
                 ImEntryAppContext.getAppPort() + AppConstant.IM_ENTRY_SERVER_OFFSET);
         entryServer.startServer(err -> {

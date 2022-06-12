@@ -1,0 +1,29 @@
+syntax="proto3";
+
+option java_multiple_files = false;
+option java_outer_classname = "EntryMonitor";
+
+package net.sopod.soim.data.msg.monitor;
+
+// im-entry 监控消息
+
+message ReqMonitorAuth {
+  // string host = 1;
+  string security = 2;
+}
+
+message ResMonitorAuth {
+  bool success = 1;
+}
+
+message ReqEntryStatus {
+
+}
+
+message ResEntryStatus {
+  // 状态生成时间
+  int64 statusTime = 5;
+  // 连接数
+  int32 connections = 6;
+  // TODO...其他信息
+}

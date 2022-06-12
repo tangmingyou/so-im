@@ -1,7 +1,7 @@
 package net.sopod.soim.logic.group;
 
+import net.sopod.soim.launcher.SoimApplication;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LogicGroupApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LogicGroupApplication.class);
+        SoimApplication.run(LogicGroupApplication.class);
     }
 
 }

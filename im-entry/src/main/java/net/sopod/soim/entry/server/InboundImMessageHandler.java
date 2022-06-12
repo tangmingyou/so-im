@@ -6,7 +6,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.Attribute;
 import net.sopod.soim.common.util.ImClock;
 import net.sopod.soim.data.serialize.ImMessage;
+import net.sopod.soim.entry.config.ImEntryAppContext;
 import net.sopod.soim.entry.server.handler.ImContext;
+import net.sopod.soim.entry.server.session.Account;
 import net.sopod.soim.entry.server.session.NetUser;
 import net.sopod.soim.data.msg.task.Tasks;
 import net.sopod.soim.entry.delay.NetUserDelayTaskManager;
@@ -38,15 +40,20 @@ public class InboundImMessageHandler extends SimpleChannelInboundHandler<ImMessa
         Tasks.NetUserDelayCloseTask taskMsg = Tasks.NetUserDelayCloseTask.newBuilder()
                 .setTime(ImClock.millis())
                 .build();
-        NetUserDelayTaskManager.addTask(netUser, taskMsg, 10, TimeUnit.SECONDS);
+        NetUserDelayTaskManager.addTask(netUser, taskMsg, 6, TimeUnit.SECONDS);
 
         ctx.fireChannelActive();
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        Attribute<NetUser> netUser = ctx.channel().attr(NetUser.NET_USER_KEY);
-
+        NetUser netUser = ctx.channel().attr(NetUser.NET_USER_KEY).get();
+        // 取消登录用户状态
+        if (netUser != null && netUser.isAccount()) {
+            AccountRegistry registry = ImEntryAppContext.getBean(AccountRegistry.class);
+            registry.remove(((Account) netUser).getUid());
+        }
+        // TODO 离线状态同步到 im-router，等待30s不重连，删除im-router用户缓存数据
         ctx.fireChannelInactive();
     }
 

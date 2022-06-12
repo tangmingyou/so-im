@@ -56,15 +56,15 @@ public class ImUserChatServiceImpl implements ImUserChatService {
 
     @Override
     public CompletableFuture<String> userMessage(UserMessage msg) {
-        if (msg.getReceiverUid() == null
-                || Objects.equals(msg.getReceiverUid(), 0L)) {
-            ImUser receiverUser = userDas.getNormalUserByAccount(msg.getReceiverName());
-            if (receiverUser == null) {
-                // TODO receiverUid 由客户端传递
-                throw new LogicException("聊天对象不存在");
-            }
-            msg.setReceiverUid(receiverUser.getId());
-        }
+//        if (msg.getReceiverUid() == null
+//                || Objects.equals(msg.getReceiverUid(), 0L)) {
+//            ImUser receiverUser = userDas.getNormalUserByAccount(msg.getReceiverName());
+//            if (receiverUser == null) {
+//                throw new LogicException("聊天对象不存在");
+//            }
+//            msg.setReceiverUid(receiverUser.getId());
+//        }
+        // receiverUid 由客户端传递
         // 查询好友关系
         Long relationId = friendDas.getRelationId(msg.getSenderUid(), msg.getReceiverUid());
         // 不是好友

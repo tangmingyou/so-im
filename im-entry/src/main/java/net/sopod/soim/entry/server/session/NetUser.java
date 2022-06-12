@@ -28,6 +28,10 @@ public class NetUser {
         return false;
     }
 
+    public boolean isMonitor() {
+        return false;
+    }
+
     public boolean isActive() {
         Channel chan = this.channel.get();
         return chan != null && chan.isActive();
@@ -44,6 +48,16 @@ public class NetUser {
         Channel chan = this.channel.get();
         if (chan != null) {
             chan.attr(NET_USER_KEY).set(account);
+        }
+    }
+
+    /**
+     * 设置连接为 monitor
+     */
+    public void upgradeMonitor(Monitor monitor) {
+        Channel chan = this.channel.get();
+        if (chan != null) {
+            chan.attr(NET_USER_KEY).set(monitor);
         }
     }
 
